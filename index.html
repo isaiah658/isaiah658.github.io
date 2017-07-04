@@ -1,0 +1,255 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+		<link rel="stylesheet" type="text/css" href="resources/css/main.css">
+	</head>
+	<body>
+		<div id="recordingmessage">
+			<div id="recordingmessagewrapper">
+				<div class="paragraph">The video is now recording. DO NOT LEAVE THIS PAGE/TAB OR THE RECORDING WILL BE INTERRUPTED! If you wish to stop the recording, press the cancel button below. The recording will automatically stop once the song finishes playing and the video file will be saved in your downloads folder.</div>
+				<button class="input2" onclick="stoppreview();">Stop Recording</button>
+			</div>
+		</div>
+		<textarea id="savepresettextarea"></textarea>
+		<div id="sidebar">
+			<div class="heading">Documentation</div>
+				<button class="input2" id="opendocumentationbutton" onclick="showdocumentation();">Open Documentation</button>
+				<button class="input2" id="closedocumentationbutton" onclick="closedocumentation();">Close Documentation</button>
+			<div class="heading">Load Preset</div>
+					<input onchange="loadpreset(this);" class="input2" type="file" id="loadpreset" accept=".txt/*" />
+			<div class="heading">Save Preset</div>
+				<button class="input2" onclick="savepreset();">Save Preset</button>
+			<div class="heading">Zoom In/Out</div>
+				<div class="input">Zoom (%):<input onchange="zoom();" class="input1" type="number" id="zoom" value="100"></div>
+			<div class="heading">Video Output</div>
+				<div class="input">Width:<input onchange="onchangeoptions();" class="input1" type="number" id="videowidth" value="640"></div>
+				<div class="input">Height:<input onchange="onchangeoptions();" class="input1" type="number" id="videoheight" value="360"></div>
+				<div class="input">Max FPS:<input onchange="onchangeoptions();" class="input1" type="number" id="videomaxfps" value=""></div>
+			<div class="heading">Background Color</div>
+				<input onchange="onchangeoptions();" class="input2" type="color" id="backgroundcolor" value="#000000">
+			<form id="backgroundimageform">
+				<div class="heading">Background Image</div>
+					<input onchange="onchangebackgroundimage(this);" class="input2" type="file" id="backgroundimage" accept="image/*" />
+			</form>
+				<button class="input2" id="clearbackgroundimagebutton" onclick="clearbackgroundimage();">Clear Background Image</button>
+			<form id="foregroundimageform">
+				<div class="heading">Foreground Image</div>
+					<input onchange="onchangeforegroundimage(this);" class="input2" type="file" id="foregroundimage" accept="image/*" />
+			</form>
+				<div class="input" id="foregroundpositiontopwrapper">Position Top:<input onchange="onchangeoptions();" class="input1" type="number" id="foregroundpositiontop" value="0"></div>
+					<div class="input" id="foregroundpositionleftwrapper">Position Left:<input onchange="onchangeoptions();" class="input1" type="number" id="foregroundpositionleft" value="0"></div>
+				<button class="input2" id="clearforegroundimagebutton" onclick="clearforegroundimage();">Clear Foreground Image</button>
+			<div class="heading">Music</div>
+				<input onchange="onchangeaudio(this);" class="input2" type="file" id="inputaudio" accept="audio/*" />
+			<div class="heading">Visualizer Type</div>
+				<select onchange="hideunusedoptions();" id="visualizertype" class="input2">
+					<option value="none">None</option>
+					<option value="verticalbars" selected="selected">Vertical Bars</option>
+					<option value="blockbars">Block Bars</option>
+					<option value="3dbars">3D Bars</option>
+					<option value="stretchycircle">Stretchy Circle</option>
+					<option value="timedomainline">Time Domain Line</option>
+					<option value="timedomainsquares">Time Domain Squares</option>
+				</select>
+			<span id="visualizerbarsalignmentwrapper">
+				<div class="heading">Align Bars By</div>
+					<select onchange="onchangeoptions();" id="visualizerbarsalignment" class="input2">
+						<option value="bottom">Bottom</option>
+						<option value="middle">Middle</option>
+						<option value="top">Top</option>
+					</select>
+			</span>
+			<span id="visualizerlinecapwrapper">
+				<div class="heading">Line Cap Style</div>
+					<select onchange="onchangeoptions();" id="visualizerlinecap" class="input2">
+						<option value="square">Square</option>
+						<option value="round">Round</option>
+					</select>
+			</span>
+			<span id="visualizershapewrapper">
+				<div class="heading">Visualizer Shape</div>
+					<select onchange="hideunusedoptions();" id="visualizershape" class="input2">
+						<option value="none">None</option>
+						<option value="circle">Circle</option>
+					</select>
+				<div class="input">Shape Size:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizershapesize" value="100"></div>
+			</span>
+			<div class="heading">Other Options</div>
+				<div class="input" id="visualizerhowmanywrapper">How many:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizerhowmany" value="25"></div>
+				<div class="input" id="maxvisualizerheightwrapper">Max Height:<input onchange="onchangeoptions();" class="input1" type="number" id="maxvisualizerheight" value="150"></div>
+				<div class="input" id="minvisualizerheightwrapper">Min Height:<input onchange="onchangeoptions();" class="input1" type="number" id="minvisualizerheight" value="10"></div>
+				<div class="input" id="visualizerwidthwrapper">Width:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizerwidth" value="6"></div>
+				<div class="input" id="visualizerdepthwrapper">Depth:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizerdepth" value="10"></div>
+				<div class="input" id="visualizerslopewrapper">Slope:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizerslope" min="1" max="10" value="2"></div>
+				<div class="input" id="visualizerspacingwrapper">Spacing:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizerspacing" id="visualizerspacing" value="2"></div>
+				<div class="input" id="visualizerspacing2wrapper">Spacing 2:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizerspacing2" id="visualizerspacing2" value="4"></div>
+				<div class="input">Position Top:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizertop" value="0"></div>
+				<div class="input">Position Left:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizerleft" value="0"></div>
+				<div class="input">Rotation:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizerrotation" value="0"></div>
+				<div class="input" id="visualizeroffsetwrapper">Offset:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizeroffset" value="0"></div>
+				<div class="input" id="visualizercutoffwrapper">Cutoff:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizercutoff" value="35"></div>
+				<div class="input" id="visualizermultiplierwrapper">Multiplier:<input onchange="onchangeoptions();" class="input1" type="number" step="0.1" id="visualizermultiplier" value="1.2"></div>
+				<div class="input" id="minfrequencywrapper">Min Frequency:<input onchange="onchangeoptions();" class="input1" type="number" step="0.1" id="minfrequency" value="0"></div>
+				<div class="input" id="maxfrequencywrapper">Max Frequency:<input onchange="onchangeoptions();" class="input1" type="number" id="maxfrequency" value="160"></div>
+				<div class="heading">Fill Type</div>
+					<select onchange="hideunusedoptions();" id="filltype" class="input2">
+						<option value="none">None</option>
+						<option value="solid" selected="selected">Solid</option>
+						<option value="verticalgradient">Vertical Gradient</option>
+						<option value="horizontalgradient">Horizontal Gradient</option>
+						<option value="image">Image</option>
+					</select>
+				<span id="visualizerfill1wrapper">
+					<div class="input">Color #1:</div>
+					<input onchange="onchangeoptions();" class="input2" type="color" id="visualizerfill1" value="#000000">
+				</span>
+				<span id="visualizerfill2wrapper">
+					<div class="input">Color #2:</div>
+					<input onchange="onchangeoptions();" class="input2" type="color" id="visualizerfill2" value="#000000">
+				</span>
+				<span id="visualizerfillimagewrapper">
+					<div class="input">Image:</div>
+					<input onchange="onchangefillimage(this);" class="input2" type="file" id="fillimage" accept="image/*" />
+				</span>
+				<div class="input">Fill Opacity:<input onchange="onchangeoptions();" class="input1" type="number" step="0.01" min="0" max="1" id="fillopacity" value="1.0"></div>
+				<div class="heading">Outline Type</div>
+					<select onchange="hideunusedoptions();" id="outlinetype" class="input2">
+						<option value="none">None</option>
+						<option value="solid">Solid</option>
+						<option value="verticalgradient">Vertical Gradient</option>
+						<option value="horizontalgradient">Horizontal Gradient</option>
+						<option value="image">Image</option>
+					</select>
+				<span id="outlinecolor1wrapper">
+					<div class="input">Color #1:</div>
+					<input onchange="onchangeoptions();" class="input2" type="color" id="outlinecolor1" value="#000000">
+				</span>
+				<span id="outlinecolor2wrapper">
+					<div class="input">Color #2:</div>
+					<input onchange="onchangeoptions();" class="input2" type="color" id="outlinecolor2" value="#000000">
+				</span>
+				<span id="outlineimagewrapper">
+					<div class="input">Image:</div>
+					<input onchange="onchangeoutlineimage(this);" class="input2" type="file" id="outlineimage" accept="image/*" />
+				</span>
+				<div class="input">Outline Width:<input onchange="onchangeoptions();" class="input1" type="number" id="outlinewidth" value="5"></div>
+				<div class="input">Outline Opacity:<input onchange="onchangeoptions();" class="input1" type="number" step="0.01" min="0" max="1" id="outlineopacity" value="1.0"></div>
+				<div class="heading">Video File Format</div>
+					<select id="videofileformat" class="input2">
+					</select>
+				<div class="input">Include the audio in recording:<input onchange="includeaudiowarning();" type="checkbox" id="recordaudio" value="recordaudio"></div>
+				<button class="input2" onclick="startvisualizer('recording');">Start Recording</button>
+				<button class="input2" onclick="startvisualizer();">Play Preview</button>
+				<button class="input2" onclick="stoppreview();">Stop Preview</button>
+		</div>
+		<div id="workarea">
+			<canvas id="visualizer" width="640" height="360">Your browser does not support the canvas element. Please use a different browser.</canvas>
+			<canvas id="cachedbgimg" width="640" height="360"></canvas>
+			<canvas id="cachedfgimg" width="640" height="360"></canvas>
+			<div id="documentation">
+				<div id="documentationbuttonwrapper">
+					<button onclick="showoptiondescriptions();">Option Descriptions</button>
+					<button onclick="showlimitations();">Limitations (Please read!)</button>
+					<button onclick="showfaq();">FAQ</button>
+					<button onclick="showcredits();">Credits</button>
+					<button onclick="closedocumentation();">Exit</button>
+				</div>
+				<div id="optiondescriptions">
+					<div class="heading">Option Descriptions</div>
+					<div class="paragraph">This gives detailed explanations on each of the options. If you are confused on what something does or want more specifics this is the place to look.</div>
+					<div class="paragraph"><div class="heading2">Load and Save Preset:</div>This saves most of the options into a text file. The text file can be loaded and the values for each of the options will be set to what was saved. Images and music files that are selected however are not saved in the preset. You will have to manually choose them again. This is useful if you plan on making many videos with the same visualizer. You can have all the positioning, sizing, and other options saved for future videos. You could also use it to share presets with others by giving them the text file.</div>
+					<div class="paragraph"><div class="heading2">Zoom In/Out:</div>This lets you zoom the visualizer in or out. This is helpful if you want to make a video at a high resolution. It allows you to see everything without scrolling. This has no effect on the video recording. The video will always be the original size.</div>
+					<div class="paragraph"><div class="heading2">Video Width and Height:</div> This is the width and height (in pixels) of the video output and the preview that you see on the right hand side (which you currently can't see because you are reading the documentation). I have been able to record at 1920x1080 at about 60 FPS using Chromium. This will vary depending on your computer and the browser you are using. You might be able to go higher if your computer can handle it. Keep in mind there are video size limitations that are explained on the limitations page in the documentation.</div>
+					<div class="paragraph"><div class="heading2">Video Max FPS:</div> This is the max frames per second the video will record at. According to Mozilla, "If not set, a new frame will be captured each time the canvas changes; if set to 0, a single frame will be captured." That means leaving it blank will result in the FPS being as high as possible, but it can still fluctuate and doesn't mean a steady FPS. Setting a max FPS also does not guarantee the FPS will stay at the maximum set. Another consideration is that the audio visualizer animation is being drawn using requestAnimationFrame which will never go above the refresh rate of your monitor/computer. Most displays/computers are 60hz meaning it refreshes 60 times per second. So setting a max FPS above this will not lead to any higher FPS. Same goes for not setting a value. It wouldn't go above the refresh rate of the monitor. Something else to keep in mind is that I found recording performance to be better without specifying a max FPS instead of setting one. Not sure why that is. If you are trying to record at 60 FPS I would personally try recording without having a max FPS set due to the apparent performance increase.</div>
+					<div class="paragraph"><div class="heading2">Background Color:</div> This is a solid color chosen to be the background color of the video. The default is black.</div>
+					<div class="paragraph"><div class="heading2">Background Image:</div> This is the image that is chosen that will be behind the audio visualizer. It is drawn on top of the background color so if the image isn't large enough to fill the video width or height you will see the background color behind it. Also if the image is larger than the video width or height the overflow is clipped off. I would recommend using an image that is the same size or less than the video width and height. Forcing it to use a huge image that overflows most likely results in an unnecessary performance loss.</div>
+					<div class="paragraph"><div class="heading2">Foreground Image:</div>This image is drawn on top of the visualizer, the background, and background color. It is useful if you want something, such as a logo, to be in front of the visualizer. When you select a foreground image you will also be able to control the positioning of the image. By default the image is perfectly centered.</div>
+					<div class="paragraph"><div class="heading2">Music:</div> This is the music that the visualizer will use to making the visualization. The supported formats will depend on the browser. If a browser is open source it may not have the ability to play proprietary formats such as MP3. You can always convert to OGG or some other supported format if need.</div>
+					<div class="paragraph"><div class="heading2">Visualizer Type:</div> This is the type of visualizer that will be used. There are a few different choices. When you select a visualizer type the options below it will change to hide or show only options that can be used for each visualizer.</div>
+					<div class="paragraph"><div class="heading2">Align Bars By:</div> This option is only available for some of the visualizer types. What it means is the bars are "aligned" by either the bottom, middle, or top of the bars. If you align by the bottom it means when the bars increase in height they would move upwards giving it the appearance that the bars are aligned by the bottom. Middle means the bars appear to be centered no matter what height. Top would mean they are aligned by the top and would move downward.</div>
+					<div class="paragraph"><div class="heading2">Line Cap Style:</div> This option is only available for some of the visualizer types. It sets the cap style for the bar/line. The default option is square. The rounded option adds a half circle to the top and bottom of the bar/line making it look rounded. Keep in mind that the rounded cap is a perfect half circle. When you increase the width of the bar/line the circle has to become bigger and makes the bar/line appear much taller than when the line cap is set to square.</div>
+					<div class="paragraph"><div class="heading2">Visualizer Shape:</div> This option is only available for some of the visualizer types. It will take the visualizer and form it into the specified shape. Currently there is only one option, the circle shape.</div>
+					<div class="paragraph"><div class="heading2">Shape Size:</div> This is the width of the shape in pixels. For the circle option (the only option currently) the shape size is the radius of the circle. It is not the diameter. If you want a circle that has a total width of 100 pixels then you would type in 50 since the diameter is twice the size of the radius.</div>
+					<div class="paragraph"><div class="heading2">Other Options:</div> This is where the majority of the options are for manipulating the chosen visualizer type. Many of the options are vaguely named to allow all the visualizer types to share the same options. Also keep in mind that means some of the options may look ok for one visualizer, but don't look right for another. An example would be setting the width to 10 (pixels). This would look ok for vertical bars visualizer but is very small for the time domain line or time domain bars visualizers. Another example is the min height option with the stretchy circle visualizer.</div>
+					<div class="paragraph"><div class="heading2">How Many:</div> This is how many bars/parts/things the visualizer will have which will change to represent the frequency values in the music. For example setting the value to 10 would result in 10 bars with the vertical bars visualizer. Two of the visualizers, time domain line and time domain squares, do not use this due to them using all the frequencies making the option irrelevent.</div>
+					<div class="paragraph"><div class="heading2">Max Height:</div> This is the max height that the visualizer can change in pixels. For example, a max height of 100 with the vertical bars visualizer would mean that the height of any bar would not change more than 100 pixels.</div>
+					<div class="paragraph"><div class="heading2">Min Height:</div> Just like the max height sets the max height for each of the bars/parts/things that move, this sets the minumum height. I guess you could just call it height instead of min height. The way it is used is slightly different depending on the visualizer type. Min height does not affect the max height. If you have a max height of 100 and a min height of 100 the max height would be in addition to the min height allowing for a total height of 200 or less.</div>
+					<div class="paragraph"><div class="heading2">Width:</div> Once again it's a little vague that way it can be applied and used for each visualizer type. It will generally mean the width of each of the bars/parts/things that are representing the frequencies or the entire width of the visualizer.</div>
+					<div class="paragraph"><div class="heading2">Depth:</div> This is used only for the 3d bars visualizer. It is the depth of the bars.</div>
+					<div class="paragraph"><div class="heading2">Slope:</div> This is used only for the 3d bars visualizer. It is the slope/tilt of the bars which give the 3d looking effect. Use a number between 1 and 10.</div>
+					<div class="paragraph"><div class="heading2">Spacing:</div> This is the amount of space in pixels between each of the bars/parts/things.</div>
+					<div class="paragraph"><div class="heading2">Spacing 2:</div> Some visualizers need two spacing parameters. This is the same as spacing except it handles the spacing of something else. Currently the block bars visualizer is the only one to use it. It uses it to specify the vertical spacing between the blocks.</div>
+					<div class="paragraph"><div class="heading2">Position Top and Position Left:</div> These are the values in pixels on where to move the center point of the visualizer type. By default most of the visualizer types will be automatically aligned to the exact center of the video. Changing the value of position top to a positive number will move the visualizer down that many pixels. Changing the value of position top to a negative number will move it up that many pixels. Changing the value of position left to a positive number will move the visualizer to the right that many pixels. Changing the value of position left to a negative number will move it left that many pixels. This may seem opposite at first but isn't. Think of them as the position from the top and the position from the left. The very top left corner coordinates is 0,0. Moving to the right or down is a positive movement. Moving up or to the left is a negative movement.</div>
+					<div class="paragraph"><div class="heading2">Rotation:</div> This is the rotation of the visualizer in degrees. The rotation is only applied to the visualizer, not the background image or anything else. A value of 360 would result in a full circle and look exactly the same. A value of 180 would result in a half circle rotation. It can accept positive and negative values.</div>
+					<div class="paragraph"><div class="heading2">Offset:</div> The offset is the change in vertical positioning of the next bar/part/thing from the previous bar/part/thing. For example, setting it to a value of 2 when using the vertical bars visualizer type will make each bar go down 2 pixels lower from what the previous one was. It's only purpose is to help add more customization to your visualizer. Values can be both positive and negative and are in pixels.</div>
+					<div class="paragraph"><div class="heading2">Cutoff:</div> This is a bit hard to explain. Basically it "cuts off" any frequency value that is equal to or less than the cutoff value. For example, if you have a max height of 100 the most that a frequency could change would be 100. If you set a cut off of 50, nothing would change until the frequency was above 50. So with a max height of 100, cutoff of 50, and a frequency change of 60 would result in the bar/part/thing moving only 10 pixels due to only being 10 above the cutoff. This is also pairs up nicely with the next option called multiplier.</div>
+					<div class="paragraph"><div class="heading2">Multiplier:</div> As explained in the cutoff description, this option pairs up nicely with the cutoff. The multiplier is a number that the frequency value is multiplied by after the cutoff is applied. So with a max height of 100, a cutoff of 50, and if the frequency was 60 you would get 10. It would then get multiplied by whatever number the multipier is set to. If the multiplier was set to 2 it would result in 10 times 2 = 20. This is useful when used with the cutoff because you can make it so small changes are cut off and anything larger will be multiplied resulting in the visualizer reacting more towards large changes rather than slower small changes. Try experimenting to see what I mean.</div>
+					<div class="paragraph"><div class="heading2">Min Frequency and Max Frequency:</div> The music that is playing goes through a FFT (fast Fourier transform) of 512. FFT is what transforms sound into frequency domain data. Something about how the FFT works means half of the 512 is mirrored leaving 256 different frequencies. Of those 256 most songs won't have frequencies on the high end appear. This means the min frequency and max frequency are a range between 0 - 256. The default max frequency is 160 because most songs I tested didn't go beyond it. If you want to set it higher you can. Don't be fooled by the simplicity of the min and max frequency. They are very useful for getting your visualizer to react to the parts of your music the way you want it to. Keep in mind I'm not very knowledgable on how the FFT works so don't quote me on anything.</div>
+					<div class="paragraph"><div class="heading2">Fill Type:</div> The fill type is the main color of the visualizer. It has the choices of a solid color, a vertical gradient, horizontal gradient, and a user specified image. You can create neat effects using an image as a fill type. For example you could use the vertical bars visualizer type and make an image that has rainbow stripes so each bar would line up on a different color. You could also put your logo as a fill type so when the bars go up you would see a part of the logo. If the majority of the bars go up you would see most of it making it an interesting effect.</div>
+					<div class="paragraph"><div class="heading2">Fill Opacity:</div> It's the opacity/transparency of the fill type.</div>
+					<div class="paragraph"><div class="heading2">Outline Type:</div> Same thing as the fill type except it is an outline. It has the choices of a solid color, a vertical gradient, horizontal gradient, and a user specified image.</div>
+					<div class="paragraph"><div class="heading2">Outline Width:</div> This is the thickness of the outline in pixels.</div>
+					<div class="paragraph"><div class="heading2">Outline Opacity:</div> It's the opacity/transparency of the outline type.</div>
+				</div>
+				<div id="limitations">
+					<div class="heading">Limitations</div>
+					<div class="paragraph">Because this uses only HTML, CSS, and JavaScript, there are a few caveats that you need to know about before using this program/software.</div>
+					<div class="paragraph">
+						<ul>
+							<li>The browser you use must support the canvas, MediaRecorder, and captureStream for recording the canvas. I recommend Chrome/Chromium version 53 and higher or Firefox version 48 or higher. In Chrome versions 50 and 51 can record only video (no audio) with chrome://flags/#enable-experimental-web-platform-features enabled. That same flag can be set in Chrome version 52 to enable audio recording in addition to video. It also appears the latest versions of Opera might have support? Mobile versions of browsers will have different support than PC versions. The only mobile browser I am aware of that might have support is the latest Chrome version on Android (version 59 I think?).</li>
+							<li>When recording, the browser stores the video as a blob file in memory (RAM). That means you need to have enough free RAM on your computer to hold the video while recording. (I could be wrong on this. From what I tested you needed to have RAM to hold it while others have said it should start writing to a paging file if you don't have enough. This most likely varies depending on the browser. I would just recommend having enough free RAM or experiment at your own risk.)</li>
+							<li>Browsers limit the the max size of blob files. Clearly you don't want websites to be able to take up all your RAM. Chrome/Chromium seems to have a limit of 500MB. Firefox supposedly has a limit of 700MB although some have said they had blob files larger than that. The point is your video will have to stay in these ranges. I suggest you record a short amount of your video and see how large the file is. That will give you an idea how long of a video you would be able to safely record. The size of the video will greatly depend on the video width and height and how much motion or movement is in the video. Keep in mind there is no warning if the size goes over the limit.</li>
+							<li>Browsers have a mind of their own regarding removing blob files after they have been downloaded. You may have to close out of the page or the browser you are using for it to remove the blob file from RAM. If you plan on recording multiple videos I would suggest closing out of the page/browser or looking at your computers RAM usage to make sure you have enough free to store the next video.</li>
+							<li>Recording the video is done in real time. This means it will take you 2 minutes to record a video for a song that is 2 minutes long. This actually is way faster than my previous recording methods so I don't think it's that bad of a limitation. It was more like an improvement.</li>
+							<li>Because the video is recorded in real time, you need to keep the page open. You can't go to a different tab or minimize the browser. Browsers are smart in that they don't update as many things on a page when it isn't active. This will mess up the recording.</li>
+							<li>Another caveat with the real time recording is that your computer has to be able to keep up with the animation and recording it. If your computer hits a lag spike you will notice it in the video. I recommend closing out of all other programs to help prevent lag spikes and bottlenecks when recording.</li>
+							<li>Choosing the option to include the audio in the recording has a noticable impact on performance and video quality. I highly recommend recording without the audio and simply merging the video and audio file in either video editing software or something else capable of merging and audio file with a video file.</li>
+						</ul> 
+					</div>
+				</div>
+				<div id="faq">
+					<div class="heading">FAQ</div>
+					<div class="paragraph">These aren't questions that have been asked but rather common questions I expect people to have.</div>
+					<div class="heading2">What can I do to get the best recording performance and video quality?</div>
+					<div class="paragraph">There are a few steps that can be taken to help increase what your computer is capable of recording. First thing is to make sure other programs and tabs are closed. Recording is done in real time and if another program is hogging your computer resources then the video quality will reflect that. Second thing is to try leaving the max FPS option blank. I have noticed setting a max FPS value made recording slightly more choppy. Thirdly is to record the video without including the audio. Including the audio in the recording requires the browser to do more work because it has to capture the audio that is playing in real time and record it along with the video. It has a noticable effect on FPS and video quality. You can always merge the video and the audio file with another program such as a video editor of some sort after recording. Lastly is to try switching from Firefox to Chrome/Chromium or from Chrome/Chromium to Firefox. Currently Chrome/Chromium seems to have the best performance and video quality. That could change with future updates.</div>
+					<div class="heading2">I found a bug/you did something wrong in your coding!</div>
+					<div class="paragraph">Please make sure that you can reproduce the bug or at the very least have a good idea on what conditions are needed to cause the bug and send me a message on YouTube (www.youtube.com/user/isaiah658). If it is a coding error you can message me to let me know as well. I do try my best to stay up to date on coding practices, but do keep in mind this is only a hobby project. People make mistakes.</div>
+					<div class="heading2">Why can't I set a minimum FPS?</div>
+					<div class="paragraph">It's the same reason you can't set a minimum FPS with any recording software. If your computer can't keep up with rendering frames then it simply can't keep up.</div>
+					<div class="heading2">I can't get anything to work! What do I do?!</div>
+					<div class="paragraph">Please read the limitations page before using this program/software. If you are following everything and still having issues then you can send me a message on YouTube (www.youtube.com/user/isaiah658).</div>
+					<div class="heading2">Do you plan on adding more features and updating the program/software?</div>
+					<div class="paragraph">At this point in time I simply want to fix any bugs and make the features that I have added work. I'm not opposed to adding more visualizer types later in the future.</div>
+					<div class="heading2">I have an idea for a visualizer! Can you add it in?</div>
+					<div class="paragraph">I'm open to ideas. Don't feel offended if I don't add it though. I'm very busy and any time I have will go towards correcting bugs before I add more features.</div>
+					<div class="heading2">What inspired you to make this?</div>
+					<div class="paragraph">I have personally made a few songs and upload them to YouTube. Everyone had these audio visualizers in their videos and I didn't have anything. I looked and there are very few free options. Most were using expensive video rendering software. I wanted a simple way to just make audio visualizer videos. I also love using HTML, CSS, and JavaScript (website coding languages)! I then started to wonder if you could make such a thing with those. As you can see this was the end result. :)</div>
+					<div class="heading2">How long did it take you to make this?</div>
+					<div class="paragraph">Too long. Seriously though I've easily spent over 200 hours researching, testing, fixing, and finding things. I originally was going to use whammy.js to record the video but it had way to many limitations to be useful. I then found another project based on the ideas of whammy.js but it also suffered from being slow and having bad quality due to needing to use webp pictures and making it into a webm video. After more days of searching I stumbled upon this glorious thing called MediaRecorder which is built right in to Firefox and Chrome/Chromium. I also think it became part of the web standards or something so more browsers will most likely implement it at some point. I'm very grateful for Firefox and Chrome/Chromium for adding it so early. The performance and video quality is WAY better than anything I was using. This is also the first project that I've worked with the canvas. At first I hated it. After awhile it because easier.</div>
+				</div>
+				<div id="credits">
+					<div class="heading">Credits</div>
+					<div class="paragraph">Version 1.0.0</div>
+					<div class="paragraph">This project was made by isaiah658. It was made as an experiment to see if it was possible to use only HTML, CSS, and JavaScript to make an audio visualizer video maker. This project would not have been possible without the help of many blog posts and other examples that got me started with how to get frequency data and how to use it. Both apprentice.craic.com and patrick-wied.at were a huge help! Also huge thanks to Kaiido on stackoverflow for a workaround to make audio recording work in Firefox.</div>
+					<div class="paragraph">This project uses FileSaver.js to save the recorded video file and the preset file. It is licensed under the MIT license. The license is included in the js folder or you can easily find and read it online. You can view the project on https://github.com/eligrey/FileSaver.js.</div>
+					<div class="paragraph">This project also uses the font called Nunito made by Vernon Adams. It is licensed under the SIL OPEN FONT LICENSE Version 1.1. The license is included in the font folder or you can easily find and read it online.</div>
+					<div class="paragraph"> Now for the project licensing. The license I have chosen for this project is the MIT license. The license is included below and also is in the license.txt file. This obviously does NOT include FileSaver.js and the font that are both listed above. Those are under their own license (FileSaver.js just so happens to use the MIT license as well).</div>
+					<div class="paragraph">Copyright 2017 isaiah658</div>
+					<div class="paragraph">Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</div>
+					<div class="paragraph">The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</div>
+					<div class="paragraph">THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</div>
+				</div>
+			</div>
+		</div>
+		<img id="bgimg" src="resources/img/blank.png">
+		<img id="fgimg" src="resources/img/blank.png">
+		<img id="fillimg" src="resources/img/blank.png">
+		<img id="outlineimg" src="resources/img/blank.png">
+		<img id="blankimg" src="resources/img/blank.png">
+		<script src="resources/js/visualizertypes.js"></script>
+		<script src="resources/js/main.js"></script>
+		<script src="resources/js/filesaver.js"></script>
+		<script>initialize();</script>
+	</body>
+</html>
