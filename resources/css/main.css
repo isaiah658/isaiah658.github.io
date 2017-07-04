@@ -1,0 +1,170 @@
+@font-face { 
+	font-family: 'Nunito-SemiBold';
+	src: url('../fonts/Nunito-SemiBold.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face { 
+	font-family: 'Nunito-ExtraBold';
+	src: url('../fonts/Nunito-ExtraBold.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+html, body {
+	margin:0;
+	padding:0;
+	min-width: 750px;
+	height:100%;
+	background-color: #f9f9f9;
+}
+#sidebar {
+	position: relative;
+	top: 0px;
+	left: 0px;
+	width: 20%;
+	min-width: 160px;
+	height: 100%;
+	background-color: #eef2ea;
+	box-shadow: inset 3px 0px 20px rgba(0,0,0,0.5);
+	float: left;
+	overflow-y: auto;
+	overflow-x: visible;
+}
+#workarea {
+	position: relative;
+	top: 0px;
+	left: 0px;
+	width: 78%;
+	min-width: 550px;
+	height: 100%;
+	float: left;
+	overflow-x: auto;
+	overflow-y: auto;
+}
+#visualizer {
+	position: relative;
+	top: 50%;
+	left: 50%;
+	width: 640px;
+	height: 360px;
+	display: block;
+	transform: translateX(-50%) translateY(-50%);
+}
+#recordingmessage {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(238, 242, 234, 0.6);
+	z-index: 3;
+	display: none;
+}
+#recordingmessagewrapper {
+	position: relative;
+	margin-left: 30%;
+	margin-right: 20%;
+	margin-top: 5%;
+}
+#documentation {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: #ffffff;
+	z-index: 2;
+	display: none;
+	overflow-y: auto;
+	overflow-x: visible;
+}
+#optiondescriptions {
+	position: relative;
+	top: 0px;
+	left: 0px;
+	width: 70%;
+	height: 60%;
+	margin: 0px auto;
+	background-color: #ffffff;
+}
+#limitations {
+	position: relative;
+	top: 0px;
+	left: 0px;
+	width: 70%;
+	height: 60%;
+	margin: 0px auto;
+	display: none;
+}
+#limitations li {
+	margin-bottom: 10px;
+}
+#faq {
+	position: relative;
+	top: 0px;
+	left: 0px;
+	width: 70%;
+	height: 60%;
+	margin: 0px auto;
+	display: none;
+}
+#credits {
+	position: relative;
+	top: 0px;
+	left: 0px;
+	width: 70%;
+	height: 60%;
+	margin: 0px auto;
+	display: none;
+}
+#documentationbuttonwrapper {
+	width: 560px;
+	margin: 10px auto;
+}
+.paragraph { 
+	width: 100%;
+	display: inline-block;
+	font-size: 13px;
+	margin-bottom: 20px;
+	font-family: Nunito-SemiBold;
+	font-weight: normal;
+	text-align: left;
+}
+.heading {
+	width: 100%;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	font-size: 16px;
+	font-family: Nunito-SemiBold;
+	text-align: center;	
+}
+.heading2 {
+	width: 100%;
+	font-size: 13px;
+	margin: 0px;
+	font-family: Nunito-ExtraBold;
+}
+.input {
+	width: 88%;
+	margin-top: 14px;
+	margin-bottom: 14px;
+	margin-left: 2vw;
+	font-size: 12px;
+	font-family: Nunito-SemiBold;
+}
+.input1 {
+	width: 25%;
+	min-width: 50px;
+	margin-right: 3vw;
+	float: right;
+}
+.input2 {
+	width: 14vw;
+	min-width: 110px;
+	margin-left: 2.5vw;
+	margin-bottom: 5px;
+	text-align: center;
+}
+#bgimg, #fgimg, #fillimg, #outlineimg, #blankimg, #cachedbgimg, #cachedfgimg, #savepresettextarea, #closedocumentationbutton, #clearbackgroundimagebutton, #clearforegroundimagebutton, #foregroundpositiontopwrapper, #foregroundpositionleftwrapper {
+	display: none;
+}
