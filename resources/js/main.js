@@ -257,6 +257,16 @@ function onchangeaudio(selectedaudio) {
 	audioplayer.src = url;
 }
 
+//Called when the audio seekbar is changed by the user
+function onchangevisualizerseekbar() {
+	audioplayer.currentTime = audioplayer.duration * (document.getElementById("visualizerseekbar").value / 100);
+}
+
+//Called when the audio is playing and updates the seekbar to the current time
+audioplayer.addEventListener("timeupdate", function() {
+  document.getElementById("visualizerseekbar").value = (100 / audioplayer.duration) * audioplayer.currentTime;
+});
+
 //Called when the user selects the fill pattern image - Then it calls the function for options and updating the visualizer
 function onchangefillimage(selected) {
 	var fillimg = document.getElementById("fillimg");
