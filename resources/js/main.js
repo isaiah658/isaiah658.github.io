@@ -722,6 +722,10 @@ function startvisualizer(recording) {
 		//Display recording message
 		document.getElementById("recordingmessage").style.display = "block";
 	}
+	else {
+		//If not recording then show the audio seekbar
+		document.getElementById("visualizerseekbar").style.display = "block";
+	}
 	
 	//Start Playing Audio
 	audioplayer.currentTime = 0;
