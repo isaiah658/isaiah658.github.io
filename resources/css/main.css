@@ -50,6 +50,17 @@ html, body {
 	display: block;
 	transform: translateX(-50%) translateY(-50%);
 }
+#visualizerseekbar {
+	position: absolute;
+	left: 10%;
+	bottom: 2%;
+	width: 80%;
+	height: 30px;
+	border-radius: 15px;
+	background-color: #555555;
+	box-shadow: 0px 0px 5px #000000;
+	display: none;
+}
 #recordingmessage {
 	position: absolute;
 	top: 0px;
