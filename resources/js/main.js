@@ -861,6 +861,10 @@ function startvisualizer(recording) {
 			//stream.getAudioTracks()[0].stop();
 			audiosource.disconnect();
 		}
+		else {
+			//If not recording then hide the audio seekbar since the preview is done
+			document.getElementById("visualizerseekbar").style.display = "none";
+		}
 	};
 	//Start rendering frames
 	renderframe();
