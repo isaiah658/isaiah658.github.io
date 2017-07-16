@@ -155,21 +155,32 @@ html, body {
 	margin: 0px;
 	font-family: Nunito-ExtraBold;
 }
-.input {
-	width: 88%;
-	margin-top: 14px;
-	margin-bottom: 14px;
-	margin-left: 2vw;
+.inputwrapper {
+	width: 90%;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-left: 5%;
+	border-top: 2px solid #cdd6c5;
+	border-bottom: 3px solid #aeb7a7;
+	border-left: 2px solid #cdd6c5;
+	border-right: 2px solid #cdd6c5;
+	border-radius: 5px;
 	font-size: 12px;
 	font-family: Nunito-SemiBold;
 }
-.input1 {
-	width: 25%;
-	min-width: 50px;
-	margin-right: 3vw;
-	float: right;
+.inputspacer1 {
+	width: 45%;
+	height: 100%;
+	padding: 5px 0px 5px 5%;
+	vertical-align: middle;
+	display: inline-block;
 }
-.input2 {
+.inputspacer2 {
+	width: 30%;
+	vertical-align: middle;
+	display: inline-block;
+}
+.inputbutton {
 	width: 14vw;
 	min-width: 110px;
 	margin-left: 2.5vw;
