@@ -155,7 +155,7 @@ html, body {
 	margin: 0px;
 	font-family: Nunito-ExtraBold;
 }
-.inputwrapper {
+.inputtype1 {
 	width: 90%;
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -180,7 +180,7 @@ html, body {
 	vertical-align: middle;
 	display: inline-block;
 }
-.inputbutton {
+.inputtype2 {
 	width: 14vw;
 	min-width: 110px;
 	margin-left: 2.5vw;
