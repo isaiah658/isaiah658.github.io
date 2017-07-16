@@ -143,7 +143,7 @@ html, body {
 }
 .heading {
 	width: 100%;
-	margin-top: 8px;
+	margin-top: 12px;
 	margin-bottom: 8px;
 	font-size: 16px;
 	font-family: Nunito-SemiBold;
@@ -162,7 +162,7 @@ html, body {
 	font-family: Nunito-SemiBold;
 }
 .inputtype1 {
-	width: 90%;
+	width: 89%;
 	margin-top: 5px;
 	margin-bottom: 5px;
 	margin-left: 5%;
@@ -187,9 +187,9 @@ html, body {
 	display: inline-block;
 }
 .inputtype2 {
-	width: 14vw;
+	width: 90%;
 	min-width: 110px;
-	margin-left: 2.5vw;
+	margin-left: 5%;
 	margin-bottom: 5px;
 	text-align: center;
 }
