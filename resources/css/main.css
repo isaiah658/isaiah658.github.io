@@ -155,6 +155,12 @@ html, body {
 	margin: 0px;
 	font-family: Nunito-ExtraBold;
 }
+.heading3 {
+	width: 100%;
+	font-size: 12px;
+	margin: 0px;
+	font-family: Nunito-SemiBold;
+}
 .inputtype1 {
 	width: 90%;
 	margin-top: 5px;
