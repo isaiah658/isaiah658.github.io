@@ -418,7 +418,7 @@ function spinningtriangles(videowidth, videoheight, visualizerbgcolor, visualize
 		//Does the stroke first for the outline effect and then another stroke to act as the main color
 		if (outlinetype != "none") {
 			visualizercanvasctx.globalAlpha = outlineopacity;
-			visualizercanvasctx.lineWidth = outlinewidth;
+			visualizercanvasctx.lineWidth = outlinewidth + width;
 			visualizercanvasctx.stroke();	
 		}
 		if (filltype != "none") {
