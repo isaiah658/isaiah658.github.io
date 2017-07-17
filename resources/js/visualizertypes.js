@@ -386,3 +386,52 @@ function timedomainline(videowidth, videoheight, visualizerbgcolor, visualizersh
 		}
 	}
 }
+//SPINNING TRIANGLES --------------------------------------------------------------
+function spinningtriangles(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, minrotationspeed, maxrotationspeed, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment, spinningtrianglesvars) {
+	var leftposition = Math.round((videowidth/2) + left);
+	var topposition = Math.round((videoheight/2) + top);
+	if (!spinningtrianglesvars) {
+		var spinningtrianglesvars = {anglestart:0};	
+	}
+	var twopi = 2 * Math.PI;
+	var anglegap = twopi / 3;
+	var angle = spinningtrianglesvars.anglestart;
+	var minrotationspeed = minrotationspeed * (Math.PI / 180);
+	var maxrotationspeed = maxrotationspeed * (Math.PI / 180);
+	var totalfrequencychange = 0;
+	//visualizercanvasctx.globalCompositeOperation = 'lighter';
+	for(var i=0; i < howmany; i++){
+		if (frequencydata) {
+			var nodefrequency = (frequencyspacing*i) + minfrequency;
+			var heightchange = Math.max((((frequencydata[nodefrequency]*maxheightadjustment) - cutoff)*multiplier), 0);
+		}
+		else {
+			var heightchange = 0;
+		}
+		var totalheight = minheight + heightchange;
+		var angle = angle + 0.2;
+		visualizercanvasctx.beginPath();
+		visualizercanvasctx.moveTo(leftposition + totalheight * Math.sin(angle), topposition + totalheight * Math.cos(angle));
+		visualizercanvasctx.lineTo(leftposition + totalheight * Math.sin(angle + anglegap), topposition + totalheight * Math.cos(angle + anglegap));
+		visualizercanvasctx.lineTo(leftposition + totalheight * Math.sin(angle + anglegap * 2), topposition + totalheight * Math.cos(angle + anglegap * 2));
+		visualizercanvasctx.closePath();
+		//Does the stroke first for the outline effect and then another stroke to act as the main color
+		if (outlinetype != "none") {
+			visualizercanvasctx.globalAlpha = outlineopacity;
+			visualizercanvasctx.lineWidth = outlinewidth;
+			visualizercanvasctx.stroke();	
+		}
+		if (filltype != "none") {
+			visualizercanvasctx.globalAlpha = fillopacity;
+			visualizercanvasctx.lineWidth = width;
+			visualizercanvasctx.strokeStyle = visualizercanvasctx.fillStyle;
+			visualizercanvasctx.stroke();
+		}
+		totalfrequencychange = totalfrequencychange + heightchange;
+	}
+	spinningtrianglesvars.anglestart = (spinningtrianglesvars.anglestart + (maxrotationspeed * (totalfrequencychange / (howmany * maxheightadjustment)))) % twopi;
+	//visualizercanvasctx.globalCompositeOperation = 'source-over';
+	if (frequencydata) {
+		return spinningtrianglesvars;
+	}
+}
