@@ -409,7 +409,7 @@ function spinningtriangles(videowidth, videoheight, visualizerbgcolor, visualize
 			var heightchange = 0;
 		}
 		var totalheight = minheight + heightchange;
-		var angle = angle + 0.2;
+		var angle = angle + minrotationspeed;
 		visualizercanvasctx.beginPath();
 		visualizercanvasctx.moveTo(leftposition + totalheight * Math.sin(angle), topposition + totalheight * Math.cos(angle));
 		visualizercanvasctx.lineTo(leftposition + totalheight * Math.sin(angle + anglegap), topposition + totalheight * Math.cos(angle + anglegap));
@@ -429,7 +429,7 @@ function spinningtriangles(videowidth, videoheight, visualizerbgcolor, visualize
 		}
 		totalfrequencychange = totalfrequencychange + heightchange;
 	}
-	spinningtrianglesvars.anglestart = (spinningtrianglesvars.anglestart + (maxrotationspeed * (totalfrequencychange / (howmany * maxheightadjustment)))) % twopi;
+	spinningtrianglesvars.anglestart = (spinningtrianglesvars.anglestart + ((maxrotationspeed / 10000) * (totalfrequencychange / (howmany * maxheightadjustment)))) % twopi;
 	//visualizercanvasctx.globalCompositeOperation = 'source-over';
 	if (frequencydata) {
 		return spinningtrianglesvars;
