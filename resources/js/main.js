@@ -310,8 +310,8 @@ function hideunusedoptions() {
 	document.getElementById("visualizerwidthwrapper").style.display = "block";
 	document.getElementById("visualizerdepthwrapper").style.display = "none";
 	document.getElementById("visualizerslopewrapper").style.display = "none";
-	document.getElementById("visualizerminrotationspeed").style.display = "none";
-	document.getElementById("visualizermaxrotationspeed").style.display = "none";
+	document.getElementById("visualizerminrotationspeedwrapper").style.display = "none";
+	document.getElementById("visualizermaxrotationspeedwrapper").style.display = "none";
 	document.getElementById("visualizerspacingwrapper").style.display = "block";
 	document.getElementById("visualizerspacing2wrapper").style.display = "none";
 	document.getElementById("visualizeroffsetwrapper").style.display = "block";
