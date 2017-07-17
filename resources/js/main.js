@@ -127,24 +127,26 @@ function loadpreset(selectedfile){
 		document.getElementById("visualizerwidth").value = lines[14];
 		document.getElementById("visualizerdepth").value = lines[15];
 		document.getElementById("visualizerslope").value = lines[16];
-		document.getElementById("visualizerspacing").value = lines[17];
-		document.getElementById("visualizerspacing2").value = lines[18];
-		document.getElementById("visualizertop").value = lines[19];
-		document.getElementById("visualizerleft").value = lines[20];
-		document.getElementById("visualizerrotation").value = lines[21];
-		document.getElementById("visualizeroffset").value = lines[22];
-		document.getElementById("visualizeropacity").value = lines[23];
-		document.getElementById("visualizercutoff").value = lines[24];
-		document.getElementById("visualizermultiplier").value = lines[25];
-		document.getElementById("filltype").value = lines[26];
-		document.getElementById("visualizerfill1").value = lines[27];
-		document.getElementById("visualizerfill2").value = lines[28];
-		document.getElementById("fillopacity").value = lines[29];
-		document.getElementById("outlinetype").value = lines[30];
-		document.getElementById("outlinecolor1").value = lines[31];
-		document.getElementById("outlinecolor2").value = lines[32];
-		document.getElementById("outlinewidth").value = lines[33];
-		document.getElementById("outlineopacity").value = lines[34];
+		document.getElementById("visualizerminrotationspeed").value = lines[17];
+		document.getElementById("visualizermaxrotationspeed").value = lines[18];
+		document.getElementById("visualizerspacing").value = lines[19];
+		document.getElementById("visualizerspacing2").value = lines[20];
+		document.getElementById("visualizertop").value = lines[21];
+		document.getElementById("visualizerleft").value = lines[22];
+		document.getElementById("visualizerrotation").value = lines[23];
+		document.getElementById("visualizeroffset").value = lines[24];
+		document.getElementById("visualizeropacity").value = lines[25];
+		document.getElementById("visualizercutoff").value = lines[26];
+		document.getElementById("visualizermultiplier").value = lines[27];
+		document.getElementById("filltype").value = lines[28];
+		document.getElementById("visualizerfill1").value = lines[29];
+		document.getElementById("visualizerfill2").value = lines[30];
+		document.getElementById("fillopacity").value = lines[31];
+		document.getElementById("outlinetype").value = lines[32];
+		document.getElementById("outlinecolor1").value = lines[33];
+		document.getElementById("outlinecolor2").value = lines[34];
+		document.getElementById("outlinewidth").value = lines[35];
+		document.getElementById("outlineopacity").value = lines[36];
 		onchangeoptions();
 	};
 	reader.readAsText(file);	
@@ -168,6 +170,8 @@ function savepreset(){
 	var width = document.getElementById("visualizerwidth").value;
 	var depth = document.getElementById("visualizerdepth").value;
 	var slope = document.getElementById("visualizerslope").value;
+	var minrotationspeed = document.getElementById("visualizerminrotationspeed").value;
+	var maxrotationspeed = document.getElementById("visualizermaxrotationspeed").value;
 	var spacing = document.getElementById("visualizerspacing").value;
 	var spacing2 = document.getElementById("visualizerspacing2").value;
 	var top = document.getElementById("visualizertop").value;
@@ -187,7 +191,7 @@ function savepreset(){
 	var outlinewidth = document.getElementById("outlinewidth").value;
 	var outlineopacity = document.getElementById("outlineopacity").value;
 	
-	document.getElementById("savepresettextarea").value = foregroundpositiontop + "\n" + foregroundpositionleft + "\n" + videowidth + "\n" + videoheight + "\n" + videomaxfps + "\n" + visualizerbgcolor + "\n" + visualizertype + "\n" + barsalignment + "\n" + linecap + "\n" + visualizershape + "\n" + visualizershapesize + "\n" + howmany + "\n" + maxheight + "\n" + minheight + "\n" + width + "\n" + depth + "\n" + slope + "\n" + spacing + "\n" + spacing2 + "\n" + top + "\n" + left + "\n" + rotation + "\n" + offset + "\n" + opacity + "\n" + cutoff + "\n" + multiplier + "\n" + filltype + "\n" + fill1 + "\n" + fill2 + "\n" + fillopacity + "\n" + outlinetype + "\n" + outlinecolor1 + "\n" + outlinecolor2 + "\n" + outlinewidth + "\n" + outlineopacity;
+	document.getElementById("savepresettextarea").value = foregroundpositiontop + "\n" + foregroundpositionleft + "\n" + videowidth + "\n" + videoheight + "\n" + videomaxfps + "\n" + visualizerbgcolor + "\n" + visualizertype + "\n" + barsalignment + "\n" + linecap + "\n" + visualizershape + "\n" + visualizershapesize + "\n" + howmany + "\n" + maxheight + "\n" + minheight + "\n" + width + "\n" + depth + "\n" + slope + "\n" + minrotationspeed + "\n" + maxrotationspeed + "\n" + spacing + "\n" + spacing2 + "\n" + top + "\n" + left + "\n" + rotation + "\n" + offset + "\n" + opacity + "\n" + cutoff + "\n" + multiplier + "\n" + filltype + "\n" + fill1 + "\n" + fill2 + "\n" + fillopacity + "\n" + outlinetype + "\n" + outlinecolor1 + "\n" + outlinecolor2 + "\n" + outlinewidth + "\n" + outlineopacity;
 	var text = document.getElementById("savepresettextarea").value;
 	var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
 	saveAs(blob, "preset.txt");
@@ -306,6 +310,8 @@ function hideunusedoptions() {
 	document.getElementById("visualizerwidthwrapper").style.display = "block";
 	document.getElementById("visualizerdepthwrapper").style.display = "none";
 	document.getElementById("visualizerslopewrapper").style.display = "none";
+	document.getElementById("visualizerminrotationspeed").style.display = "none";
+	document.getElementById("visualizermaxrotationspeed").style.display = "none";
 	document.getElementById("visualizerspacingwrapper").style.display = "block";
 	document.getElementById("visualizerspacing2wrapper").style.display = "none";
 	document.getElementById("visualizeroffsetwrapper").style.display = "block";
@@ -364,6 +370,12 @@ function hideunusedoptions() {
 		if (visualizershape == "circle") {
 			document.getElementById("visualizerwidthwrapper").style.display = "none";
 		}
+	}
+	else if (visualizertype == "spinningtriangles") {
+		document.getElementById("visualizerspacingwrapper").style.display = "none";
+		document.getElementById("visualizeroffsetwrapper").style.display = "none";
+		document.getElementById("visualizerminrotationspeed").style.display = "block";
+		document.getElementById("visualizermaxrotationspeed").style.display = "block";
 	}
 	
 	//Changes options for the fill types
@@ -443,6 +455,8 @@ function onchangeoptions() {
 	var width = Number(document.getElementById("visualizerwidth").value);
 	var depth = Number(document.getElementById("visualizerdepth").value);
 	var slope = Number(document.getElementById("visualizerslope").value);
+	var minrotationspeed = document.getElementById("visualizerminrotationspeed").value;
+	var maxrotationspeed = document.getElementById("visualizermaxrotationspeed").value;
 	var spacing = Number(document.getElementById("visualizerspacing").value);
 	var spacing2 = Number(document.getElementById("visualizerspacing2").value);
 	var top = Number(document.getElementById("visualizertop").value);
@@ -584,6 +598,15 @@ function onchangeoptions() {
 	else if (visualizertype == "timedomainsquares") {
 		timedomainsquares(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx);
 	}
+	else if (visualizertype == "spinningtriangles") {
+		spinningtriangles(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, minrotationspeed, maxrotationspeed, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx);
+	}
+	else if (visualizertype == "bubbles") {
+		bubbles(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx);
+	}
+	else if (visualizertype == "internetgb") {
+		internetgb(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx);
+	}
 	
 	//Fill the foreground image of the visualizer if specified
 	if (fgimg.src != blankimg.src) {
@@ -626,6 +649,8 @@ function startvisualizer(recording) {
 	var width = Number(document.getElementById("visualizerwidth").value);
 	var depth = Number(document.getElementById("visualizerdepth").value);
 	var slope = Number(document.getElementById("visualizerslope").value);
+	var minrotationspeed = document.getElementById("visualizerminrotationspeed").value;
+	var maxrotationspeed = document.getElementById("visualizermaxrotationspeed").value;
 	var spacing = Number(document.getElementById("visualizerspacing").value);
 	var spacing2 = Number(document.getElementById("visualizerspacing2").value);
 	var top = Number(document.getElementById("visualizertop").value);
@@ -676,6 +701,11 @@ function startvisualizer(recording) {
 	audiosource.connect(audioctxmediastream);
 	var frequencydata = new Uint8Array(analyser.frequencyBinCount);
 	var frequencyspacing = Math.round((maxfrequency-minfrequency)/(howmany+1));
+	
+	//These are used for visualizers that need variables that retain their values outside of the rendering loop
+	//A common use for these are for motion and movements that get updated each loop
+	var spinningtrianglesvars = {anglestart:0};
+	var internetgbvars = {shockwave:0, rot:0, intensity:0, center_x:0, center_y:0, radius:width};
 	
 	if (recording) {
 		if (videomaxfps > 0) {
@@ -842,6 +872,18 @@ function startvisualizer(recording) {
 			else if (visualizertype == "timedomainsquares") {
 				analyser.getByteTimeDomainData(frequencydata);
 				timedomainsquares(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, minfrequency, maxfrequency, maxheightadjustment);
+			}
+			else if (visualizertype == "spinningtriangles") {
+				analyser.getByteFrequencyData(frequencydata);
+				spinningtrianglesvars = spinningtriangles(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, minrotationspeed, maxrotationspeed, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment, spinningtrianglesvars);
+			}
+			else if (visualizertype == "bubbles") {
+				analyser.getByteFrequencyData(frequencydata);
+				bubbles(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment);
+			}
+			else if (visualizertype == "internetgb") {
+				analyser.getByteFrequencyData(frequencydata);
+				internetgbvars = internetgb(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment, internetgbvars);
 			}
 			
 			//Fill the foreground image of the visualizer if specified
