@@ -374,8 +374,8 @@ function hideunusedoptions() {
 	else if (visualizertype == "spinningtriangles") {
 		document.getElementById("visualizerspacingwrapper").style.display = "none";
 		document.getElementById("visualizeroffsetwrapper").style.display = "none";
-		document.getElementById("visualizerminrotationspeed").style.display = "block";
-		document.getElementById("visualizermaxrotationspeed").style.display = "block";
+		document.getElementById("visualizerminrotationspeedwrapper").style.display = "block";
+		document.getElementById("visualizermaxrotationspeedwrapper").style.display = "block";
 	}
 	
 	//Changes options for the fill types
