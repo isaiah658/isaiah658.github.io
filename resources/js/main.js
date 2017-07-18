@@ -377,6 +377,10 @@ function hideunusedoptions() {
 		document.getElementById("visualizerminrotationspeedwrapper").style.display = "block";
 		document.getElementById("visualizermaxrotationspeedwrapper").style.display = "block";
 	}
+	else if (visualizertype == "bubbles") {
+		document.getElementById("visualizerspacingwrapper").style.display = "none";
+		document.getElementById("visualizeroffsetwrapper").style.display = "none";
+	}
 	
 	//Changes options for the fill types
 	if (filltype == "solid") {
