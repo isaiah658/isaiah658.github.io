@@ -399,7 +399,10 @@ function spinningtriangles(videowidth, videoheight, visualizerbgcolor, visualize
 	var minrotationspeed = minrotationspeed * (Math.PI / 180);
 	var maxrotationspeed = maxrotationspeed * (Math.PI / 180);
 	var totalfrequencychange = 0;
-	//visualizercanvasctx.globalCompositeOperation = 'lighter';
+	//Temporary way to copy the outline and fill style
+	//This visualizer strokes each shape individually to take advantage of the global composite operation effect
+	var outlinestyle = visualizercanvasctx.strokeStyle;
+	var fillstyle = visualizercanvasctx.fillStyle;
 	for(var i=0; i < howmany; i++){
 		if (frequencydata) {
 			var nodefrequency = (frequencyspacing*i) + minfrequency;
@@ -419,19 +422,48 @@ function spinningtriangles(videowidth, videoheight, visualizerbgcolor, visualize
 		if (outlinetype != "none") {
 			visualizercanvasctx.globalAlpha = outlineopacity;
 			visualizercanvasctx.lineWidth = outlinewidth + width;
+			visualizercanvasctx.strokeStyle = outlinestyle;
 			visualizercanvasctx.stroke();	
 		}
 		if (filltype != "none") {
 			visualizercanvasctx.globalAlpha = fillopacity;
 			visualizercanvasctx.lineWidth = width;
-			visualizercanvasctx.strokeStyle = visualizercanvasctx.fillStyle;
+			visualizercanvasctx.strokeStyle = fillstyle;
 			visualizercanvasctx.stroke();
 		}
 		totalfrequencychange = totalfrequencychange + heightchange;
 	}
 	spinningtrianglesvars.anglestart = (spinningtrianglesvars.anglestart + ((maxrotationspeed / 10000) * (totalfrequencychange / (howmany * maxheightadjustment)))) % twopi;
-	//visualizercanvasctx.globalCompositeOperation = 'source-over';
 	if (frequencydata) {
 		return spinningtrianglesvars;
+	}
+}
+//BUBBLES --------------------------------------------------------------
+function bubbles(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment) {
+	var leftposition = Math.round((videowidth/2) + left);
+	var topposition = Math.round((videoheight/2) + top);
+	var angle = 8*Math.PI/howmany;
+	visualizercanvasctx.translate(leftposition,topposition);
+	for(var i=0; i < howmany; i++){
+		if (frequencydata) {
+			var nodefrequency = (frequencyspacing*i) + minfrequency;
+			var heightchange = Math.max((((frequencydata[nodefrequency]*maxheightadjustment) - cutoff)*multiplier), 0);
+			var heightchange2 = Math.max((((frequencydata[nodefrequency+5]*maxheightadjustment) - cutoff)*multiplier), 0);
+		}
+		else {
+			var heightchange = 0;
+			var heightchange2 = 0;
+		}
+        visualizercanvasctx.beginPath();
+        visualizercanvasctx.arc(heightchange,heightchange2,10+(heightchange/2),0,2*Math.PI);
+		visualizercanvasctx.rotate(angle);
+	}
+	if (outlinetype != "none") {
+		visualizercanvasctx.globalAlpha = outlineopacity;
+		visualizercanvasctx.stroke();	
+	}
+	if (filltype != "none") {
+		visualizercanvasctx.globalAlpha = fillopacity;
+		visualizercanvasctx.fill();
 	}
 }
