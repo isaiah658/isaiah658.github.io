@@ -444,6 +444,7 @@ function bubbles(videowidth, videoheight, visualizerbgcolor, visualizershape, vi
 	var topposition = Math.round((videoheight/2) + top);
 	var angle = 8*Math.PI/howmany;
 	visualizercanvasctx.translate(leftposition,topposition);
+	visualizercanvasctx.beginPath();
 	for(var i=0; i < howmany; i++){
 		if (frequencydata) {
 			var nodefrequency = (frequencyspacing*i) + minfrequency;
@@ -454,7 +455,6 @@ function bubbles(videowidth, videoheight, visualizerbgcolor, visualizershape, vi
 			var heightchange = 0;
 			var heightchange2 = 0;
 		}
-        visualizercanvasctx.beginPath();
         visualizercanvasctx.arc(heightchange,heightchange2,10+(heightchange/2),0,2*Math.PI);
 		visualizercanvasctx.rotate(angle);
 	}
