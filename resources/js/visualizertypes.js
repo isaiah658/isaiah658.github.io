@@ -455,7 +455,8 @@ function bubbles(videowidth, videoheight, visualizerbgcolor, visualizershape, vi
 			var heightchange = 0;
 			var heightchange2 = 0;
 		}
-        visualizercanvasctx.arc(heightchange,heightchange2,10+(heightchange/2),0,2*Math.PI);
+		visualizercanvasctx.moveTo(heightchange,heightchange2);
+        	visualizercanvasctx.arc(heightchange,heightchange2,10+(heightchange/2),0,2*Math.PI);
 		visualizercanvasctx.rotate(angle);
 	}
 	if (outlinetype != "none") {
