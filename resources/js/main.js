@@ -509,9 +509,6 @@ function onchangeoptions() {
 	//Reset opacity to 1 - Since global alpha can be changed for the fill, stroke, and foreground image it needs to be reset before drawing the background color and background image
 	visualizercanvasctx.globalAlpha = 1;
 	
-	//Reset transform - This is slightly faster than doing save and restore
-	visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
-	
 	//Fill the background color of the visualizer
 	visualizercanvasctx.fillStyle = visualizerbgcolor;
 	visualizercanvasctx.fillRect(0,0,videowidth,videoheight);
@@ -616,8 +613,6 @@ function onchangeoptions() {
 	if (fgimg.src != blankimg.src) {
 		//Reset the opacity
 		visualizercanvasctx.globalAlpha = 1;
-		//Reset transform - This is slightly faster than doing save and restore
-		visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
 		var cachedfgimgcanvas = document.getElementById("cachedfgimg");
 		var cachedfgimgcanvasctx = cachedfgimgcanvas.getContext("2d");
 		var fgimgwidth = fgimg.width;
@@ -771,9 +766,6 @@ function startvisualizer(recording) {
 			
 			//Reset opacity to 1 - Since global alpha can be changed for the fill, stroke, and foreground image it needs to be reset before drawing the background color and background image
 			visualizercanvasctx.globalAlpha = 1;
-			
-			//Reset transform - This is slightly faster than doing save and restore
-			visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
 			
 			//Fill the background color of the visualizer
 			visualizercanvasctx.fillStyle = visualizerbgcolor;
