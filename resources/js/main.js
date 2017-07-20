@@ -713,6 +713,69 @@ function startvisualizer(recording) {
 		else {
 			var canvasstream = visualizercanvas.captureStream();
 		}
+		//A bunch of checks to set an appropriate video bit rate
+		//Chrome/Chromium currently ignores the video bit rate and automatically sets its own
+		//Firefox defaults to 2.5Mbps if no bit rate is set
+		//640 x 360 or less
+		if (videowidth * videoheight <= 230400) {
+			var videobitrate = 1500000;
+		}
+		//854 x 480 or less
+		else if (videowidth * videoheight <= 409920) {
+			if (videomaxfps <= 30 && videomaxfps != "") {
+				var videobitrate = 2500000;
+			}
+			else {
+				var videobitrate = 3500000;
+			}
+		}
+		//1280 x 720 or less
+		else if (videowidth * videoheight <= 921600) {
+			if (videomaxfps <= 30 && videomaxfps != "") {
+				var videobitrate = 4500000;
+			}
+			else {
+				var videobitrate = 7000000;
+			}
+		}
+		//1920 x 1080 or less
+		else if (videowidth * videoheight <= 2073600) {
+			if (videomaxfps <= 30 && videomaxfps != "") {
+				var videobitrate = 8000000;
+			}
+			else {
+				var videobitrate = 11000000;
+			}
+		}
+		//2048 × 1280 or less
+		else if (videowidth * videoheight <= 2621440) {
+			if (videomaxfps <= 30 && videomaxfps != "") {
+				var videobitrate = 13000000;
+			}
+			else {
+				var videobitrate = 19000000;
+			}
+		}
+		//I seriously doubt this thing can even record this high but who knows!
+		//3840 × 2160 or less
+		else if (videowidth * videoheight <= 8294400) {
+			if (videomaxfps <= 30 && videomaxfps != "") {
+				var videobitrate = 35000000;
+			}
+			else {
+				var videobitrate = 58000000;
+			}
+		}
+		//I seriously doubt this thing can even record this high but who knows!
+		//7680 × 4320 or less
+		else if (videowidth * videoheight <= 33177600) {
+			if (videomaxfps <= 30 && videomaxfps != "") {
+				var videobitrate = 70000000;
+			}
+			else {
+				var videobitrate = 100000000;
+			}
+		}
 		var recordaudiocheck = document.getElementById("recordaudio").checked;
 		if (recordaudiocheck && navigator.userAgent.search("Firefox")) {
 			//Hack to mix video and audio for firefox without .addTrack due to a bug in firefox - Huge thanks to Kaiido on stackoverflow for the solution
@@ -720,18 +783,19 @@ function startvisualizer(recording) {
 			var audiostream = audioctxmediastream.stream;
 			var mixedstream = new MediaStream([canvasstream.getVideoTracks()[0], audiostream.getAudioTracks()[0]]);
 			var videofileformat = document.getElementById("videofileformat").value;
-			var options = {mimeType: videofileformat};
+			var options = {mimeType: videofileformat, videoBitsPerSecond : videobitrate};
 			var recorder = new MediaRecorder(mixedstream, options);
 		}
 		else if (recordaudiocheck) {
 			canvasstream.addTrack(audioctxmediastream.stream.getAudioTracks()[0]);
 			var videofileformat = document.getElementById("videofileformat").value;
-			var options = {mimeType: videofileformat};
+			var options = {mimeType: videofileformat, videoBitsPerSecond : videobitrate};
 			var recorder = new MediaRecorder(canvasstream, options);
 		}
 		else {
+			
 			var videofileformat = document.getElementById("videofileformat").value;
-			var options = {mimeType: videofileformat};
+			var options = {mimeType: videofileformat, videoBitsPerSecond : videobitrate};
 			var recorder = new MediaRecorder(canvasstream, options);	
 		}
 		recorder.addEventListener('dataavailable', finishCapturing);
@@ -886,8 +950,6 @@ function startvisualizer(recording) {
 			if (fgimg.src != blankimg.src) {
 				//Reset the opacity
 				visualizercanvasctx.globalAlpha = 1;
-				//Reset transform - This is slightly faster than doing save and restore
-				visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
 				visualizercanvasctx.drawImage(cachedfgimgcanvas, leftposition - (fgimgwidth/2) + foregroundpositionleft, topposition - (fgimgheight/2) + foregroundpositiontop);
 			}
 		}
