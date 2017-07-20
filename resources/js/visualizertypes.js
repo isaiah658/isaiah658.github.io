@@ -79,6 +79,10 @@ function verticalbars(videowidth, videoheight, visualizerbgcolor, visualizershap
 				visualizercanvasctx.arc(0, toppositionheightchange, (width / 2), 0, 1 * Math.PI, true);
 			}
 		}
+		//Reset transform - This is slightly faster than doing save and restore
+		//Need to do this before stroke and fill otherwise is effected by the translate used above
+		visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
+		
 		if (outlinetype != "none") {
 			visualizercanvasctx.globalAlpha = outlineopacity;
 			visualizercanvasctx.stroke();	
@@ -87,8 +91,6 @@ function verticalbars(videowidth, videoheight, visualizerbgcolor, visualizershap
 			visualizercanvasctx.globalAlpha = fillopacity;
 			visualizercanvasctx.fill();
 		}
-		//Reset transform - This is slightly faster than doing save and restore
-		visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
 	}
 }
 //BLOCK BARS --------------------------------------------------------------
@@ -158,6 +160,10 @@ function blockbars(videowidth, videoheight, visualizerbgcolor, visualizershape, 
 				visualizercanvasctx.rect((width*-0.5),(toppositionheightchange + (minheight * i2) + (spacing2 * i2)),width,minheight);
 			}
 		}
+		//Reset transform - This is slightly faster than doing save and restore
+		//Need to do this before stroke and fill otherwise is effected by the translate used above
+		visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
+		
 		if (filltype != "none") {
 			visualizercanvasctx.globalAlpha = fillopacity;
 			visualizercanvasctx.fill();
@@ -166,8 +172,6 @@ function blockbars(videowidth, videoheight, visualizerbgcolor, visualizershape, 
 			visualizercanvasctx.globalAlpha = outlineopacity;
 			visualizercanvasctx.stroke();
 		}
-		//Reset transform - This is slightly faster than doing save and restore
-		visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
 	}
 }
 //3D BARS -------------------------------------------------------
@@ -307,6 +311,10 @@ function timedomainsquares(videowidth, videoheight, visualizerbgcolor, visualize
 			visualizercanvasctx.rotate(angle);
 			visualizercanvasctx.rect((squarewidth*-0.5), (visualizershapesize + heightchange), Math.ceil(squarewidth), minheight);
 		}
+		//Reset transform - This is slightly faster than doing save and restore
+		//Need to do this before stroke and fill otherwise is effected by the translate used above
+		visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
+		
 		if (outlinetype != "none") {
 			visualizercanvasctx.globalAlpha = outlineopacity;
 			visualizercanvasctx.stroke();	
@@ -315,8 +323,6 @@ function timedomainsquares(videowidth, videoheight, visualizerbgcolor, visualize
 			visualizercanvasctx.globalAlpha = fillopacity;
 			visualizercanvasctx.fill();
 		}
-		//Reset transform - This is slightly faster than doing save and restore
-		visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
 	}
 }
 //TIME DOMAIN LINE --------------------------------------------------------------
@@ -377,6 +383,10 @@ function timedomainline(videowidth, videoheight, visualizerbgcolor, visualizersh
 			
 		}
 		visualizercanvasctx.closePath();
+		//Reset transform - This is slightly faster than doing save and restore
+		//Need to do this before stroke and fill otherwise is effected by the translate used above
+		visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
+		
 		//Does the stroke first for the outline effect and then another stroke to act as the main color
 		if (outlinetype != "none") {
 			visualizercanvasctx.globalAlpha = outlineopacity;
@@ -389,8 +399,6 @@ function timedomainline(videowidth, videoheight, visualizerbgcolor, visualizersh
 			visualizercanvasctx.strokeStyle = visualizercanvasctx.fillStyle;
 			visualizercanvasctx.stroke();
 		}
-		//Reset transform - This is slightly faster than doing save and restore
-		visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
 	}
 }
 //SPINNING TRIANGLES --------------------------------------------------------------
@@ -466,6 +474,10 @@ function bubbles(videowidth, videoheight, visualizerbgcolor, visualizershape, vi
         	visualizercanvasctx.arc(heightchange,heightchange2,10+(heightchange/2),0,2*Math.PI);
 		visualizercanvasctx.rotate(angle);
 	}
+	//Reset transform - This is slightly faster than doing save and restore
+	//Need to do this before stroke and fill otherwise is effected by the translate used above
+	visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
+	
 	if (outlinetype != "none") {
 		visualizercanvasctx.globalAlpha = outlineopacity;
 		visualizercanvasctx.stroke();	
@@ -474,6 +486,4 @@ function bubbles(videowidth, videoheight, visualizerbgcolor, visualizershape, vi
 		visualizercanvasctx.globalAlpha = fillopacity;
 		visualizercanvasctx.fill();
 	}
-	//Reset transform - This is slightly faster than doing save and restore
-	visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
 }
