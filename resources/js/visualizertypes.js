@@ -87,6 +87,8 @@ function verticalbars(videowidth, videoheight, visualizerbgcolor, visualizershap
 			visualizercanvasctx.globalAlpha = fillopacity;
 			visualizercanvasctx.fill();
 		}
+		//Reset transform - This is slightly faster than doing save and restore
+		visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
 	}
 }
 //BLOCK BARS --------------------------------------------------------------
@@ -164,6 +166,8 @@ function blockbars(videowidth, videoheight, visualizerbgcolor, visualizershape, 
 			visualizercanvasctx.globalAlpha = outlineopacity;
 			visualizercanvasctx.stroke();
 		}
+		//Reset transform - This is slightly faster than doing save and restore
+		visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
 	}
 }
 //3D BARS -------------------------------------------------------
@@ -242,7 +246,6 @@ function stretchycircle(videowidth, videoheight, visualizerbgcolor, visualizersh
 		visualizercanvasctx.quadraticCurveTo(curvepointx,curvepointy,nextpointx,nextpointy);
 	}
 	visualizercanvasctx.closePath();
-	
 	if (outlinetype != "none") {
 		visualizercanvasctx.globalAlpha = outlineopacity;
 		visualizercanvasctx.stroke();	
@@ -312,6 +315,8 @@ function timedomainsquares(videowidth, videoheight, visualizerbgcolor, visualize
 			visualizercanvasctx.globalAlpha = fillopacity;
 			visualizercanvasctx.fill();
 		}
+		//Reset transform - This is slightly faster than doing save and restore
+		visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
 	}
 }
 //TIME DOMAIN LINE --------------------------------------------------------------
@@ -384,6 +389,8 @@ function timedomainline(videowidth, videoheight, visualizerbgcolor, visualizersh
 			visualizercanvasctx.strokeStyle = visualizercanvasctx.fillStyle;
 			visualizercanvasctx.stroke();
 		}
+		//Reset transform - This is slightly faster than doing save and restore
+		visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
 	}
 }
 //SPINNING TRIANGLES --------------------------------------------------------------
@@ -467,4 +474,6 @@ function bubbles(videowidth, videoheight, visualizerbgcolor, visualizershape, vi
 		visualizercanvasctx.globalAlpha = fillopacity;
 		visualizercanvasctx.fill();
 	}
+	//Reset transform - This is slightly faster than doing save and restore
+	visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
 }
