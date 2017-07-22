@@ -372,12 +372,18 @@ function hideunusedoptions() {
 		}
 	}
 	else if (visualizertype == "spinningtriangles") {
-		document.getElementById("visualizerspacingwrapper").style.display = "none";
-		document.getElementById("visualizeroffsetwrapper").style.display = "none";
 		document.getElementById("visualizerminrotationspeedwrapper").style.display = "block";
 		document.getElementById("visualizermaxrotationspeedwrapper").style.display = "block";
+		document.getElementById("visualizerspacingwrapper").style.display = "none";
+		document.getElementById("visualizeroffsetwrapper").style.display = "none";
 	}
 	else if (visualizertype == "bubbles") {
+		document.getElementById("visualizerspacingwrapper").style.display = "none";
+		document.getElementById("visualizeroffsetwrapper").style.display = "none";
+	}
+	else if (visualizertype == "internetgb") {
+		document.getElementById("visualizerminrotationspeedwrapper").style.display = "block";
+		document.getElementById("visualizermaxrotationspeedwrapper").style.display = "block";
 		document.getElementById("visualizerspacingwrapper").style.display = "none";
 		document.getElementById("visualizeroffsetwrapper").style.display = "none";
 	}
@@ -606,7 +612,7 @@ function onchangeoptions() {
 		bubbles(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx);
 	}
 	else if (visualizertype == "internetgb") {
-		internetgb(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx);
+		internetgb(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minrotationspeed, maxrotationspeed, minheight, width, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx);
 	}
 	
 	//Fill the foreground image of the visualizer if specified
@@ -943,7 +949,7 @@ function startvisualizer(recording) {
 			}
 			else if (visualizertype == "internetgb") {
 				analyser.getByteFrequencyData(frequencydata);
-				internetgbvars = internetgb(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment, internetgbvars);
+				internetgbvars = internetgb(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, minrotationspeed, maxrotationspeed, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment, internetgbvars);
 			}
 			
 			//Fill the foreground image of the visualizer if specified
