@@ -487,3 +487,89 @@ function bubbles(videowidth, videoheight, visualizerbgcolor, visualizershape, vi
 		visualizercanvasctx.fill();
 	}
 }
+//INTERNETGB --------------------------------------------------------------
+function internetgb(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, minrotationspeed, maxrotationspeed, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment, internetgbvars) {
+	if (!internetgbvars) {
+		var internetgbvars = {shockwave:0, rot:0, intensity:0, center_x:Math.round((videowidth/2) + left), center_y:Math.round((videoheight/2) + top), radius:width};
+	}
+	var react_x = 0;
+	var react_y = 0;
+	var rads = 2*Math.PI / howmany;
+	internetgbvars.rot = internetgbvars.rot + internetgbvars.intensity * (minrotationspeed);
+	internetgbvars.intensity = 0;
+	var bar_x = internetgbvars.center_x;
+	var bar_y = internetgbvars.center_y;
+	
+	for (var i = 0; i < howmany; i++) {
+		if (frequencydata) {
+			var nodefrequency = (frequencyspacing*i) + minfrequency;
+			var heightchange = Math.max((((frequencydata[nodefrequency]*(maxheightadjustment) - cutoff)*multiplier), 0);
+		}
+		else {
+			var heightchange = 0;
+		}
+		//var bar_height = Math.min(99999, Math.max((heightchange * 2.5 - 200), 0));
+		var bar_height = heightchange;
+		var bar_width = bar_height * 0.02;
+						
+		var bar_x_term = internetgbvars.center_x + Math.cos(rads * i + internetgbvars.rot) * (internetgbvars.radius + bar_height);
+		var bar_y_term = internetgbvars.center_y + Math.sin(rads * i + internetgbvars.rot) * (internetgbvars.radius + bar_height);
+	
+		var lineColor = "rgb(" + (heightchange).toString() + ", " + (heightchange).toString() + ", " + 255 + ")";
+						
+		visualizercanvasctx.strokeStyle = lineColor;
+		visualizercanvasctx.lineWidth = bar_width;
+		visualizercanvasctx.beginPath();
+		visualizercanvasctx.moveTo(bar_x, bar_y);
+		visualizercanvasctx.lineTo(bar_x_term, bar_y_term);
+		visualizercanvasctx.stroke();
+					
+		react_x += Math.cos(rads * i + internetgbvars.rot) * (internetgbvars.radius + bar_height);
+		react_y += Math.sin(rads * i + internetgbvars.rot) * (internetgbvars.radius + bar_height);
+		
+		if (nodefrequency < 20) {
+			internetgbvars.intensity += bar_height;
+		}
+		else {
+			internetgbvars.intensity += bar_height;	
+		}
+		
+	}
+	internetgbvars.center_x = videowidth / 2 - (react_x * 0.022);
+	internetgbvars.center_y = videoheight / 2 - (react_y * 0.022);
+				
+	var radius_old = internetgbvars.radius;
+	internetgbvars.radius =  width + (internetgbvars.intensity * 0.022);
+	var deltarad = internetgbvars.radius - radius_old;
+				
+	visualizercanvasctx.fillStyle = "rgb(255, 255, 255)";
+	visualizercanvasctx.beginPath();
+	visualizercanvasctx.arc(internetgbvars.center_x, internetgbvars.center_y, internetgbvars.radius + 2, 0, Math.PI * 2, false);
+	visualizercanvasctx.fill();
+	
+	//Shockwave
+	if (internetgbvars.shockwave != 0) {
+		internetgbvars.shockwave += 10;	
+		visualizercanvasctx.lineWidth = 15;
+		visualizercanvasctx.strokeStyle = "rgb(255, 255, 255)";
+		visualizercanvasctx.beginPath();
+		visualizercanvasctx.arc(internetgbvars.center_x, internetgbvars.center_y, internetgbvars.shockwave + internetgbvars.radius, 0, Math.PI * 2, false);
+		visualizercanvasctx.stroke();
+		if ((internetgbvars.shockwave > videowidth) && (internetgbvars.shockwave > videoheight)) {
+			internetgbvars.shockwave = 0;
+		}
+	}
+				
+	if (deltarad > 15 && internetgbvars.shockwave == 0) {
+		internetgbvars.shockwave = 1;
+		
+		visualizercanvasctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+		visualizercanvasctx.fillRect(0, 0, canvas.width, canvas.height);
+		
+		rot = rot + 0.4;
+	}
+	
+	if (frequencydata) {
+		return internetgbvars;
+	}
+}
