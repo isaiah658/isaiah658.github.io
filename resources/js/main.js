@@ -133,18 +133,17 @@ function loadpreset(selectedfile){
 		document.getElementById("visualizerleft").value = lines[20];
 		document.getElementById("visualizerrotation").value = lines[21];
 		document.getElementById("visualizeroffset").value = lines[22];
-		document.getElementById("visualizeropacity").value = lines[23];
-		document.getElementById("visualizercutoff").value = lines[24];
-		document.getElementById("visualizermultiplier").value = lines[25];
-		document.getElementById("filltype").value = lines[26];
-		document.getElementById("visualizerfill1").value = lines[27];
-		document.getElementById("visualizerfill2").value = lines[28];
-		document.getElementById("fillopacity").value = lines[29];
-		document.getElementById("outlinetype").value = lines[30];
-		document.getElementById("outlinecolor1").value = lines[31];
-		document.getElementById("outlinecolor2").value = lines[32];
-		document.getElementById("outlinewidth").value = lines[33];
-		document.getElementById("outlineopacity").value = lines[34];
+		document.getElementById("visualizercutoff").value = lines[23];
+		document.getElementById("visualizermultiplier").value = lines[24];
+		document.getElementById("filltype").value = lines[25];
+		document.getElementById("visualizerfill1").value = lines[26];
+		document.getElementById("visualizerfill2").value = lines[27];
+		document.getElementById("fillopacity").value = lines[28];
+		document.getElementById("outlinetype").value = lines[29];
+		document.getElementById("outlinecolor1").value = lines[30];
+		document.getElementById("outlinecolor2").value = lines[31];
+		document.getElementById("outlinewidth").value = lines[32];
+		document.getElementById("outlineopacity").value = lines[33];
 		onchangeoptions();
 	};
 	reader.readAsText(file);	
@@ -174,7 +173,6 @@ function savepreset(){
 	var left = document.getElementById("visualizerleft").value;
 	var rotation = document.getElementById("visualizerrotation").value;
 	var offset = document.getElementById("visualizeroffset").value;
-	var opacity = document.getElementById("visualizeropacity").value;
 	var cutoff = document.getElementById("visualizercutoff").value;
 	var multiplier = document.getElementById("visualizermultiplier").value;
 	var filltype = document.getElementById("filltype").value;
@@ -187,7 +185,7 @@ function savepreset(){
 	var outlinewidth = document.getElementById("outlinewidth").value;
 	var outlineopacity = document.getElementById("outlineopacity").value;
 	
-	document.getElementById("savepresettextarea").value = foregroundpositiontop + "\n" + foregroundpositionleft + "\n" + videowidth + "\n" + videoheight + "\n" + videomaxfps + "\n" + visualizerbgcolor + "\n" + visualizertype + "\n" + barsalignment + "\n" + linecap + "\n" + visualizershape + "\n" + visualizershapesize + "\n" + howmany + "\n" + maxheight + "\n" + minheight + "\n" + width + "\n" + depth + "\n" + slope + "\n" + spacing + "\n" + spacing2 + "\n" + top + "\n" + left + "\n" + rotation + "\n" + offset + "\n" + opacity + "\n" + cutoff + "\n" + multiplier + "\n" + filltype + "\n" + fill1 + "\n" + fill2 + "\n" + fillopacity + "\n" + outlinetype + "\n" + outlinecolor1 + "\n" + outlinecolor2 + "\n" + outlinewidth + "\n" + outlineopacity;
+	document.getElementById("savepresettextarea").value = foregroundpositiontop + "\n" + foregroundpositionleft + "\n" + videowidth + "\n" + videoheight + "\n" + videomaxfps + "\n" + visualizerbgcolor + "\n" + visualizertype + "\n" + barsalignment + "\n" + linecap + "\n" + visualizershape + "\n" + visualizershapesize + "\n" + howmany + "\n" + maxheight + "\n" + minheight + "\n" + width + "\n" + depth + "\n" + slope + "\n" + spacing + "\n" + spacing2 + "\n" + top + "\n" + left + "\n" + rotation + "\n" + offset + "\n" + cutoff + "\n" + multiplier + "\n" + filltype + "\n" + fill1 + "\n" + fill2 + "\n" + fillopacity + "\n" + outlinetype + "\n" + outlinecolor1 + "\n" + outlinecolor2 + "\n" + outlinewidth + "\n" + outlineopacity;
 	var text = document.getElementById("savepresettextarea").value;
 	var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
 	saveAs(blob, "preset.txt");
