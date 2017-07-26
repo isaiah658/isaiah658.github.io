@@ -402,7 +402,7 @@ function timedomainline(videowidth, videoheight, visualizerbgcolor, visualizersh
 	}
 }
 //SPINNING TRIANGLES --------------------------------------------------------------
-function spinningtriangles(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, minrotationspeed, maxrotationspeed, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment, spinningtrianglesvars) {
+function spinningtriangles(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, compositemode, howmany, minheight, width, minrotationspeed, maxrotationspeed, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment, spinningtrianglesvars) {
 	var leftposition = Math.round((videowidth/2) + left);
 	var topposition = Math.round((videoheight/2) + top);
 	if (!spinningtrianglesvars) {
@@ -414,10 +414,12 @@ function spinningtriangles(videowidth, videoheight, visualizerbgcolor, visualize
 	var minrotationspeed = minrotationspeed * (Math.PI / 180);
 	var maxrotationspeed = maxrotationspeed * (Math.PI / 180);
 	var totalfrequencychange = 0;
-	//Temporary way to copy the outline and fill style
-	//This visualizer strokes each shape individually to take advantage of the global composite operation effect
+	//Temporary way to copy the outline and fill style - Reconsidering a better approach of passing the outline style and the fill style for each visualizer to use rather than set it in the main loop which some visualizers need to change it depending how they fill and outline things.
 	var outlinestyle = visualizercanvasctx.strokeStyle;
 	var fillstyle = visualizercanvasctx.fillStyle;
+	if (compositemode != "none") {
+		visualizercanvasctx.globalCompositeOperation = compositemode;
+	}
 	for(var i=0; i < howmany; i++){
 		if (frequencydata) {
 			var nodefrequency = (frequencyspacing*i) + minfrequency;
@@ -433,7 +435,7 @@ function spinningtriangles(videowidth, videoheight, visualizerbgcolor, visualize
 		visualizercanvasctx.lineTo(leftposition + totalheight * Math.sin(angle + anglegap), topposition + totalheight * Math.cos(angle + anglegap));
 		visualizercanvasctx.lineTo(leftposition + totalheight * Math.sin(angle + anglegap * 2), topposition + totalheight * Math.cos(angle + anglegap * 2));
 		visualizercanvasctx.closePath();
-		//Does the stroke first for the outline effect and then another stroke to act as the main color
+		totalfrequencychange = totalfrequencychange + heightchange;
 		if (outlinetype != "none") {
 			visualizercanvasctx.globalAlpha = outlineopacity;
 			visualizercanvasctx.lineWidth = outlinewidth + width;
@@ -446,7 +448,9 @@ function spinningtriangles(videowidth, videoheight, visualizerbgcolor, visualize
 			visualizercanvasctx.strokeStyle = fillstyle;
 			visualizercanvasctx.stroke();
 		}
-		totalfrequencychange = totalfrequencychange + heightchange;
+	}
+	if (compositemode != "none") {
+		visualizercanvasctx.globalCompositeOperation = "source-over";
 	}
 	spinningtrianglesvars.anglestart = (spinningtrianglesvars.anglestart + ((maxrotationspeed / 10000) * (totalfrequencychange / (howmany * maxheightadjustment)))) % twopi;
 	if (frequencydata) {
@@ -457,7 +461,7 @@ function spinningtriangles(videowidth, videoheight, visualizerbgcolor, visualize
 function bubbles(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment) {
 	var leftposition = Math.round((videowidth/2) + left);
 	var topposition = Math.round((videoheight/2) + top);
-	var angle = 8*Math.PI/howmany;
+	var angle = 4.1*Math.PI/howmany;
 	visualizercanvasctx.translate(leftposition,topposition);
 	visualizercanvasctx.beginPath();
 	for(var i=0; i < howmany; i++){
@@ -465,13 +469,15 @@ function bubbles(videowidth, videoheight, visualizerbgcolor, visualizershape, vi
 			var nodefrequency = (frequencyspacing*i) + minfrequency;
 			var heightchange = Math.max((((frequencydata[nodefrequency]*maxheightadjustment) - cutoff)*multiplier), 0);
 			var heightchange2 = Math.max((((frequencydata[nodefrequency+5]*maxheightadjustment) - cutoff)*multiplier), 0);
+			heightchange += minheight;
+			heightchange2 += minheight;
 		}
 		else {
-			var heightchange = 0;
-			var heightchange2 = 0;
+			var heightchange = minheight;
+			var heightchange2 = minheight;
 		}
 		visualizercanvasctx.moveTo(heightchange,heightchange2);
-        	visualizercanvasctx.arc(heightchange,heightchange2,10+(heightchange/2),0,2*Math.PI);
+        visualizercanvasctx.arc(heightchange,heightchange2,width+(heightchange/2),0,2*Math.PI);
 		visualizercanvasctx.rotate(angle);
 	}
 	//Reset transform - This is slightly faster than doing save and restore
@@ -488,85 +494,106 @@ function bubbles(videowidth, videoheight, visualizerbgcolor, visualizershape, vi
 	}
 }
 //INTERNETGB --------------------------------------------------------------
-function internetgb(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, minrotationspeed, maxrotationspeed, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment, internetgbvars) {
+function internetgb(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, linecap, howmany, minheight, width, minrotationspeed, maxrotationspeed, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment, internetgbvars) {
+	var leftposition = Math.round((videowidth/2) + left);
+	var topposition = Math.round((videoheight/2) + top);
 	if (!internetgbvars) {
-		var internetgbvars = {shockwave:0, rot:0, intensity:0, center_x:Math.round((videowidth/2) + left), center_y:Math.round((videoheight/2) + top), radius:width};
+		var internetgbvars = {shockwave:0, rot:0, intensity:0, center_x:leftposition, center_y:topposition, radius:minheight};
 	}
 	var react_x = 0;
 	var react_y = 0;
 	var rads = 2*Math.PI / howmany;
-	internetgbvars.rot = internetgbvars.rot + internetgbvars.intensity * (minrotationspeed);
+	var minrotationspeed = minrotationspeed * (Math.PI / 180) * 0.01;
+	var maxrotationspeed = maxrotationspeed * (Math.PI / 180) * 0.01;
+	if (frequencydata && maxrotationspeed != 0) {
+		internetgbvars.rot = internetgbvars.rot + minrotationspeed + (maxrotationspeed * ((internetgbvars.intensity / howmany) / (256 * maxheightadjustment)));
+	}
 	internetgbvars.intensity = 0;
-	var bar_x = internetgbvars.center_x;
-	var bar_y = internetgbvars.center_y;
-	
+	//Temporary way to copy the outline and fill style - Most likely will change the visualizers to be passed the outline and fill styles and they use them as needed rather than directly setting the stroke style and fill style in the main loop
+	var outlinestyle = visualizercanvasctx.strokeStyle;
+	var fillstyle = visualizercanvasctx.fillStyle;
+	visualizercanvasctx.beginPath();
+	visualizercanvasctx.lineCap= linecap;
 	for (var i = 0; i < howmany; i++) {
 		if (frequencydata) {
 			var nodefrequency = (frequencyspacing*i) + minfrequency;
-			var heightchange = Math.max((((frequencydata[nodefrequency]*(maxheightadjustment) - cutoff)*multiplier), 0);
+			var heightchange = Math.max((((frequencydata[nodefrequency]*maxheightadjustment) - cutoff)*multiplier), 0) / 2;
 		}
 		else {
 			var heightchange = 0;
 		}
-		//var bar_height = Math.min(99999, Math.max((heightchange * 2.5 - 200), 0));
-		var bar_height = heightchange;
-		var bar_width = bar_height * 0.02;
+		var bar_width = heightchange * 0.04;
 						
-		var bar_x_term = internetgbvars.center_x + Math.cos(rads * i + internetgbvars.rot) * (internetgbvars.radius + bar_height);
-		var bar_y_term = internetgbvars.center_y + Math.sin(rads * i + internetgbvars.rot) * (internetgbvars.radius + bar_height);
-	
-		var lineColor = "rgb(" + (heightchange).toString() + ", " + (heightchange).toString() + ", " + 255 + ")";
-						
-		visualizercanvasctx.strokeStyle = lineColor;
-		visualizercanvasctx.lineWidth = bar_width;
-		visualizercanvasctx.beginPath();
-		visualizercanvasctx.moveTo(bar_x, bar_y);
+		var bar_x_term = internetgbvars.center_x + Math.cos(rads * i + internetgbvars.rot) * (internetgbvars.radius + heightchange - 3);
+		var bar_y_term = internetgbvars.center_y + Math.sin(rads * i + internetgbvars.rot) * (internetgbvars.radius + heightchange - 3);
+
+		visualizercanvasctx.moveTo(internetgbvars.center_x, internetgbvars.center_y);
 		visualizercanvasctx.lineTo(bar_x_term, bar_y_term);
-		visualizercanvasctx.stroke();
 					
-		react_x += Math.cos(rads * i + internetgbvars.rot) * (internetgbvars.radius + bar_height);
-		react_y += Math.sin(rads * i + internetgbvars.rot) * (internetgbvars.radius + bar_height);
+		react_x += Math.cos(rads * i + internetgbvars.rot) * (internetgbvars.radius + heightchange);
+		react_y += Math.sin(rads * i + internetgbvars.rot) * (internetgbvars.radius + heightchange);
 		
-		if (nodefrequency < 20) {
-			internetgbvars.intensity += bar_height;
-		}
-		else {
-			internetgbvars.intensity += bar_height;	
-		}
+		internetgbvars.intensity += heightchange;
 		
 	}
-	internetgbvars.center_x = videowidth / 2 - (react_x * 0.022);
-	internetgbvars.center_y = videoheight / 2 - (react_y * 0.022);
-				
+	//Fill and outline the bars
+	if (outlinetype != "none") {
+		visualizercanvasctx.globalAlpha = outlineopacity;
+		visualizercanvasctx.lineWidth = outlinewidth + width;
+		visualizercanvasctx.strokeStyle = outlinestyle;
+		visualizercanvasctx.stroke();	
+	}
+	if (filltype != "none") {
+		visualizercanvasctx.globalAlpha = fillopacity;
+		visualizercanvasctx.lineWidth = width;
+		visualizercanvasctx.strokeStyle = fillstyle;
+		visualizercanvasctx.stroke();
+	}
+	
+	internetgbvars.center_x = videowidth / 2 - (react_x * 0.048);
+	internetgbvars.center_y = videoheight / 2 - (react_y * 0.048);		
 	var radius_old = internetgbvars.radius;
-	internetgbvars.radius =  width + (internetgbvars.intensity * 0.022);
-	var deltarad = internetgbvars.radius - radius_old;
-				
-	visualizercanvasctx.fillStyle = "rgb(255, 255, 255)";
+	internetgbvars.radius =  minheight + (internetgbvars.intensity / howmany);
+	var deltarad = internetgbvars.radius / radius_old;
 	visualizercanvasctx.beginPath();
-	visualizercanvasctx.arc(internetgbvars.center_x, internetgbvars.center_y, internetgbvars.radius + 2, 0, Math.PI * 2, false);
-	visualizercanvasctx.fill();
+	visualizercanvasctx.arc(internetgbvars.center_x, internetgbvars.center_y, internetgbvars.radius, 0, Math.PI * 2, false);
+	
+	//Fill and outline the circle
+	if (outlinetype != "none") {
+		visualizercanvasctx.globalAlpha = outlineopacity;
+		visualizercanvasctx.lineWidth = outlinewidth;
+		visualizercanvasctx.strokeStyle = outlinestyle;
+		visualizercanvasctx.stroke();	
+	}
+	if (filltype != "none") {
+		visualizercanvasctx.globalAlpha = fillopacity;
+		visualizercanvasctx.fill();
+	}
 	
 	//Shockwave
+	if (deltarad > 1.2 && internetgbvars.shockwave == 0) {
+		internetgbvars.shockwave = 1;
+	}
+	
 	if (internetgbvars.shockwave != 0) {
-		internetgbvars.shockwave += 10;	
-		visualizercanvasctx.lineWidth = 15;
-		visualizercanvasctx.strokeStyle = "rgb(255, 255, 255)";
+		internetgbvars.shockwave += (videowidth/640) * 10;	
 		visualizercanvasctx.beginPath();
 		visualizercanvasctx.arc(internetgbvars.center_x, internetgbvars.center_y, internetgbvars.shockwave + internetgbvars.radius, 0, Math.PI * 2, false);
-		visualizercanvasctx.stroke();
-		if ((internetgbvars.shockwave > videowidth) && (internetgbvars.shockwave > videoheight)) {
+		if (outlinetype != "none") {
+			visualizercanvasctx.globalAlpha = outlineopacity;
+			visualizercanvasctx.lineWidth = outlinewidth + (videowidth/640) * 15;
+			visualizercanvasctx.strokeStyle = outlinestyle;
+			visualizercanvasctx.stroke();	
+		}
+		if (filltype != "none") {
+			visualizercanvasctx.globalAlpha = fillopacity;
+			visualizercanvasctx.lineWidth = (videowidth/640) * 15;
+			visualizercanvasctx.strokeStyle = fillstyle;
+			visualizercanvasctx.stroke();
+		}
+		if ((internetgbvars.shockwave > (videowidth + 50)) && (internetgbvars.shockwave > (videoheight + 50))) {
 			internetgbvars.shockwave = 0;
 		}
-	}
-				
-	if (deltarad > 15 && internetgbvars.shockwave == 0) {
-		internetgbvars.shockwave = 1;
-		
-		visualizercanvasctx.fillStyle = "rgba(255, 255, 255, 0.7)";
-		visualizercanvasctx.fillRect(0, 0, canvas.width, canvas.height);
-		
-		rot = rot + 0.4;
 	}
 	
 	if (frequencydata) {
