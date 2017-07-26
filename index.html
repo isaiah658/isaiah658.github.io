@@ -17,7 +17,16 @@
 				<button class="inputtype2" id="opendocumentationbutton" onclick="showdocumentation();">Open Documentation</button>
 				<button class="inputtype2" id="closedocumentationbutton" onclick="closedocumentation();">Close Documentation</button>
 			<div class="heading">Load Preset</div>
-				<input onchange="loadpreset(this);" class="inputtype2" type="file" id="loadpreset" accept=".txt/*" />
+				<select onchange="onchangeloadpreset();" id="loadpreset" class="inputtype2">
+					<option value="none">None</option>
+					<option value="loadpresetfromafile">Load preset from a file...</option>
+					<option value="acidgreenbubbles">Acid Green Bubbles</option>
+					<option value="bluetriangles">Blue Triangles</option>
+					<option value="glowinggreentriangles">Glowing Green Triangles</option>
+				</select>
+			<span id="loadpresetfromfilewrapper">
+				<input onchange="loadpresetfromfile(this);" class="inputtype2" type="file" id="loadpresetfromfile" accept=".txt/*" />
+			</span>
 			<div class="heading">Save Preset</div>
 				<button class="inputtype2" onclick="savepreset();">Save Preset</button>
 			<div class="heading">Zoom In/Out</div>
@@ -88,6 +97,24 @@
 						<option value="round">Round</option>
 					</select>
 			</span>
+			<span id="visualizercompositemodewrapper">
+				<div class="heading">Composite Mode</div>
+					<select onchange="onchangeoptions();" id="visualizercompositemode" class="inputtype2">
+						<option value="none">None</option>
+						<option value="lighter">Lighter</option>
+						<option value="darken">Darken</option>
+						<option value="xor">Xor</option>
+						<option value="multiply">Multiply</option>
+						<option value="screen">Screen</option>
+						<option value="color-dodge">Color-Dodge</option>
+						<option value="color-burn">Color-Burn</option>
+						<option value="soft-light">Soft-Light</option>
+						<option value="hue">Hue</option>
+						<option value="saturation">Saturation</option>
+						<option value="color">Color</option>
+						<option value="luminosity">Luminosity</option>
+					</select>
+			</span>
 			<span id="visualizershapewrapper">
 				<div class="heading">Visualizer Shape</div>
 					<select onchange="hideunusedoptions();" id="visualizershape" class="inputtype2">
@@ -126,11 +153,11 @@
 				</div>
 				<div class="inputtype1" id="visualizerminrotationspeedwrapper">
 					<div class="inputspacer1">Min Rotation Speed:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="visualizerminrotationspeed" min="0" max="360" value="11">
+					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="visualizerminrotationspeed" min="0" max="360" value="10">
 				</div>
 				<div class="inputtype1" id="visualizermaxrotationspeedwrapper">
 					<div class="inputspacer1">Max Rotation Speed:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="visualizermaxrotationspeed" min="0" max="360" value="11">
+					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="visualizermaxrotationspeed" min="0" max="360" value="30">
 				</div>
 				<div class="inputtype1" id="visualizerspacingwrapper">
 					<div class="inputspacer1">Spacing:</div>
