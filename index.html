@@ -8,69 +8,42 @@
 		<div id="recordingmessage">
 			<div id="recordingmessagewrapper">
 				<div class="paragraph">The video is now recording. DO NOT LEAVE THIS PAGE/TAB OR THE RECORDING WILL BE INTERRUPTED! If you wish to stop the recording, press the cancel button below. The recording will automatically stop once the song finishes playing and the video file will be saved in your downloads folder.</div>
-				<button class="inputtype2" onclick="stoppreview();">Stop Recording</button>
+				<button class="input2" onclick="stoppreview();">Stop Recording</button>
 			</div>
 		</div>
 		<textarea id="savepresettextarea"></textarea>
 		<div id="sidebar">
 			<div class="heading">Documentation</div>
-				<button class="inputtype2" id="opendocumentationbutton" onclick="showdocumentation();">Open Documentation</button>
-				<button class="inputtype2" id="closedocumentationbutton" onclick="closedocumentation();">Close Documentation</button>
+				<button class="input2" id="opendocumentationbutton" onclick="showdocumentation();">Open Documentation</button>
+				<button class="input2" id="closedocumentationbutton" onclick="closedocumentation();">Close Documentation</button>
 			<div class="heading">Load Preset</div>
-				<select onchange="onchangeloadpreset();" id="loadpreset" class="inputtype2">
-					<option value="none">None</option>
-					<option value="loadpresetfromafile">Load preset from a file...</option>
-					<option value="acidgreenbubbles">Acid Green Bubbles</option>
-					<option value="bluetriangles">Blue Triangles</option>
-					<option value="glowinggreentriangles">Glowing Green Triangles</option>
-				</select>
-			<span id="loadpresetfromfilewrapper">
-				<input onchange="loadpresetfromfile(this);" class="inputtype2" type="file" id="loadpresetfromfile" accept=".txt/*" />
-			</span>
+					<input onchange="loadpreset(this);" class="input2" type="file" id="loadpreset" accept=".txt/*" />
 			<div class="heading">Save Preset</div>
-				<button class="inputtype2" onclick="savepreset();">Save Preset</button>
+				<button class="input2" onclick="savepreset();">Save Preset</button>
 			<div class="heading">Zoom In/Out</div>
-				<div class="inputtype1">
-					<div class="inputspacer1">Zoom (%):</div>
-					<input onchange="zoom();" class="inputspacer2" type="number" id="zoom" value="100">
-				</div>
+				<div class="input">Zoom (%):<input onchange="zoom();" class="input1" type="number" id="zoom" value="100"></div>
 			<div class="heading">Video Output</div>
-				<div class="inputtype1">
-					<div class="inputspacer1">Width:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="videowidth" value="640">
-				</div>
-				<div class="inputtype1">
-					<div class="inputspacer1">Height:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="videoheight" value="360">
-				</div>
-				<div class="inputtype1">
-					<div class="inputspacer1">Max FPS:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="videomaxfps" value="">
-				</div>
+				<div class="input">Width:<input onchange="onchangeoptions();" class="input1" type="number" id="videowidth" value="640"></div>
+				<div class="input">Height:<input onchange="onchangeoptions();" class="input1" type="number" id="videoheight" value="360"></div>
+				<div class="input">Max FPS:<input onchange="onchangeoptions();" class="input1" type="number" id="videomaxfps" value=""></div>
 			<div class="heading">Background Color</div>
-				<input onchange="onchangeoptions();" class="inputtype2" type="color" id="backgroundcolor" value="#000000">
+				<input onchange="onchangeoptions();" class="input2" type="color" id="backgroundcolor" value="#000000">
 			<form id="backgroundimageform">
 				<div class="heading">Background Image</div>
-					<input onchange="onchangebackgroundimage(this);" class="inputtype2" type="file" id="backgroundimage" accept="image/*" />
+					<input onchange="onchangebackgroundimage(this);" class="input2" type="file" id="backgroundimage" accept="image/*" />
 			</form>
-				<button class="inputtype2" id="clearbackgroundimagebutton" onclick="clearbackgroundimage();">Clear Background Image</button>
+				<button class="input2" id="clearbackgroundimagebutton" onclick="clearbackgroundimage();">Clear Background Image</button>
 			<form id="foregroundimageform">
 				<div class="heading">Foreground Image</div>
-					<input onchange="onchangeforegroundimage(this);" class="inputtype2" type="file" id="foregroundimage" accept="image/*" />
+					<input onchange="onchangeforegroundimage(this);" class="input2" type="file" id="foregroundimage" accept="image/*" />
 			</form>
-				<div class="inputtype1" id="foregroundpositiontopwrapper">
-					<div class="inputspacer1">Position Top:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="foregroundpositiontop" value="0">
-				</div>
-				<div class="inputtype1" id="foregroundpositionleftwrapper">
-					<div class="inputspacer1">Position Left:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="foregroundpositionleft" value="0">
-				</div>
-				<button class="inputtype2" id="clearforegroundimagebutton" onclick="clearforegroundimage();">Clear Foreground Image</button>
+				<div class="input" id="foregroundpositiontopwrapper">Position Top:<input onchange="onchangeoptions();" class="input1" type="number" id="foregroundpositiontop" value="0"></div>
+					<div class="input" id="foregroundpositionleftwrapper">Position Left:<input onchange="onchangeoptions();" class="input1" type="number" id="foregroundpositionleft" value="0"></div>
+				<button class="input2" id="clearforegroundimagebutton" onclick="clearforegroundimage();">Clear Foreground Image</button>
 			<div class="heading">Music</div>
-				<input onchange="onchangeaudio(this);" class="inputtype2" type="file" id="inputaudio" accept="audio/*" />
+				<input onchange="onchangeaudio(this);" class="input2" type="file" id="inputaudio" accept="audio/*" />
 			<div class="heading">Visualizer Type</div>
-				<select onchange="hideunusedoptions();" id="visualizertype" class="inputtype2">
+				<select onchange="hideunusedoptions();" id="visualizertype" class="input2">
 					<option value="none">None</option>
 					<option value="verticalbars" selected="selected">Vertical Bars</option>
 					<option value="blockbars">Block Bars</option>
@@ -78,13 +51,10 @@
 					<option value="stretchycircle">Stretchy Circle</option>
 					<option value="timedomainline">Time Domain Line</option>
 					<option value="timedomainsquares">Time Domain Squares</option>
-					<option value="spinningtriangles">Spinning Triangles</option>
-					<option value="bubbles">Bubbles</option>
-					<option value="internetgb">InternetGB</option>
 				</select>
 			<span id="visualizerbarsalignmentwrapper">
 				<div class="heading">Align Bars By</div>
-					<select onchange="onchangeoptions();" id="visualizerbarsalignment" class="inputtype2">
+					<select onchange="onchangeoptions();" id="visualizerbarsalignment" class="input2">
 						<option value="bottom">Bottom</option>
 						<option value="middle">Middle</option>
 						<option value="top">Top</option>
@@ -92,115 +62,38 @@
 			</span>
 			<span id="visualizerlinecapwrapper">
 				<div class="heading">Line Cap Style</div>
-					<select onchange="onchangeoptions();" id="visualizerlinecap" class="inputtype2">
+					<select onchange="onchangeoptions();" id="visualizerlinecap" class="input2">
 						<option value="square">Square</option>
 						<option value="round">Round</option>
 					</select>
 			</span>
-			<span id="visualizercompositemodewrapper">
-				<div class="heading">Composite Mode</div>
-					<select onchange="onchangeoptions();" id="visualizercompositemode" class="inputtype2">
-						<option value="none">None</option>
-						<option value="lighter">Lighter</option>
-						<option value="darken">Darken</option>
-						<option value="xor">Xor</option>
-						<option value="multiply">Multiply</option>
-						<option value="screen">Screen</option>
-						<option value="color-dodge">Color-Dodge</option>
-						<option value="color-burn">Color-Burn</option>
-						<option value="soft-light">Soft-Light</option>
-						<option value="hue">Hue</option>
-						<option value="saturation">Saturation</option>
-						<option value="color">Color</option>
-						<option value="luminosity">Luminosity</option>
-					</select>
-			</span>
 			<span id="visualizershapewrapper">
 				<div class="heading">Visualizer Shape</div>
-					<select onchange="hideunusedoptions();" id="visualizershape" class="inputtype2">
+					<select onchange="hideunusedoptions();" id="visualizershape" class="input2">
 						<option value="none">None</option>
 						<option value="circle">Circle</option>
 					</select>
-				<div class="inputtype1">
-					<div class="inputspacer1">Shape Size:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="visualizershapesize" value="100">
-				</div>
+				<div class="input">Shape Size:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizershapesize" value="100"></div>
 			</span>
 			<div class="heading">Other Options</div>
-				<div class="inputtype1" id="visualizerhowmanywrapper">
-					<div class="inputspacer1">How Many:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="visualizerhowmany" value="25">
-				</div>
-				<div class="inputtype1" id="maxvisualizerheightwrapper">
-					<div class="inputspacer1">Max Height:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="maxvisualizerheight" value="150">
-				</div>
-				<div class="inputtype1" id="minvisualizerheightwrapper">
-					<div class="inputspacer1">Min Height:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="minvisualizerheight" value="10">
-				</div>
-				<div class="inputtype1" id="visualizerwidthwrapper">
-					<div class="inputspacer1">Width:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="visualizerwidth" value="6">
-				</div>
-				<div class="inputtype1" id="visualizerdepthwrapper">
-					<div class="inputspacer1">Depth:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="visualizerdepth" value="10">
-				</div>
-				<div class="inputtype1" id="visualizerslopewrapper">
-					<div class="inputspacer1">Slope:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="visualizerslope" min="1" max="10" value="2">
-				</div>
-				<div class="inputtype1" id="visualizerminrotationspeedwrapper">
-					<div class="inputspacer1">Min Rotation Speed:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="visualizerminrotationspeed" min="0" max="360" value="10">
-				</div>
-				<div class="inputtype1" id="visualizermaxrotationspeedwrapper">
-					<div class="inputspacer1">Max Rotation Speed:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="visualizermaxrotationspeed" min="0" max="360" value="30">
-				</div>
-				<div class="inputtype1" id="visualizerspacingwrapper">
-					<div class="inputspacer1">Spacing:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="visualizerspacing" value="2">
-				</div>
-				<div class="inputtype1" id="visualizerspacing2wrapper">
-					<div class="inputspacer1">Spacing 2:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="visualizerspacing2" value="4">
-				</div>
-				<div class="inputtype1">
-					<div class="inputspacer1">Position Top:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="visualizertop" value="0">
-				</div>
-				<div class="inputtype1">
-					<div class="inputspacer1">Position Left:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="visualizerleft" value="0">
-				</div>
-				<div class="inputtype1">
-					<div class="inputspacer1">Rotation:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="visualizerrotation" value="0">
-				</div>
-				<div class="inputtype1" id="visualizeroffsetwrapper">
-					<div class="inputspacer1">Offset:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="visualizeroffset" value="0">
-				</div>
-				<div class="inputtype1" id="visualizercutoffwrapper">
-					<div class="inputspacer1">Cutoff:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="visualizercutoff" value="35">
-				</div>
-				<div class="inputtype1" id="visualizermultiplierwrapper">
-					<div class="inputspacer1">Multiplier:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" step="0.1" id="visualizermultiplier" value="1.2">
-				</div>
-				<div class="inputtype1" id="minfrequencywrapper">
-					<div class="inputspacer1">Min Frequency:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" step="0.1" id="minfrequency" value="0">
-				</div>
-				<div class="inputtype1" id="maxfrequencywrapper">
-					<div class="inputspacer1">Max Frequency:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="maxfrequency" value="160">
-				</div>
+				<div class="input" id="visualizerhowmanywrapper">How many:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizerhowmany" value="25"></div>
+				<div class="input" id="maxvisualizerheightwrapper">Max Height:<input onchange="onchangeoptions();" class="input1" type="number" id="maxvisualizerheight" value="150"></div>
+				<div class="input" id="minvisualizerheightwrapper">Min Height:<input onchange="onchangeoptions();" class="input1" type="number" id="minvisualizerheight" value="10"></div>
+				<div class="input" id="visualizerwidthwrapper">Width:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizerwidth" value="6"></div>
+				<div class="input" id="visualizerdepthwrapper">Depth:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizerdepth" value="10"></div>
+				<div class="input" id="visualizerslopewrapper">Slope:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizerslope" min="1" max="10" value="2"></div>
+				<div class="input" id="visualizerspacingwrapper">Spacing:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizerspacing" id="visualizerspacing" value="2"></div>
+				<div class="input" id="visualizerspacing2wrapper">Spacing 2:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizerspacing2" id="visualizerspacing2" value="4"></div>
+				<div class="input">Position Top:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizertop" value="0"></div>
+				<div class="input">Position Left:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizerleft" value="0"></div>
+				<div class="input">Rotation:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizerrotation" value="0"></div>
+				<div class="input" id="visualizeroffsetwrapper">Offset:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizeroffset" value="0"></div>
+				<div class="input" id="visualizercutoffwrapper">Cutoff:<input onchange="onchangeoptions();" class="input1" type="number" id="visualizercutoff" value="35"></div>
+				<div class="input" id="visualizermultiplierwrapper">Multiplier:<input onchange="onchangeoptions();" class="input1" type="number" step="0.1" id="visualizermultiplier" value="1.2"></div>
+				<div class="input" id="minfrequencywrapper">Min Frequency:<input onchange="onchangeoptions();" class="input1" type="number" step="0.1" id="minfrequency" value="0"></div>
+				<div class="input" id="maxfrequencywrapper">Max Frequency:<input onchange="onchangeoptions();" class="input1" type="number" id="maxfrequency" value="160"></div>
 				<div class="heading">Fill Type</div>
-					<select onchange="hideunusedoptions();" id="filltype" class="inputtype2">
+					<select onchange="hideunusedoptions();" id="filltype" class="input2">
 						<option value="none">None</option>
 						<option value="solid" selected="selected">Solid</option>
 						<option value="verticalgradient">Vertical Gradient</option>
@@ -208,23 +101,20 @@
 						<option value="image">Image</option>
 					</select>
 				<span id="visualizerfill1wrapper">
-					<div class="heading3">Fill Color #1:</div>
-					<input onchange="onchangeoptions();" class="inputtype2" type="color" id="visualizerfill1" value="#000000">
+					<div class="input">Color #1:</div>
+					<input onchange="onchangeoptions();" class="input2" type="color" id="visualizerfill1" value="#000000">
 				</span>
 				<span id="visualizerfill2wrapper">
-					<div class="heading3">Fill Color #2:</div>
-					<input onchange="onchangeoptions();" class="inputtype2" type="color" id="visualizerfill2" value="#000000">
+					<div class="input">Color #2:</div>
+					<input onchange="onchangeoptions();" class="input2" type="color" id="visualizerfill2" value="#000000">
 				</span>
 				<span id="visualizerfillimagewrapper">
-					<div class="heading3">Fill Image:</div>
-					<input onchange="onchangefillimage(this);" class="inputtype2" type="file" id="fillimage" accept="image/*" />
+					<div class="input">Image:</div>
+					<input onchange="onchangefillimage(this);" class="input2" type="file" id="fillimage" accept="image/*" />
 				</span>
-				<div class="inputtype1">
-					<div class="inputspacer1">Fill Opacity:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" step="0.01" min="0" max="1" id="fillopacity" value="1.0">
-				</div>
+				<div class="input">Fill Opacity:<input onchange="onchangeoptions();" class="input1" type="number" step="0.01" min="0" max="1" id="fillopacity" value="1.0"></div>
 				<div class="heading">Outline Type</div>
-					<select onchange="hideunusedoptions();" id="outlinetype" class="inputtype2">
+					<select onchange="hideunusedoptions();" id="outlinetype" class="input2">
 						<option value="none">None</option>
 						<option value="solid">Solid</option>
 						<option value="verticalgradient">Vertical Gradient</option>
@@ -232,36 +122,29 @@
 						<option value="image">Image</option>
 					</select>
 				<span id="outlinecolor1wrapper">
-					<div class="heading3">Outline Color #1:</div>
-					<input onchange="onchangeoptions();" class="inputtype2" type="color" id="outlinecolor1" value="#000000">
+					<div class="input">Color #1:</div>
+					<input onchange="onchangeoptions();" class="input2" type="color" id="outlinecolor1" value="#000000">
 				</span>
 				<span id="outlinecolor2wrapper">
-					<div class="heading3">Outline Color #2:</div>
-					<input onchange="onchangeoptions();" class="inputtype2" type="color" id="outlinecolor2" value="#000000">
+					<div class="input">Color #2:</div>
+					<input onchange="onchangeoptions();" class="input2" type="color" id="outlinecolor2" value="#000000">
 				</span>
 				<span id="outlineimagewrapper">
-					<div class="heading3">Outline Image:</div>
-					<input onchange="onchangeoutlineimage(this);" class="inputtype2" type="file" id="outlineimage" accept="image/*" />
+					<div class="input">Image:</div>
+					<input onchange="onchangeoutlineimage(this);" class="input2" type="file" id="outlineimage" accept="image/*" />
 				</span>
-				<div class="inputtype1">
-					<div class="inputspacer1">Outline Width:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" id="outlinewidth" value="5">
-				</div>
-				<div class="inputtype1">
-					<div class="inputspacer1">Outline Opacity:</div>
-					<input onchange="onchangeoptions();" class="inputspacer2" type="number" step="0.01" min="0" max="1" id="outlineopacity" value="1.0">
-				</div>
+				<div class="input">Outline Width:<input onchange="onchangeoptions();" class="input1" type="number" id="outlinewidth" value="5"></div>
+				<div class="input">Outline Opacity:<input onchange="onchangeoptions();" class="input1" type="number" step="0.01" min="0" max="1" id="outlineopacity" value="1.0"></div>
 				<div class="heading">Video File Format</div>
-					<select id="videofileformat" class="inputtype2">
+					<select id="videofileformat" class="input2">
 					</select>
-				<div class="heading3">Include the audio in recording:<input onchange="includeaudiowarning();" type="checkbox" id="recordaudio" value="recordaudio"></div>
-				<button class="inputtype2" onclick="startvisualizer('recording');">Start Recording</button>
-				<button class="inputtype2" onclick="startvisualizer();">Play Preview</button>
-				<button class="inputtype2" onclick="stoppreview();">Stop Preview</button>
+				<div class="input">Include the audio in recording:<input onchange="includeaudiowarning();" type="checkbox" id="recordaudio" value="recordaudio"></div>
+				<button class="input2" onclick="startvisualizer('recording');">Start Recording</button>
+				<button class="input2" onclick="startvisualizer();">Play Preview</button>
+				<button class="input2" onclick="stoppreview();">Stop Preview</button>
 		</div>
 		<div id="workarea">
 			<canvas id="visualizer" width="640" height="360">Your browser does not support the canvas element. Please use a different browser.</canvas>
-			<input onchange="onchangevisualizerseekbar();" type="range" id="visualizerseekbar" value="0">
 			<canvas id="cachedbgimg" width="640" height="360"></canvas>
 			<canvas id="cachedfgimg" width="640" height="360"></canvas>
 			<div id="documentation">
