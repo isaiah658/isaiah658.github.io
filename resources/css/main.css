@@ -156,7 +156,7 @@ html, body {
 	font-family: Nunito-ExtraBold;
 }
 .heading3 {
-	width: 100%;
+	width: 90%;
 	font-size: 12px;
 	margin: 0px 0px 0px 5%;
 	font-family: Nunito-SemiBold;
@@ -193,6 +193,6 @@ html, body {
 	margin-bottom: 5px;
 	text-align: center;
 }
-#bgimg, #fgimg, #fillimg, #outlineimg, #blankimg, #cachedbgimg, #cachedfgimg, #savepresettextarea, #closedocumentationbutton, #clearbackgroundimagebutton, #clearforegroundimagebutton, #foregroundpositiontopwrapper, #foregroundpositionleftwrapper {
+#bgimg, #fgimg, #fillimg, #outlineimg, #blankimg, #cachedbgimg, #cachedfgimg, #savepresettextarea, #closedocumentationbutton, #clearbackgroundimagebutton, #clearforegroundimagebutton, #foregroundpositiontopwrapper, #foregroundpositionleftwrapper, #loadpresetfromfilewrapper {
 	display: none;
 }
