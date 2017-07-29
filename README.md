@@ -8,6 +8,8 @@ Here is the website link to use the video maker: https://isaiah658.github.io or 
 Here is a video demonstration of some visualizations I made to try and showcase what is possible: https://youtu.be/CDO8nstm4I0
 
 # Credits #
+A huge thank you must be given to apprentice.craic.com and patrick-wied.at. Both of these people/websites gave the the initial guidiance to understand how to work with audio data in HTML5 and how to use the data for visualizations. Also shoutout to Kaiido on stackoverflow for posting a solution to make audio recording work in Firefox.
+
 An additional thank you goes out to Willian Justen and InternetGB for allowing me to use and adapt their visualizers into this project. Willian Justen made the original spinning triangles visualizer and InternetGB made the InternetGB visualizer (it's unique and hard to name so I named it after the creator).
 
 In regards to the licensing, please keep in mind that this project includes a font called Nunito by Veron Adams and is licensed under the SIL Open Font License Version 1.1. In no way am I claiming that I made it nor is it licensed under the MIT license. The SIL Open Font License allows for redistribution and bundling with other software. The license is included in the resources/fonts folder as a text file called open-font-license.txt.
