@@ -153,7 +153,7 @@ function loadpresetfromfile(selectedfile){
 		var lines = this.result.split('\n');
 		loadpresetvalues(lines);
 	};
-	reader.readAsText(file);	
+	reader.readAsText(file);
 }
 
 //This takes an array of preset values and applies it to each of the corresponding options
@@ -243,7 +243,7 @@ function savepreset(){
 	var maxfrequency = Number(document.getElementById("maxfrequency").value);
 	
 	document.getElementById("savepresettextarea").value = foregroundpositiontop + "\n" + foregroundpositionleft + "\n" + videowidth + "\n" + videoheight + "\n" + videomaxfps + "\n" + visualizerbgcolor + "\n" + visualizertype + "\n" + barsalignment + "\n" + linecap + "\n" + visualizershape + "\n" + visualizershapesize + "\n" + howmany + "\n" + maxheight + "\n" + minheight + "\n" + width + "\n" + depth + "\n" + angle + "\n" + spacing + "\n" + spacing2 + "\n" + top + "\n" + left + "\n" + rotation + "\n" + offset + "\n" + cutoff + "\n" + multiplier + "\n" + filltype + "\n" + fill1 + "\n" + fill2 + "\n" + fillopacity + "\n" + outlinetype + "\n" + outlinecolor1 + "\n" + outlinecolor2 + "\n" + outlinewidth + "\n" + outlineopacity + "\n" + minrotationspeed + "\n" + maxrotationspeed + "\n" + minfrequency + "\n" + maxfrequency + "\n" + compositemode;
-	var text = document.getElementById("savepresettextarea").value;
+  var text = document.getElementById("savepresettextarea").value;
 	var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
 	saveAs(blob, "preset.txt");
 }
