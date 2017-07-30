@@ -67,15 +67,27 @@ html, body {
 	left: 0px;
 	height: 100%;
 	width: 100%;
-	background-color: rgba(238, 242, 234, 0.6);
+	background-color: #ffffff;
 	z-index: 3;
 	display: none;
 }
 #recordingmessagewrapper {
 	position: relative;
-	margin-left: 30%;
-	margin-right: 20%;
-	margin-top: 5%;
+	top: 50%;
+	left: 50%;
+	width: 500px;
+	height: 350px;
+	transform: translateX(-50%) translateY(-50%);
+}
+#recordingpercentage {
+	position: relative;
+	top: 0px;
+	left: 50%;
+	width: 50px;
+	height: 50px;
+	font-size: 36px;
+	font-family: Nunito-SemiBold;
+	transform: translateX(-50%);
 }
 #documentation {
 	position: absolute;
@@ -98,7 +110,7 @@ html, body {
 	margin: 0px auto;
 	background-color: #ffffff;
 }
-#limitations {
+#visualizerdescriptions, #limitations, #faq, #credits {
 	position: relative;
 	top: 0px;
 	left: 0px;
@@ -110,33 +122,15 @@ html, body {
 #limitations li {
 	margin-bottom: 10px;
 }
-#faq {
-	position: relative;
-	top: 0px;
-	left: 0px;
-	width: 70%;
-	height: 60%;
-	margin: 0px auto;
-	display: none;
-}
-#credits {
-	position: relative;
-	top: 0px;
-	left: 0px;
-	width: 70%;
-	height: 60%;
-	margin: 0px auto;
-	display: none;
-}
 #documentationbuttonwrapper {
-	width: 560px;
+	width: 700px;
 	margin: 10px auto;
 }
 .paragraph { 
 	width: 100%;
 	display: inline-block;
-	font-size: 13px;
 	margin-bottom: 20px;
+	font-size: 13px;
 	font-family: Nunito-SemiBold;
 	font-weight: normal;
 	text-align: left;
@@ -151,14 +145,14 @@ html, body {
 }
 .heading2 {
 	width: 100%;
-	font-size: 13px;
 	margin: 0px;
+	font-size: 13px;
 	font-family: Nunito-ExtraBold;
 }
 .heading3 {
 	width: 90%;
-	font-size: 12px;
 	margin: 0px 0px 0px 5%;
+	font-size: 12px;
 	font-family: Nunito-SemiBold;
 }
 .inputtype1 {
