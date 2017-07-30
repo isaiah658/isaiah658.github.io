@@ -175,7 +175,7 @@ function blockbars(videowidth, videoheight, visualizerbgcolor, visualizershape, 
 	}
 }
 //3D BARS -------------------------------------------------------
-function bars3d(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, depth, slope, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment) {
+function bars3d(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, depth, angle, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment) {
 	if (visualizershape == "none") {
 		var leftposition = Math.round((videowidth/2) - ((((howmany-1)*spacing)/2) + ((howmany*width)/2)) + left);
 		var topposition = Math.round((videoheight/2) + top);
@@ -194,22 +194,22 @@ function bars3d(videowidth, videoheight, visualizerbgcolor, visualizershape, vis
 			visualizercanvasctx.beginPath();
 			
 			visualizercanvasctx.moveTo(leftposition,topposition);
-			visualizercanvasctx.lineTo((leftposition + width),(topposition + (width / slope)));
-			visualizercanvasctx.lineTo((leftposition + width),(topposition - totalheight + (width / slope)));
+			visualizercanvasctx.lineTo((leftposition + width),(topposition + (width / angle)));
+			visualizercanvasctx.lineTo((leftposition + width),(topposition - totalheight + (width / angle)));
 			visualizercanvasctx.lineTo(leftposition,(topposition - totalheight));
 			visualizercanvasctx.lineTo(leftposition,topposition);
 			visualizercanvasctx.closePath();
 
 			visualizercanvasctx.moveTo(leftposition,(topposition - totalheight));
-			visualizercanvasctx.lineTo((leftposition + (depth/slope)),(topposition - totalheight - depth));
-			visualizercanvasctx.lineTo((leftposition + (depth/slope) + width),(topposition - totalheight - depth + (width / slope)));
-			visualizercanvasctx.lineTo((leftposition + width),(topposition - totalheight + (width / slope)));
+			visualizercanvasctx.lineTo((leftposition + (depth/angle)),(topposition - totalheight - depth));
+			visualizercanvasctx.lineTo((leftposition + (depth/angle) + width),(topposition - totalheight - depth + (width / angle)));
+			visualizercanvasctx.lineTo((leftposition + width),(topposition - totalheight + (width / angle)));
 
-			visualizercanvasctx.moveTo((leftposition + (depth/slope) + width),(topposition - totalheight - depth + (width / slope)));
-			visualizercanvasctx.lineTo((leftposition + (depth/slope) + width),(topposition - depth + (width / slope)));
-			visualizercanvasctx.lineTo((leftposition + width),(topposition + (width / slope)));
-			visualizercanvasctx.lineTo((leftposition + width),(topposition - totalheight + (width / slope)));
-			visualizercanvasctx.lineTo((leftposition + (depth/slope) + width),(topposition - totalheight - depth + (width / slope)));
+			visualizercanvasctx.moveTo((leftposition + (depth/angle) + width),(topposition - totalheight - depth + (width / angle)));
+			visualizercanvasctx.lineTo((leftposition + (depth/angle) + width),(topposition - depth + (width / angle)));
+			visualizercanvasctx.lineTo((leftposition + width),(topposition + (width / angle)));
+			visualizercanvasctx.lineTo((leftposition + width),(topposition - totalheight + (width / angle)));
+			visualizercanvasctx.lineTo((leftposition + (depth/angle) + width),(topposition - totalheight - depth + (width / angle)));
 			visualizercanvasctx.closePath();
 
 			if (filltype != "none") {
@@ -402,7 +402,7 @@ function timedomainline(videowidth, videoheight, visualizerbgcolor, visualizersh
 	}
 }
 //SPINNING TRIANGLES --------------------------------------------------------------
-function spinningtriangles(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, compositemode, howmany, minheight, width, minrotationspeed, maxrotationspeed, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment, spinningtrianglesvars) {
+function spinningtriangles(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, compositemode, howmany, minheight, width, angle, minrotationspeed, maxrotationspeed, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment, spinningtrianglesvars) {
 	var leftposition = Math.round((videowidth/2) + left);
 	var topposition = Math.round((videoheight/2) + top);
 	if (!spinningtrianglesvars) {
@@ -410,9 +410,11 @@ function spinningtriangles(videowidth, videoheight, visualizerbgcolor, visualize
 	}
 	var twopi = 2 * Math.PI;
 	var anglegap = twopi / 3;
-	var angle = spinningtrianglesvars.anglestart;
-	var minrotationspeed = minrotationspeed * (Math.PI / 180);
-	var maxrotationspeed = maxrotationspeed * (Math.PI / 180);
+	var triangleangle = spinningtrianglesvars.anglestart;
+	var angletoradian = Math.PI / 180;
+	var minrotationspeed = minrotationspeed * angletoradian;
+	var maxrotationspeed = maxrotationspeed * angletoradian;
+	var angle = angle * angletoradian;
 	var totalfrequencychange = 0;
 	//Temporary way to copy the outline and fill style - Reconsidering a better approach of passing the outline style and the fill style for each visualizer to use rather than set it in the main loop which some visualizers need to change it depending how they fill and outline things.
 	var outlinestyle = visualizercanvasctx.strokeStyle;
@@ -429,11 +431,11 @@ function spinningtriangles(videowidth, videoheight, visualizerbgcolor, visualize
 			var heightchange = 0;
 		}
 		var totalheight = minheight + heightchange;
-		var angle = angle + minrotationspeed;
+		var triangleangle = triangleangle + angle;
 		visualizercanvasctx.beginPath();
-		visualizercanvasctx.moveTo(leftposition + totalheight * Math.sin(angle), topposition + totalheight * Math.cos(angle));
-		visualizercanvasctx.lineTo(leftposition + totalheight * Math.sin(angle + anglegap), topposition + totalheight * Math.cos(angle + anglegap));
-		visualizercanvasctx.lineTo(leftposition + totalheight * Math.sin(angle + anglegap * 2), topposition + totalheight * Math.cos(angle + anglegap * 2));
+		visualizercanvasctx.moveTo(leftposition + totalheight * Math.sin(triangleangle), topposition + totalheight * Math.cos(triangleangle));
+		visualizercanvasctx.lineTo(leftposition + totalheight * Math.sin(triangleangle + anglegap), topposition + totalheight * Math.cos(triangleangle + anglegap));
+		visualizercanvasctx.lineTo(leftposition + totalheight * Math.sin(triangleangle + anglegap * 2), topposition + totalheight * Math.cos(triangleangle + anglegap * 2));
 		visualizercanvasctx.closePath();
 		totalfrequencychange = totalfrequencychange + heightchange;
 		if (outlinetype != "none") {
@@ -452,7 +454,7 @@ function spinningtriangles(videowidth, videoheight, visualizerbgcolor, visualize
 	if (compositemode != "none") {
 		visualizercanvasctx.globalCompositeOperation = "source-over";
 	}
-	spinningtrianglesvars.anglestart = (spinningtrianglesvars.anglestart + ((maxrotationspeed / 10000) * (totalfrequencychange / (howmany * maxheightadjustment)))) % twopi;
+	spinningtrianglesvars.anglestart = (spinningtrianglesvars.anglestart + (minrotationspeed / 100) + ((maxrotationspeed / 10000) * (totalfrequencychange / (howmany * maxheightadjustment)))) % twopi;
 	if (frequencydata) {
 		return spinningtrianglesvars;
 	}
@@ -476,7 +478,7 @@ function bubbles(videowidth, videoheight, visualizerbgcolor, visualizershape, vi
 			var heightchange = minheight;
 			var heightchange2 = minheight;
 		}
-		visualizercanvasctx.moveTo(heightchange,heightchange2);
+		visualizercanvasctx.moveTo(heightchange+width,heightchange2);
         visualizercanvasctx.arc(heightchange,heightchange2,width+(heightchange/2),0,2*Math.PI);
 		visualizercanvasctx.rotate(angle);
 	}
@@ -550,8 +552,8 @@ function internetgb(videowidth, videoheight, visualizerbgcolor, visualizershape,
 		visualizercanvasctx.stroke();
 	}
 	
-	internetgbvars.center_x = videowidth / 2 - (react_x * 0.048);
-	internetgbvars.center_y = videoheight / 2 - (react_y * 0.048);		
+	internetgbvars.center_x = videowidth / 2 - (react_x / howmany) * 4;
+	internetgbvars.center_y = videoheight / 2 - (react_y / howmany) * 4;		
 	var radius_old = internetgbvars.radius;
 	internetgbvars.radius =  minheight + (internetgbvars.intensity / howmany);
 	var deltarad = internetgbvars.radius / radius_old;
