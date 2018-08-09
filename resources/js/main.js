@@ -676,7 +676,7 @@ function onchangeoptions() {
 		//Reset the opacity
 		visualizercanvasctx.globalAlpha = 1;
 		var cachedfgimgcanvas = document.getElementById("cachedfgimg");
-		var cachedfgimgcanvasctx = cachedfgimgcanvas.getContext('2d', {alpha: false});
+		var cachedfgimgcanvasctx = cachedfgimgcanvas.getContext('2d');
 		var fgimgwidth = fgimg.width;
 		var fgimgheight = fgimg.height;
 		
