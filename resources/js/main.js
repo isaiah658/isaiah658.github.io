@@ -756,6 +756,7 @@ function startvisualizer(recording) {
 	var maxheightadjustment = maxheight/256;
 	
 	//Audio analyzer frequency data and other audio settings
+	audioctx.resume();
 	var analyser = audioctx.createAnalyser();
 	analyser.fftSize = 512;
 	audiosource.connect(analyser);
