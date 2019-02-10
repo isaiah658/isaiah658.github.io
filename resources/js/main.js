@@ -1,8 +1,8 @@
 //Set up audio stuff - Used for playing the chosen audio file and getting the data for the visualizer
-var audioplayer = new Audio();
-var audioctx = new AudioContext();
-var audiosource = audioctx.createMediaElementSource(audioplayer);
-var audioctxmediastream = audioctx.createMediaStreamDestination();
+var audioplayer = false;
+var audioctx = false;
+var audiosource = false;
+var audioctxmediastream = false;
 
 //Initially called when the page first loads - Currently it checks the browser for supported MediaRecorder video types and then calls a function to hide unused options which also updates other visualizer options at the end of it
 function initialize(){
@@ -755,8 +755,15 @@ function startvisualizer(recording) {
 	var blankimg = document.getElementById("blankimg");
 	var maxheightadjustment = maxheight/256;
 	
+	// Create audio context if it hasn't been created yet
+	if (audioplayer == false) {
+		audioplayer = new Audio();
+		audioctx = new AudioContext();
+		audiosource = audioctx.createMediaElementSource(audioplayer);
+		audioctxmediastream = audioctx.createMediaStreamDestination();
+	}
+	
 	//Audio analyzer frequency data and other audio settings
-	audioctx.resume();
 	var analyser = audioctx.createAnalyser();
 	analyser.fftSize = 512;
 	audiosource.connect(analyser);
