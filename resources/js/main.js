@@ -2,9 +2,9 @@
 //Changes had to be made to this for CORS and the new Chrome autoplay policies hence not defining the audio context until later
 var audioplayer = new Audio();
 audioplayer.crossOrigin = "anonymous";
-var audioctx = false;
-var audiosource = false;
-var audioctxmediastream = false;
+var audioctx = null;
+var audiosource = null;
+var audioctxmediastream = null;
 
 //Initially called when the page first loads - Currently it checks the browser for supported MediaRecorder video types and then calls a function to hide unused options which also updates other visualizer options at the end of it
 function initialize(){
@@ -757,11 +757,15 @@ function startvisualizer(recording) {
 	var blankimg = document.getElementById("blankimg");
 	var maxheightadjustment = maxheight/256;
 	
-	//Create audio context if it hasn't been created yet
-	//Creating this way is required due to Chrome autoplay policy changes
-	if (audioctx == false) {
+	//Create audio context, audio source, and audio context media stream if they haven't been created yet
+	//Creating it this way is required due to Chrome autoplay policy changes
+	if (audioctx === null) {
 		audioctx = new AudioContext();
+	}
+	if (audiosource === null) {
 		audiosource = audioctx.createMediaElementSource(audioplayer);
+	}
+	if (audioctxmediastream === null) {
 		audioctxmediastream = audioctx.createMediaStreamDestination();
 	}
 	
@@ -1056,6 +1060,9 @@ function startvisualizer(recording) {
 			audiosource.disconnect();
 			audioplayer.removeEventListener("ended", audioplayerended);
 			audioplayer.removeEventListener("timeupdate", audioplayertimeupdate);
+			//There's apparently a bug with reusing MediaStreamDestination so clearing it needed
+			//Without clearing it the audio will not be recorded any time after the first recording with audio
+			audioctxmediastream = null;
 			//Show visualizer again after recording
 			document.getElementById("visualizer").style.display = "block";
 		}
