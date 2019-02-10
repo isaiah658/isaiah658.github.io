@@ -1,5 +1,7 @@
 //Set up audio stuff - Used for playing the chosen audio file and getting the data for the visualizer
-var audioplayer = false;
+//Changes had to be made to this for CORS and the new Chrome autoplay policies hence not defining the audio context until later
+var audioplayer = new Audio();
+audioplayer.crossOrigin = "anonymous";
 var audioctx = false;
 var audiosource = false;
 var audioctxmediastream = false;
@@ -267,7 +269,7 @@ function onchangebackgroundimage(selected) {
 			document.getElementById("clearbackgroundimagebutton").style.display = "none";	
 		}
 		onchangeoptions();
-	}
+	};
 	bgimg.src = url;
 }
 
@@ -295,7 +297,7 @@ function onchangeforegroundimage(selected) {
 			document.getElementById("clearforegroundimagebutton").style.display = "none";
 		}
 		onchangeoptions();
-	}
+	};
 	fgimg.src = url;
 }
 
@@ -324,7 +326,7 @@ function onchangefillimage(selected) {
 	var url = URL.createObjectURL(image[0]);
 	fillimg.onload = function () {
 		onchangeoptions();
-	}
+	};
 	fillimg.src = url; 
 }
 
@@ -335,7 +337,7 @@ function onchangeoutlineimage(selected) {
 	var url = URL.createObjectURL(image[0]);
 	outlineimg.onload = function () {
 		onchangeoptions();
-	}
+	};
 	outlineimg.src = url; 
 }
 
@@ -755,9 +757,9 @@ function startvisualizer(recording) {
 	var blankimg = document.getElementById("blankimg");
 	var maxheightadjustment = maxheight/256;
 	
-	// Create audio context if it hasn't been created yet
-	if (audioplayer == false) {
-		audioplayer = new Audio();
+	//Create audio context if it hasn't been created yet
+	//Creating this way is required due to Chrome autoplay policy changes
+	if (audioctx == false) {
 		audioctx = new AudioContext();
 		audiosource = audioctx.createMediaElementSource(audioplayer);
 		audioctxmediastream = audioctx.createMediaStreamDestination();
@@ -793,53 +795,55 @@ function startvisualizer(recording) {
 		//Hide Canvas if recording for small performance gain
 		document.getElementById("visualizer").style.display = "none";
 		//Start the canvas capturestream
+		var canvasstream = false;
+		var videobitrate = false;
 		if (videomaxfps > 0) {
-			var canvasstream = visualizercanvas.captureStream(videomaxfps);
+			canvasstream = visualizercanvas.captureStream(videomaxfps);
 		}
 		else {
-			var canvasstream = visualizercanvas.captureStream();
+			canvasstream = visualizercanvas.captureStream();
 		}
 		//A bunch of checks to set an appropriate video bit rate
 		//Chrome/Chromium currently ignores the video bit rate and automatically sets its own
 		//Firefox defaults to 2.5Mbps if no bit rate is set
 		//640 x 360 or less
 		if (videowidth * videoheight <= 230400) {
-			var videobitrate = 1500000;
+			videobitrate = 1500000;
 		}
 		//854 x 480 or less
 		else if (videowidth * videoheight <= 409920) {
 			if (videomaxfps <= 30 && videomaxfps != "") {
-				var videobitrate = 2500000;
+				videobitrate = 2500000;
 			}
 			else {
-				var videobitrate = 3500000;
+				videobitrate = 3500000;
 			}
 		}
 		//1280 x 720 or less
 		else if (videowidth * videoheight <= 921600) {
 			if (videomaxfps <= 30 && videomaxfps != "") {
-				var videobitrate = 4500000;
+				videobitrate = 4500000;
 			}
 			else {
-				var videobitrate = 7000000;
+				videobitrate = 7000000;
 			}
 		}
 		//1920 x 1080 or less
 		else if (videowidth * videoheight <= 2073600) {
 			if (videomaxfps <= 30 && videomaxfps != "") {
-				var videobitrate = 8000000;
+				videobitrate = 8000000;
 			}
 			else {
-				var videobitrate = 10000000;
+				videobitrate = 10000000;
 			}
 		}
 		//2048 × 1280 or less
 		else if (videowidth * videoheight <= 2621440) {
 			if (videomaxfps <= 30 && videomaxfps != "") {
-				var videobitrate = 10000000;
+				videobitrate = 10000000;
 			}
 			else {
-				var videobitrate = 12000000;
+				videobitrate = 12000000;
 			}
 		}
 		//I seriously doubt this thing can even record this high but who knows!
@@ -847,20 +851,20 @@ function startvisualizer(recording) {
 		//3840 × 2160 or less
 		else if (videowidth * videoheight <= 8294400) {
 			if (videomaxfps <= 30 && videomaxfps != "") {
-				var videobitrate = 12000000;
+				videobitrate = 12000000;
 			}
 			else {
-				var videobitrate = 15000000;
+				videobitrate = 15000000;
 			}
 		}
 		//I seriously doubt this thing can even record this high but who knows!
 		//7680 × 4320 or less
 		else if (videowidth * videoheight <= 33177600) {
 			if (videomaxfps <= 30 && videomaxfps != "") {
-				var videobitrate = 16000000;
+				videobitrate = 16000000;
 			}
 			else {
-				var videobitrate = 20000000;
+				videobitrate = 20000000;
 			}
 		}
 		var recordaudiocheck = document.getElementById("recordaudio").checked;
@@ -1062,7 +1066,7 @@ function startvisualizer(recording) {
 			audioplayer.removeEventListener("ended", audioplayerended);
 			audioplayer.removeEventListener("timeupdate", audioplayertimeupdate);
 		}
-	};
+	}
 	//Start rendering frames
 	renderframe();
 }
