@@ -50,7 +50,7 @@ html, body {
 	display: block;
 	transform: translateX(-50%) translateY(-50%);
 }
-#visualizerseekbar {
+#visualizer_seekbar {
 	position: absolute;
 	left: 10%;
 	bottom: 2%;
@@ -61,7 +61,7 @@ html, body {
 	box-shadow: 0px 0px 5px #000000;
 	display: none;
 }
-#recordingmessage {
+#recording_message_wrapper {
 	position: absolute;
 	top: 0px;
 	left: 0px;
@@ -71,7 +71,7 @@ html, body {
 	z-index: 3;
 	display: none;
 }
-#recordingmessagewrapper {
+#recording_message {
 	position: relative;
 	top: 50%;
 	left: 50%;
@@ -79,7 +79,7 @@ html, body {
 	height: 350px;
 	transform: translateX(-50%) translateY(-50%);
 }
-#recordingpercentage {
+#recording_percentage {
 	position: relative;
 	top: 0px;
 	left: 50%;
@@ -101,7 +101,7 @@ html, body {
 	overflow-y: auto;
 	overflow-x: visible;
 }
-#optiondescriptions {
+#documentation_options {
 	position: relative;
 	top: 0px;
 	left: 0px;
@@ -110,7 +110,7 @@ html, body {
 	margin: 0px auto;
 	background-color: #ffffff;
 }
-#visualizerdescriptions, #limitations, #faq, #credits {
+#documentation_visualizers, #documentation_limitations, #faq, #credits {
 	position: relative;
 	top: 0px;
 	left: 0px;
@@ -119,10 +119,10 @@ html, body {
 	margin: 0px auto;
 	display: none;
 }
-#limitations li {
+#documentation_limitations li {
 	margin-bottom: 10px;
 }
-#documentationbuttonwrapper {
+#documentation_menu {
 	width: 700px;
 	margin: 10px auto;
 }
@@ -155,7 +155,7 @@ html, body {
 	font-size: 12px;
 	font-family: Nunito-SemiBold;
 }
-.inputtype1 {
+.input_type1 {
 	width: 89%;
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -168,19 +168,19 @@ html, body {
 	font-size: 12px;
 	font-family: Nunito-SemiBold;
 }
-.inputspacer1 {
+.input_spacer1 {
 	width: 45%;
 	height: 100%;
 	padding: 5px 0px 5px 5%;
 	vertical-align: middle;
 	display: inline-block;
 }
-.inputspacer2 {
+.input_spacer2 {
 	width: 30%;
 	vertical-align: middle;
 	display: inline-block;
 }
-.inputtype2 {
+.input_type2 {
 	width: 90%;
 	min-width: 110px;
 	margin-left: 5%;
