@@ -17,6 +17,12 @@ In regards to the licensing, please keep in mind that this project includes a fo
 This project also uses a JavaScript library called FileSaver.js which is used for automatically triggering a file download for blob files and text files. FileSaver.js just so happens to also be licensed under the MIT license, but I want to make it clear that I did not make it nor do I take any credit for it.
 
 # Changelogs #
+Version 1.1.2
+ - Added two new presets to better showcase all of the visualizer types.
+ - The code was segmented into different files rather than one large file.
+ - Reduced duplicate code.
+ - Overall cleaning up the code to be more presentable and friendly to work on was the goal of this update. There's still more work to do, but this was a good first step.
+
 Version 1.1.1
  - Made a small change for how the outline is drawn for the bubbles visualizer to fix an issue where a line was appearing inside the circle which was visible when the fill type was set to none.
  
