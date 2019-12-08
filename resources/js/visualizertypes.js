@@ -1,604 +1,636 @@
-//VERTICAL BARS--------------------------------------------------------------
-function verticalbars(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, barsalignment, linecap, howmany, minheight, width, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment) {
-	if (visualizershape == "none") {
-		var leftposition = Math.round((videowidth/2) - ((((howmany-1)*spacing)/2) + ((howmany*width)/2)) + left);
-		var topposition = Math.round((videoheight/2) + top);
+// This file contains all the JavaScript for the visualizer types
+
+var visualizer_types = {};
+
+// Vertical Bars
+visualizer_types.vertical_bars = function(visualizercanvasctx, analyser, frequencydata, frequencyspacing, maxheightadjustment){
+	var left_position;
+	var top_position;
+	var node_frequency;
+	var height_change = 0;
+	var total_height;
+	var top_position_height_change;
+	var left_position_width_change;
+	var circle_angle;
+	var i;
+	
+	if (config.visualizershape == "none"){
+		left_position = Math.round((config.videowidth/2) - ((((config.howmany-1)*config.spacing)/2) + ((config.howmany*config.width)/2)) + config.left);
+		top_position = Math.round((config.videoheight/2) + config.top);
 		visualizercanvasctx.beginPath();
-		for(var i=0; i < howmany; i++){
-			if (frequencydata) {
-				var nodefrequency = (frequencyspacing*i) + minfrequency;
-				var heightchange = Math.max((((frequencydata[nodefrequency]*maxheightadjustment) - cutoff)*multiplier), 0);
+		for (i=0; i < config.howmany; i++){
+			if (frequencydata){
+				node_frequency = (frequencyspacing*i) + config.minfrequency;
+				height_change = Math.max((((frequencydata[node_frequency]*maxheightadjustment) - config.cutoff)*config.multiplier), 0);
 			}
-			else {
-				var heightchange = 0;	
+			total_height = config.minheight + height_change;
+			if (config.barsalignment == "bottom"){
+				top_position_height_change = top_position - total_height + (config.offset * i);
 			}
-			var totalheight = minheight + heightchange;
-			if (barsalignment == "bottom") {
-				var toppositionheightchange = topposition - totalheight + (offset * i);
+			else if (config.barsalignment == "middle"){
+				top_position_height_change = top_position - (total_height/2) + (config.offset * i);
 			}
-			else if (barsalignment == "middle") {
-				var toppositionheightchange = topposition - (totalheight/2) + (offset * i);
+			else if (config.barsalignment == "top"){
+				top_position_height_change = top_position + (config.offset * i);
 			}
-			else if (barsalignment == "top") {
-				var toppositionheightchange = topposition + (offset * i);
+			left_position_width_change = left_position + ((config.width + config.spacing) * i);
+			if (config.linecap == "square"){
+				visualizercanvasctx.rect(left_position_width_change, top_position_height_change, config.width, total_height);
 			}
-			var leftpositionwidthchange = leftposition + ((width + spacing) * i);
-			if (linecap == "square") {
-				visualizercanvasctx.rect(leftpositionwidthchange, toppositionheightchange, width, totalheight);
-			}
-			else if (linecap == "round") {	
-				visualizercanvasctx.moveTo(leftpositionwidthchange, toppositionheightchange);
-				visualizercanvasctx.lineTo(leftpositionwidthchange, toppositionheightchange + totalheight);
-				visualizercanvasctx.arc(leftpositionwidthchange + (width / 2), toppositionheightchange + totalheight, (width / 2), 1 * Math.PI, 0 * Math.PI, true);
-				visualizercanvasctx.lineTo(leftpositionwidthchange + width, toppositionheightchange);
-				visualizercanvasctx.arc(leftpositionwidthchange + (width / 2), toppositionheightchange, (width / 2), 0, 1 * Math.PI, true);
+			else if (config.linecap == "round"){	
+				visualizercanvasctx.moveTo(left_position_width_change, top_position_height_change);
+				visualizercanvasctx.lineTo(left_position_width_change, top_position_height_change + total_height);
+				visualizercanvasctx.arc(left_position_width_change + (config.width / 2), top_position_height_change + total_height, (config.width / 2), 1 * Math.PI, 0 * Math.PI, true);
+				visualizercanvasctx.lineTo(left_position_width_change + config.width, top_position_height_change);
+				visualizercanvasctx.arc(left_position_width_change + (config.width / 2), top_position_height_change, (config.width / 2), 0, 1 * Math.PI, true);
 			}
 		}
-		if (outlinetype != "none") {
-			visualizercanvasctx.globalAlpha = outlineopacity;
+		if (config.outlinetype != "none"){
+			visualizercanvasctx.globalAlpha = config.outlineopacity;
 			visualizercanvasctx.stroke();	
 		}
-		if (filltype != "none") {
-			visualizercanvasctx.globalAlpha = fillopacity;
+		if (config.filltype != "none"){
+			visualizercanvasctx.globalAlpha = config.fillopacity;
 			visualizercanvasctx.fill();
 		}
 	}
-	else if (visualizershape == "circle") {
-		var angle = 2*Math.PI/howmany ;
-		var leftposition = Math.round((videowidth/2) + left);
-		var topposition = Math.round((videoheight/2) + top);
-		visualizercanvasctx.translate(leftposition,topposition);
+	else if (config.visualizershape == "circle"){
+		circle_angle = 2*Math.PI/config.howmany ;
+		left_position = Math.round((config.videowidth/2) + config.left);
+		top_position = Math.round((config.videoheight/2) + config.top);
+		visualizercanvasctx.translate(left_position,top_position);
 		visualizercanvasctx.beginPath();
-		for(var i=1; i <= howmany; i++){
+		for (i=1; i <= config.howmany; i++){
 			if (frequencydata){
-				var nodefrequency = (frequencyspacing*i) + minfrequency;
-				var heightchange = Math.max((((frequencydata[nodefrequency]*maxheightadjustment) - cutoff)*multiplier), 0);
+				node_frequency = (frequencyspacing*i) + config.minfrequency;
+				height_change = Math.max((((frequencydata[node_frequency]*maxheightadjustment) - config.cutoff)*config.multiplier), 0);
 			}
-			else {
-				var heightchange = 0;	
+			total_height = config.minheight + height_change;
+			if (config.barsalignment == "bottom"){
+				top_position_height_change = config.visualizershapesize + (config.offset * i);
 			}
-			var totalheight = minheight + heightchange;
-			if (barsalignment == "bottom") {
-				var toppositionheightchange = visualizershapesize + (offset * i);
+			else if (config.barsalignment == "middle"){
+				top_position_height_change = config.visualizershapesize - (total_height/2) + (config.offset * i);
 			}
-			else if (barsalignment == "middle") {
-				var toppositionheightchange = visualizershapesize - (totalheight/2) + (offset * i);
+			else if (config.barsalignment == "top"){
+				top_position_height_change = config.visualizershapesize - total_height + (config.offset * i);
 			}
-			else if (barsalignment == "top") {
-				var toppositionheightchange = visualizershapesize - totalheight + (offset * i);
+			visualizercanvasctx.rotate(circle_angle);
+			if (config.linecap == "square"){
+				visualizercanvasctx.rect((config.width*-0.5), top_position_height_change, config.width, total_height);
 			}
-			visualizercanvasctx.rotate(angle);
-			if (linecap == "square") {
-				visualizercanvasctx.rect((width*-0.5), toppositionheightchange, width, totalheight);
-			}
-			else if (linecap == "round") {
-				visualizercanvasctx.moveTo((width*-0.5), toppositionheightchange);
-				visualizercanvasctx.lineTo((width*-0.5), toppositionheightchange + totalheight);
-				visualizercanvasctx.arc(0, toppositionheightchange + totalheight, (width / 2), 1 * Math.PI, 0 * Math.PI, true);
-				visualizercanvasctx.lineTo((width / 2), toppositionheightchange);
-				visualizercanvasctx.arc(0, toppositionheightchange, (width / 2), 0, 1 * Math.PI, true);
+			else if (config.linecap == "round"){
+				visualizercanvasctx.moveTo((config.width*-0.5), top_position_height_change);
+				visualizercanvasctx.lineTo((config.width*-0.5), top_position_height_change + total_height);
+				visualizercanvasctx.arc(0, top_position_height_change + total_height, (config.width / 2), 1 * Math.PI, 0 * Math.PI, true);
+				visualizercanvasctx.lineTo((config.width / 2), top_position_height_change);
+				visualizercanvasctx.arc(0, top_position_height_change, (config.width / 2), 0, 1 * Math.PI, true);
 			}
 		}
-		//Reset transform - This is slightly faster than doing save and restore
-		//Need to do this before stroke and fill otherwise is effected by the translate used above
+		// Reset transform - This is slightly faster than doing save and restore
+		// Need to do this before stroke and fill otherwise is effected by the translate used above
 		visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
 		
-		if (outlinetype != "none") {
-			visualizercanvasctx.globalAlpha = outlineopacity;
+		if (config.outlinetype != "none"){
+			visualizercanvasctx.globalAlpha = config.outlineopacity;
 			visualizercanvasctx.stroke();	
 		}
-		if (filltype != "none") {
-			visualizercanvasctx.globalAlpha = fillopacity;
+		if (config.filltype != "none"){
+			visualizercanvasctx.globalAlpha = config.fillopacity;
 			visualizercanvasctx.fill();
 		}
 	}
-}
-//BLOCK BARS --------------------------------------------------------------
-function blockbars(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, barsalignment, howmany, minheight, width, spacing, spacing2, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment) {
-	if (visualizershape == "none") {
-		var leftposition = Math.round((videowidth/2) - ((((howmany-1)*spacing)/2) + ((howmany*width)/2)) + left);
-		var topposition = Math.round((videoheight/2) + top);
+};
+
+// Block Bars
+visualizer_types.blockbars = function(visualizercanvasctx, analyser, frequencydata, frequencyspacing, maxheightadjustment){
+	var left_position;
+	var top_position;
+	var node_frequency;
+	var height_change = 0;
+	var number_of_blocks;
+	var top_position_height_change;
+	var left_position_width_change;
+	var circle_angle;
+	var i;
+	var i2;
+	
+	if (config.visualizershape == "none"){
+		left_position = Math.round((config.videowidth/2) - ((((config.howmany-1)*config.spacing)/2) + ((config.howmany*config.width)/2)) + config.left);
+		top_position = Math.round((config.videoheight/2) + config.top);
 		visualizercanvasctx.beginPath();
-		for(var i=0; i < howmany; i++){
-			if (frequencydata) {
-				var nodefrequency = (frequencyspacing*i) + minfrequency;
-				var heightchange = Math.max((((frequencydata[nodefrequency]*maxheightadjustment) - cutoff)*multiplier), 0);
+		for (i=0; i < config.howmany; i++){
+			if (frequencydata){
+				node_frequency = (frequencyspacing*i) + config.minfrequency;
+				height_change = Math.max((((frequencydata[node_frequency]*maxheightadjustment) - config.cutoff)*config.multiplier), 0);
 			}
-			else {
-				var heightchange = 0;	
+			number_of_blocks = Math.floor((height_change/(config.minheight + config.spacing2)) + 1);
+			if (config.barsalignment == "bottom"){
+				top_position_height_change = top_position - (number_of_blocks * config.minheight) + (config.offset * i) - (config.spacing2 * (number_of_blocks - 1));
 			}
-			var numberofblocks = Math.floor((heightchange/(minheight + spacing2)) + 1);
-			if (barsalignment == "bottom") {
-				var toppositionheightchange = topposition - (numberofblocks * minheight) + (offset * i) - (spacing2 * (numberofblocks - 1));
+			else if (config.barsalignment == "middle"){
+				top_position_height_change = top_position - (((number_of_blocks + 1) / 2) * config.minheight) + (config.minheight/2) + (config.offset * i) - ((config.spacing2/2) * (number_of_blocks - 1));
 			}
-			else if (barsalignment == "middle") {
-				var toppositionheightchange = topposition - (((numberofblocks + 1) / 2) * minheight) + (minheight/2) + (offset * i) - ((spacing2/2) * (numberofblocks - 1));
+			else if (config.barsalignment == "top"){
+				top_position_height_change = top_position + (config.offset * i);
 			}
-			else if (barsalignment == "top") {
-				var toppositionheightchange = topposition + (offset * i);
-			}
-			var leftpositionwidthchange = leftposition + ((width + spacing) * i);
-			for(var i2=0; i2 < numberofblocks; i2++){
-				visualizercanvasctx.rect(leftpositionwidthchange,(toppositionheightchange + (minheight * i2) + (spacing2 * i2)),width,minheight);
+			left_position_width_change = left_position + ((config.width + config.spacing) * i);
+			for (i2=0; i2 < number_of_blocks; i2++){
+				visualizercanvasctx.rect(left_position_width_change,(top_position_height_change + (config.minheight * i2) + (config.spacing2 * i2)),config.width,config.minheight);
 			}
 		}
-		if (filltype != "none") {
-			visualizercanvasctx.globalAlpha = fillopacity;
+		if (config.filltype != "none"){
+			visualizercanvasctx.globalAlpha = config.fillopacity;
 			visualizercanvasctx.fill();
 		}
-		if (outlinetype != "none") {
-			visualizercanvasctx.globalAlpha = outlineopacity;
+		if (config.outlinetype != "none"){
+			visualizercanvasctx.globalAlpha = config.outlineopacity;
 			visualizercanvasctx.stroke();
 		}
 	}
-	else if (visualizershape == "circle") {
-		var angle = 2*Math.PI/howmany ;
-		var leftposition = Math.round((videowidth/2) + left);
-		var topposition = Math.round((videoheight/2) + top);
-		visualizercanvasctx.translate(leftposition,topposition);
+	else if (config.visualizershape == "circle"){
+		circle_angle = 2*Math.PI/config.howmany ;
+		left_position = Math.round((config.videowidth/2) + config.left);
+		top_position = Math.round((config.videoheight/2) + config.top);
+		visualizercanvasctx.translate(left_position,top_position);
 		visualizercanvasctx.beginPath();
-		for(var i=1; i <= howmany; i++){
+		for (i=1; i <= config.howmany; i++){
 			if (frequencydata){
-				var nodefrequency = (frequencyspacing*i) + minfrequency;
-				var heightchange = Math.max((((frequencydata[nodefrequency]*maxheightadjustment) - cutoff)*multiplier), 0);
+				node_frequency = (frequencyspacing*i) + config.minfrequency;
+				height_change = Math.max((((frequencydata[node_frequency]*maxheightadjustment) - config.cutoff)*config.multiplier), 0);
 			}
-			else {
-				var heightchange = 0;	
+			number_of_blocks = Math.floor((height_change/(config.minheight + config.spacing2)) + 1);
+			if (config.barsalignment == "bottom"){
+				top_position_height_change = config.visualizershapesize + (config.offset * i);
 			}
-			var numberofblocks = Math.floor((heightchange/(minheight + spacing2)) + 1);
-			if (barsalignment == "bottom") {
-				var toppositionheightchange = visualizershapesize + (offset * i);
+			else if (config.barsalignment == "middle"){
+				top_position_height_change = config.visualizershapesize - (((number_of_blocks + 1) / 2) * config.minheight) + (config.minheight/2) + (config.offset * i) - ((config.spacing2/2) * (number_of_blocks - 1));
 			}
-			else if (barsalignment == "middle") {
-				var toppositionheightchange = visualizershapesize - (((numberofblocks + 1) / 2) * minheight) + (minheight/2) + (offset * i) - ((spacing2/2) * (numberofblocks - 1));
+			else if (config.barsalignment == "top"){
+				top_position_height_change = config.visualizershapesize - (number_of_blocks * config.minheight) + (config.offset * i) - (config.spacing2 * (number_of_blocks - 1));
 			}
-			else if (barsalignment == "top") {
-				var toppositionheightchange = visualizershapesize - (numberofblocks * minheight) + (offset * i) - (spacing2 * (numberofblocks - 1));
-			}
-			visualizercanvasctx.rotate(angle);
-			for(var i2=0; i2 < numberofblocks; i2++){
-				visualizercanvasctx.rect((width*-0.5),(toppositionheightchange + (minheight * i2) + (spacing2 * i2)),width,minheight);
+			visualizercanvasctx.rotate(circle_angle);
+			for (i2=0; i2 < number_of_blocks; i2++){
+				visualizercanvasctx.rect((config.width*-0.5),(top_position_height_change + (config.minheight * i2) + (config.spacing2 * i2)),config.width,config.minheight);
 			}
 		}
-		//Reset transform - This is slightly faster than doing save and restore
-		//Need to do this before stroke and fill otherwise is effected by the translate used above
+		// Reset transform - This is slightly faster than doing save and restore
+		// Need to do this before stroke and fill otherwise is effected by the translate used above
 		visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
 		
-		if (filltype != "none") {
-			visualizercanvasctx.globalAlpha = fillopacity;
+		if (config.filltype != "none"){
+			visualizercanvasctx.globalAlpha = config.fillopacity;
 			visualizercanvasctx.fill();
 		}
-		if (outlinetype != "none") {
-			visualizercanvasctx.globalAlpha = outlineopacity;
+		if (config.outlinetype != "none"){
+			visualizercanvasctx.globalAlpha = config.outlineopacity;
 			visualizercanvasctx.stroke();
 		}
 	}
-}
-//3D BARS -------------------------------------------------------
-function bars3d(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, depth, angle, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment) {
-	if (visualizershape == "none") {
-		var leftposition = Math.round((videowidth/2) - ((((howmany-1)*spacing)/2) + ((howmany*width)/2)) + left);
-		var topposition = Math.round((videoheight/2) + top);
-		//This is used to fix some jagged/pointy outlines on corners.
+};
+
+// 3D Bars
+visualizer_types.bars_3d = function(visualizercanvasctx, analyser, frequencydata, frequencyspacing, maxheightadjustment){
+	var left_position;
+	var top_position;
+	var node_frequency;
+	var height_change = 0;
+	var total_height;
+	var i;
+	
+	if (config.visualizershape == "none"){
+		left_position = Math.round((config.videowidth/2) - ((((config.howmany-1)*config.spacing)/2) + ((config.howmany*config.width)/2)) + config.left);
+		top_position = Math.round((config.videoheight/2) + config.top);
+		// This is used to fix some jagged/pointy outlines on corners.
 		visualizercanvasctx.lineJoin="bevel";
-		for(var i=0; i < howmany; i++){
-			if (frequencydata) {
-				var nodefrequency = (frequencyspacing*i) + minfrequency;
-				var heightchange = Math.max((((frequencydata[nodefrequency]*maxheightadjustment) - cutoff)*multiplier), 0);
+		for (i=0; i < config.howmany; i++){
+			if (frequencydata){
+				node_frequency = (frequencyspacing*i) + config.minfrequency;
+				height_change = Math.max((((frequencydata[node_frequency]*maxheightadjustment) - config.cutoff)*config.multiplier), 0);
 			}
-			else {
-				var heightchange = 0;	
-			}
-			var totalheight = minheight + heightchange;
+			total_height = config.minheight + height_change;
 			
 			visualizercanvasctx.beginPath();
 			
-			visualizercanvasctx.moveTo(leftposition,topposition);
-			visualizercanvasctx.lineTo((leftposition + width),(topposition + (width / angle)));
-			visualizercanvasctx.lineTo((leftposition + width),(topposition - totalheight + (width / angle)));
-			visualizercanvasctx.lineTo(leftposition,(topposition - totalheight));
-			visualizercanvasctx.lineTo(leftposition,topposition);
+			visualizercanvasctx.moveTo(left_position,top_position);
+			visualizercanvasctx.lineTo((left_position + config.width),(top_position + (config.width / config.angle)));
+			visualizercanvasctx.lineTo((left_position + config.width),(top_position - total_height + (config.width / config.angle)));
+			visualizercanvasctx.lineTo(left_position,(top_position - total_height));
+			visualizercanvasctx.lineTo(left_position,top_position);
 			visualizercanvasctx.closePath();
 
-			visualizercanvasctx.moveTo(leftposition,(topposition - totalheight));
-			visualizercanvasctx.lineTo((leftposition + (depth/angle)),(topposition - totalheight - depth));
-			visualizercanvasctx.lineTo((leftposition + (depth/angle) + width),(topposition - totalheight - depth + (width / angle)));
-			visualizercanvasctx.lineTo((leftposition + width),(topposition - totalheight + (width / angle)));
+			visualizercanvasctx.moveTo(left_position,(top_position - total_height));
+			visualizercanvasctx.lineTo((left_position + (config.depth/config.angle)),(top_position - total_height - config.depth));
+			visualizercanvasctx.lineTo((left_position + (config.depth/config.angle) + config.width),(top_position - total_height - config.depth + (config.width / config.angle)));
+			visualizercanvasctx.lineTo((left_position + config.width),(top_position - total_height + (config.width / config.angle)));
 
-			visualizercanvasctx.moveTo((leftposition + (depth/angle) + width),(topposition - totalheight - depth + (width / angle)));
-			visualizercanvasctx.lineTo((leftposition + (depth/angle) + width),(topposition - depth + (width / angle)));
-			visualizercanvasctx.lineTo((leftposition + width),(topposition + (width / angle)));
-			visualizercanvasctx.lineTo((leftposition + width),(topposition - totalheight + (width / angle)));
-			visualizercanvasctx.lineTo((leftposition + (depth/angle) + width),(topposition - totalheight - depth + (width / angle)));
+			visualizercanvasctx.moveTo((left_position + (config.depth/config.angle) + config.width),(top_position - total_height - config.depth + (config.width / config.angle)));
+			visualizercanvasctx.lineTo((left_position + (config.depth/config.angle) + config.width),(top_position - config.depth + (config.width / config.angle)));
+			visualizercanvasctx.lineTo((left_position + config.width),(top_position + (config.width / config.angle)));
+			visualizercanvasctx.lineTo((left_position + config.width),(top_position - total_height + (config.width / config.angle)));
+			visualizercanvasctx.lineTo((left_position + (config.depth/config.angle) + config.width),(top_position - total_height - config.depth + (config.width / config.angle)));
 			visualizercanvasctx.closePath();
 
-			if (filltype != "none") {
-				visualizercanvasctx.globalAlpha = fillopacity;
+			if (config.filltype != "none"){
+				visualizercanvasctx.globalAlpha = config.fillopacity;
 				visualizercanvasctx.fill();
 			}
-			if (outlinetype != "none") {
-				visualizercanvasctx.globalAlpha = outlineopacity;
+			if (config.outlinetype != "none"){
+				visualizercanvasctx.globalAlpha = config.outlineopacity;
 				visualizercanvasctx.stroke();
 			}
 
-			var leftposition = leftposition + (width + spacing);
-			var topposition = topposition + offset;
+			left_position = left_position + (config.width + config.spacing);
+			top_position = top_position + config.offset;
 		}
 	}	
-}
+};
 
-//STRETCHY CIRCLE -----------------------------------------------------
-function stretchycircle(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment) {
-	var anglespacing = 360/howmany;
-	var radius = width/2;
-	var leftposition = Math.round((videowidth/2) + left);
-	var topposition = Math.round((videoheight/2) + top);
+// Stretchy Circle
+visualizer_types.stretchy_circle = function(visualizercanvasctx, analyser, frequencydata, frequencyspacing, maxheightadjustment){
+	var angle_spacing = 360/config.howmany;
+	var radius = config.width/2;
+	var left_position = Math.round((config.videowidth/2) + config.left);
+	var top_position = Math.round((config.videoheight/2) + config.top);
+	var node_frequency;
+	var height_change = 0;
+	var next_point_x;
+	var next_point_y;
+	var curve_point_x;
+	var curve_point_y;
+	var i;
+	
 	visualizercanvasctx.beginPath();
-	visualizercanvasctx.moveTo((leftposition+radius),topposition);
-	for(var i=1; i <= howmany; i++){
-		if (frequencydata) {
-			var nodefrequency = (frequencyspacing*i) + minfrequency;
-			var heightchange = Math.max((((frequencydata[nodefrequency]*maxheightadjustment) - cutoff)*multiplier), 0);
+	visualizercanvasctx.moveTo((left_position+radius),top_position);
+	for (i=1; i <= config.howmany; i++){
+		if (frequencydata){
+			node_frequency = (frequencyspacing*i) + config.minfrequency;
+			height_change = Math.max((((frequencydata[node_frequency]*maxheightadjustment) - config.cutoff)*config.multiplier), 0);
 		}
-		else {
-			var heightchange = 0;
-		}
-		var nextpointx = (radius * Math.cos(anglespacing* i * (Math.PI / 180))) + leftposition;
-		var nextpointy = (radius * Math.sin(anglespacing* i * (Math.PI / 180))) + topposition;
-		var curvepointx = (((radius + minheight) + heightchange) * Math.cos(((anglespacing*i) - (anglespacing/2)) * (Math.PI / 180))) + leftposition;
-		var curvepointy = (((radius + minheight) + heightchange) * Math.sin(((anglespacing*i) - (anglespacing/2)) * (Math.PI / 180))) + topposition;
-		visualizercanvasctx.quadraticCurveTo(curvepointx,curvepointy,nextpointx,nextpointy);
+		next_point_x = (radius * Math.cos(angle_spacing* i * (Math.PI / 180))) + left_position;
+		next_point_y = (radius * Math.sin(angle_spacing* i * (Math.PI / 180))) + top_position;
+		curve_point_x = (((radius + config.minheight) + height_change) * Math.cos(((angle_spacing*i) - (angle_spacing/2)) * (Math.PI / 180))) + left_position;
+		curve_point_y = (((radius + config.minheight) + height_change) * Math.sin(((angle_spacing*i) - (angle_spacing/2)) * (Math.PI / 180))) + top_position;
+		visualizercanvasctx.quadraticCurveTo(curve_point_x,curve_point_y,next_point_x,next_point_y);
 	}
 	visualizercanvasctx.closePath();
-	if (outlinetype != "none") {
-		visualizercanvasctx.globalAlpha = outlineopacity;
+	if (config.outlinetype != "none"){
+		visualizercanvasctx.globalAlpha = config.outlineopacity;
 		visualizercanvasctx.stroke();	
 	}
-	if (filltype != "none") {
-		visualizercanvasctx.globalAlpha = fillopacity;
+	if (config.filltype != "none"){
+		visualizercanvasctx.globalAlpha = config.fillopacity;
 		visualizercanvasctx.fill();
 	}
-}
-//TIME DOMAIN SQUARES --------------------------------------------------------------
-function timedomainsquares(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, minfrequency, maxfrequency, maxheightadjustment) {
-	var leftposition = Math.round((videowidth/2) - (width/2) + left);
-	var topposition = Math.round((videoheight/2) + top - (minheight/2));
+};
+
+// Time Domain Squares
+visualizer_types.time_domain_squares = function(visualizercanvasctx, analyser, frequencydata, maxheightadjustment){
+	var left_position = Math.round((config.videowidth/2) - (config.width/2) + config.left);
+	var top_position = Math.round((config.videoheight/2) + config.top - (config.minheight/2));
+	var number_of_nodes;
+	var node_width;
+	var height_change = 0;
+	var circle_angle;
+	var seamless_change;
+	var i;
+	
 	if (frequencydata){
-		var length = frequencydata.length;
+		number_of_nodes = frequencydata.length;
 	}
 	else {
-		var length = 256;	
+		number_of_nodes = 256;	
 	}
-	if (visualizershape == "none") {
-		var squarewidth = width/length;
+	if (config.visualizershape == "none"){
+		node_width = config.width/number_of_nodes;
 		visualizercanvasctx.beginPath();
-		for(var i=0; i <= length; i++){
-			if (frequencydata) {
-				var heightchange = (frequencydata[i] * maxheightadjustment) - (maxheightadjustment * 128);
+		for (i=0; i <= number_of_nodes; i++){
+			if (frequencydata){
+				height_change = (frequencydata[i] * maxheightadjustment) - (maxheightadjustment * 128);
 			}
-			else {
-				var heightchange = 0;
-			}
-			visualizercanvasctx.rect(((squarewidth * i) + leftposition), (topposition + heightchange), Math.ceil(squarewidth), minheight);	
+			visualizercanvasctx.rect(((node_width * i) + left_position), (top_position + height_change), Math.ceil(node_width), config.minheight);	
 		}
-		if (outlinetype != "none") {
-			visualizercanvasctx.globalAlpha = outlineopacity;
+		if (config.outlinetype != "none"){
+			visualizercanvasctx.globalAlpha = config.outlineopacity;
 			visualizercanvasctx.stroke();	
 		}
-		if (filltype != "none") {
-			visualizercanvasctx.globalAlpha = fillopacity;
+		if (config.filltype != "none"){
+			visualizercanvasctx.globalAlpha = config.fillopacity;
 			visualizercanvasctx.fill();
 		}
 	}
-	else if (visualizershape == "circle") {
-		var squarewidth = (2 * Math.PI * visualizershapesize)/length;
+	else if (config.visualizershape == "circle"){
+		node_width = (2 * Math.PI * config.visualizershapesize)/number_of_nodes;
 		visualizercanvasctx.beginPath();
-		var angle = 2*Math.PI/length;
-		var leftposition = Math.round((videowidth/2) + left);
-		var topposition = Math.round((videoheight/2) + top);
+		circle_angle = 2*Math.PI/number_of_nodes;
+		left_position = Math.round((config.videowidth/2) + config.left);
+		top_position = Math.round((config.videoheight/2) + config.top);
 		if (frequencydata){
-			var seamlesschange = ((frequencydata[0] * maxheightadjustment) - (frequencydata[255] * maxheightadjustment)) / length;
+			seamless_change = ((frequencydata[0] * maxheightadjustment) - (frequencydata[255] * maxheightadjustment)) / number_of_nodes;
 		}
-		visualizercanvasctx.translate(leftposition,topposition);
-		for(var i=0; i <= length; i++){
+		visualizercanvasctx.translate(left_position,top_position);
+		for (i=0; i <= number_of_nodes; i++){
 			if (frequencydata){
-				var heightchange = (frequencydata[i] * maxheightadjustment) - (maxheightadjustment * 128) + (seamlesschange * i);
+				height_change = (frequencydata[i] * maxheightadjustment) - (maxheightadjustment * 128) + (seamless_change * i);
 			}
-			else {
-				var heightchange = 0;	
-			}
-			var totalheight = minheight + heightchange;
-			visualizercanvasctx.rotate(angle);
-			visualizercanvasctx.rect((squarewidth*-0.5), (visualizershapesize + heightchange), Math.ceil(squarewidth), minheight);
+			visualizercanvasctx.rotate(circle_angle);
+			visualizercanvasctx.rect((node_width*-0.5), (config.visualizershapesize + height_change), Math.ceil(node_width), config.minheight);
 		}
-		//Reset transform - This is slightly faster than doing save and restore
-		//Need to do this before stroke and fill otherwise is effected by the translate used above
+		// Reset transform - This is slightly faster than doing save and restore
+		// Need to do this before stroke and fill otherwise is effected by the translate used above
 		visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
 		
-		if (outlinetype != "none") {
-			visualizercanvasctx.globalAlpha = outlineopacity;
+		if (config.outlinetype != "none"){
+			visualizercanvasctx.globalAlpha = config.outlineopacity;
 			visualizercanvasctx.stroke();	
 		}
-		if (filltype != "none") {
-			visualizercanvasctx.globalAlpha = fillopacity;
+		if (config.filltype != "none"){
+			visualizercanvasctx.globalAlpha = config.fillopacity;
 			visualizercanvasctx.fill();
 		}
 	}
-}
-//TIME DOMAIN LINE --------------------------------------------------------------
-function timedomainline(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, minfrequency, maxfrequency, maxheightadjustment) {
-	var leftposition = Math.round((videowidth/2) - (width/2) + left);
-	var topposition = Math.round((videoheight/2) + top);
+};
+
+// Time Domain Line
+visualizer_types.time_domain_line = function(visualizercanvasctx, analyser, frequencydata, maxheightadjustment){
+	var left_position = Math.round((config.videowidth/2) - (config.width/2) + config.left);
+	var top_position = Math.round((config.videoheight/2) + config.top);
+	var number_of_nodes;
+	var node_width;
+	var height_change = 0;
+	var circle_angle;
+	var seamless_change;
+	var i;
+	
 	if (frequencydata){
-		var length = frequencydata.length;
+		number_of_nodes = frequencydata.length;
 	}
 	else {
-		var length = 256;	
+		number_of_nodes = 256;	
 	}
-	var nodewidth = width/length;
-	//Draw Time Domain
-	if (visualizershape == "none") {
+	node_width = config.width/number_of_nodes;
+	// Draw Time Domain
+	if (config.visualizershape == "none"){
 		visualizercanvasctx.beginPath();
-		for(var i=0; i <= length; i++){
-			if (frequencydata) {
-				var heightchange = (frequencydata[i] * maxheightadjustment) - (maxheightadjustment * 128);
+		for (i=0; i <= number_of_nodes; i++){
+			if (frequencydata){
+				height_change = (frequencydata[i] * maxheightadjustment) - (maxheightadjustment * 128);
 			}
-			else {
-				var heightchange = 0;
-			}
-			visualizercanvasctx.lineTo(Math.ceil(leftposition + (nodewidth * i)),(topposition + heightchange));
+			visualizercanvasctx.lineTo(Math.ceil(left_position + (node_width * i)),(top_position + height_change));
 		}
-		//Does the stroke first for the outline effect and then another stroke to act as the main color
-		if (outlinetype != "none") {
-			visualizercanvasctx.globalAlpha = outlineopacity;
-			visualizercanvasctx.lineWidth = minheight + outlinewidth;
+		// Does the stroke first for the outline effect and then another stroke to act as the main color
+		if (config.outlinetype != "none"){
+			visualizercanvasctx.globalAlpha = config.outlineopacity;
+			visualizercanvasctx.lineWidth = config.minheight + config.outlinewidth;
 			visualizercanvasctx.stroke();	
 		}
-		if (filltype != "none") {
-			visualizercanvasctx.globalAlpha = fillopacity;
-			visualizercanvasctx.lineWidth = minheight;
+		if (config.filltype != "none"){
+			visualizercanvasctx.globalAlpha = config.fillopacity;
+			visualizercanvasctx.lineWidth = config.minheight;
 			visualizercanvasctx.strokeStyle = visualizercanvasctx.fillStyle;
 			visualizercanvasctx.stroke();
 		}
 	}
-	else if (visualizershape == "circle") {
-		var angle = 2*Math.PI/length ;
-		var leftposition = Math.round((videowidth/2) + left);
-		var topposition = Math.round((videoheight/2) + top);
-		//This is used to move each point slightly so the start and end point seamlessly line up on the circle
+	else if (config.visualizershape == "circle"){
+		circle_angle = 2*Math.PI/number_of_nodes;
+		left_position = Math.round((config.videowidth/2) + config.left);
+		top_position = Math.round((config.videoheight/2) + config.top);
+		// This is used to move each point slightly so the start and end point seamlessly line up on the circle
 		if (frequencydata){
-			var seamlesschange = ((frequencydata[0] * maxheightadjustment) - (frequencydata[255] * maxheightadjustment)) / length;
+			seamless_change = ((frequencydata[0] * maxheightadjustment) - (frequencydata[255] * maxheightadjustment)) / number_of_nodes;
 		}
-		visualizercanvasctx.translate(leftposition,topposition);
+		visualizercanvasctx.translate(left_position,top_position);
 		visualizercanvasctx.beginPath();
-		for(var i=0; i <= length; i++){
+		for (i=0; i <= number_of_nodes; i++){
 			if (frequencydata){
-				var heightchange = (frequencydata[i] * maxheightadjustment) - (maxheightadjustment * 128) + (seamlesschange * i);
+				height_change = (frequencydata[i] * maxheightadjustment) - (maxheightadjustment * 128) + (seamless_change * i);
 			}
-			else {
-				var heightchange = 0;	
-			}
-			visualizercanvasctx.lineTo(0, (visualizershapesize + heightchange));
-			visualizercanvasctx.rotate(angle);
-			
+			visualizercanvasctx.lineTo(0, (config.visualizershapesize + height_change));
+			visualizercanvasctx.rotate(circle_angle);
 		}
 		visualizercanvasctx.closePath();
-		//Reset transform - This is slightly faster than doing save and restore
-		//Need to do this before stroke and fill otherwise is effected by the translate used above
+		// Reset transform - This is slightly faster than doing save and restore
+		// Need to do this before stroke and fill otherwise is effected by the translate used above
 		visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
 		
-		//Does the stroke first for the outline effect and then another stroke to act as the main color
-		if (outlinetype != "none") {
-			visualizercanvasctx.globalAlpha = outlineopacity;
-			visualizercanvasctx.lineWidth = minheight + outlinewidth;
+		// Does the stroke first for the outline effect and then another stroke to act as the main color
+		if (config.outlinetype != "none"){
+			visualizercanvasctx.globalAlpha = config.outlineopacity;
+			visualizercanvasctx.lineWidth = config.minheight + config.outlinewidth;
 			visualizercanvasctx.stroke();	
 		}
-		if (filltype != "none") {
-			visualizercanvasctx.globalAlpha = fillopacity;
-			visualizercanvasctx.lineWidth = minheight;
+		if (config.filltype != "none"){
+			visualizercanvasctx.globalAlpha = config.fillopacity;
+			visualizercanvasctx.lineWidth = config.minheight;
 			visualizercanvasctx.strokeStyle = visualizercanvasctx.fillStyle;
 			visualizercanvasctx.stroke();
 		}
 	}
-}
-//SPINNING TRIANGLES --------------------------------------------------------------
-function spinningtriangles(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, compositemode, howmany, minheight, width, angle, minrotationspeed, maxrotationspeed, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment, spinningtrianglesvars) {
-	var leftposition = Math.round((videowidth/2) + left);
-	var topposition = Math.round((videoheight/2) + top);
-	if (!spinningtrianglesvars) {
-		var spinningtrianglesvars = {anglestart:0};	
-	}
+};
+
+// Spinning Triangles
+visualizer_types.spinning_triangles = function(visualizercanvasctx, analyser, frequencydata, frequencyspacing, maxheightadjustment, spinningtrianglesvars){
+	var left_position = Math.round((config.videowidth/2) + config.left);
+	var top_position = Math.round((config.videoheight/2) + config.top);
 	var twopi = 2 * Math.PI;
-	var anglegap = twopi / 3;
-	var triangleangle = spinningtrianglesvars.anglestart;
-	var angletoradian = Math.PI / 180;
-	var minrotationspeed = minrotationspeed * angletoradian;
-	var maxrotationspeed = maxrotationspeed * angletoradian;
-	var angle = angle * angletoradian;
-	var totalfrequencychange = 0;
-	//Temporary way to copy the outline and fill style - Reconsidering a better approach of passing the outline style and the fill style for each visualizer to use rather than set it in the main loop which some visualizers need to change it depending how they fill and outline things.
+	var angle_gap = twopi / 3;
+	var angle_to_radian = Math.PI / 180;
+	var new_min_rotation_speed = config.minrotationspeed * angle_to_radian;
+	var new_max_rotation_speed = config.maxrotationspeed * angle_to_radian;
+	var angle = config.angle * angle_to_radian;
+	var total_frequency_change = 0;
+	var node_frequency;
+	var height_change = 0;
+	var total_height;
 	var outlinestyle = visualizercanvasctx.strokeStyle;
 	var fillstyle = visualizercanvasctx.fillStyle;
-	if (compositemode != "none") {
-		visualizercanvasctx.globalCompositeOperation = compositemode;
+	spinningtrianglesvars = spinningtrianglesvars ? spinningtrianglesvars : {anglestart:0};
+	var triangle_angle = spinningtrianglesvars.anglestart;
+	
+	if (config.compositemode != "none"){
+		visualizercanvasctx.globalCompositeOperation = config.compositemode;
 	}
-	for(var i=0; i < howmany; i++){
-		if (frequencydata) {
-			var nodefrequency = (frequencyspacing*i) + minfrequency;
-			var heightchange = Math.max((((frequencydata[nodefrequency]*maxheightadjustment) - cutoff)*multiplier), 0);
+	for (var i=0; i < config.howmany; i++){
+		if (frequencydata){
+			node_frequency = (frequencyspacing*i) + config.minfrequency;
+			height_change = Math.max((((frequencydata[node_frequency]*maxheightadjustment) - config.cutoff)*config.multiplier), 0);
 		}
-		else {
-			var heightchange = 0;
-		}
-		var totalheight = minheight + heightchange;
-		var triangleangle = triangleangle + angle;
+		total_height = config.minheight + height_change;
+		triangle_angle = triangle_angle + angle;
 		visualizercanvasctx.beginPath();
-		visualizercanvasctx.moveTo(leftposition + totalheight * Math.sin(triangleangle), topposition + totalheight * Math.cos(triangleangle));
-		visualizercanvasctx.lineTo(leftposition + totalheight * Math.sin(triangleangle + anglegap), topposition + totalheight * Math.cos(triangleangle + anglegap));
-		visualizercanvasctx.lineTo(leftposition + totalheight * Math.sin(triangleangle + anglegap * 2), topposition + totalheight * Math.cos(triangleangle + anglegap * 2));
+		visualizercanvasctx.moveTo(left_position + total_height * Math.sin(triangle_angle), top_position + total_height * Math.cos(triangle_angle));
+		visualizercanvasctx.lineTo(left_position + total_height * Math.sin(triangle_angle + angle_gap), top_position + total_height * Math.cos(triangle_angle + angle_gap));
+		visualizercanvasctx.lineTo(left_position + total_height * Math.sin(triangle_angle + angle_gap * 2), top_position + total_height * Math.cos(triangle_angle + angle_gap * 2));
 		visualizercanvasctx.closePath();
-		totalfrequencychange = totalfrequencychange + heightchange;
-		if (outlinetype != "none") {
-			visualizercanvasctx.globalAlpha = outlineopacity;
-			visualizercanvasctx.lineWidth = outlinewidth + width;
+		total_frequency_change = total_frequency_change + height_change;
+		if (config.outlinetype != "none"){
+			visualizercanvasctx.globalAlpha = config.outlineopacity;
+			visualizercanvasctx.lineWidth = config.outlinewidth + config.width;
 			visualizercanvasctx.strokeStyle = outlinestyle;
-			visualizercanvasctx.stroke();	
+			visualizercanvasctx.stroke();
 		}
-		if (filltype != "none") {
-			visualizercanvasctx.globalAlpha = fillopacity;
-			visualizercanvasctx.lineWidth = width;
+		if (config.filltype != "none"){
+			visualizercanvasctx.globalAlpha = config.fillopacity;
+			visualizercanvasctx.lineWidth = config.width;
 			visualizercanvasctx.strokeStyle = fillstyle;
 			visualizercanvasctx.stroke();
 		}
 	}
-	if (compositemode != "none") {
+	if (config.compositemode != "none"){
 		visualizercanvasctx.globalCompositeOperation = "source-over";
 	}
-	spinningtrianglesvars.anglestart = (spinningtrianglesvars.anglestart + (minrotationspeed / 100) + ((maxrotationspeed / 10000) * (totalfrequencychange / (howmany * maxheightadjustment)))) % twopi;
-	if (frequencydata) {
+	spinningtrianglesvars.anglestart = (spinningtrianglesvars.anglestart + (new_min_rotation_speed / 100) + ((new_max_rotation_speed / 10000) * (total_frequency_change / (config.howmany * maxheightadjustment)))) % twopi;
+	if (frequencydata){
 		return spinningtrianglesvars;
 	}
-}
-//BUBBLES --------------------------------------------------------------
-function bubbles(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, howmany, minheight, width, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment) {
-	var leftposition = Math.round((videowidth/2) + left);
-	var topposition = Math.round((videoheight/2) + top);
-	var angle = 4.1*Math.PI/howmany;
-	visualizercanvasctx.translate(leftposition,topposition);
+};
+
+// Bubbles
+visualizer_types.bubbles = function(visualizercanvasctx, analyser, frequencydata, frequencyspacing, maxheightadjustment){
+	var left_position = Math.round((config.videowidth/2) + config.left);
+	var top_position = Math.round((config.videoheight/2) + config.top);
+	var angle = 4.1*Math.PI/config.howmany;
+	var node_frequency;
+	var height_change = config.minheight;
+	var height_change2 = config.minheight;
+	var i;
+	
+	visualizercanvasctx.translate(left_position,top_position);
 	visualizercanvasctx.beginPath();
-	for(var i=0; i < howmany; i++){
-		if (frequencydata) {
-			var nodefrequency = (frequencyspacing*i) + minfrequency;
-			var heightchange = Math.max((((frequencydata[nodefrequency]*maxheightadjustment) - cutoff)*multiplier), 0);
-			var heightchange2 = Math.max((((frequencydata[nodefrequency+5]*maxheightadjustment) - cutoff)*multiplier), 0);
-			heightchange += minheight;
-			heightchange2 += minheight;
+	for (i=0; i < config.howmany; i++){
+		if (frequencydata){
+			node_frequency = (frequencyspacing*i) + config.minfrequency;
+			height_change = Math.max((((frequencydata[node_frequency]*maxheightadjustment) - config.cutoff)*config.multiplier), 0);
+			height_change2 = Math.max((((frequencydata[node_frequency+5]*maxheightadjustment) - config.cutoff)*config.multiplier), 0);
+			height_change += config.minheight;
+			height_change2 += config.minheight;
 		}
-		else {
-			var heightchange = minheight;
-			var heightchange2 = minheight;
-		}
-		visualizercanvasctx.moveTo(heightchange+width+(heightchange/2),heightchange2);
-        visualizercanvasctx.arc(heightchange,heightchange2,width+(heightchange/2),0,2*Math.PI);
+		visualizercanvasctx.moveTo(height_change+config.width+(height_change/2),height_change2);
+        visualizercanvasctx.arc(height_change,height_change2,config.width+(height_change/2),0,2*Math.PI);
 		visualizercanvasctx.rotate(angle);
 	}
-	//Reset transform - This is slightly faster than doing save and restore
-	//Need to do this before stroke and fill otherwise is effected by the translate used above
+	
+	// Reset transform - This is slightly faster than doing save and restore
+	// Need to do this before stroke and fill otherwise is effected by the translate used above
 	visualizercanvasctx.setTransform(1, 0, 0, 1, 0, 0);
 	
-	if (outlinetype != "none") {
-		visualizercanvasctx.globalAlpha = outlineopacity;
+	if (config.outlinetype != "none"){
+		visualizercanvasctx.globalAlpha = config.outlineopacity;
 		visualizercanvasctx.stroke();	
 	}
-	if (filltype != "none") {
-		visualizercanvasctx.globalAlpha = fillopacity;
+	if (config.filltype != "none"){
+		visualizercanvasctx.globalAlpha = config.fillopacity;
 		visualizercanvasctx.fill();
 	}
-}
-//INTERNETGB --------------------------------------------------------------
-function internetgb(videowidth, videoheight, visualizerbgcolor, visualizershape, visualizershapesize, linecap, howmany, minheight, width, minrotationspeed, maxrotationspeed, spacing, top, left, offset, cutoff, multiplier, filltype, fillopacity, outlinetype, outlinewidth, outlineopacity, visualizercanvasctx, analyser, frequencydata, frequencyspacing, minfrequency, maxfrequency, maxheightadjustment, internetgbvars) {
-	var leftposition = Math.round((videowidth/2) + left);
-	var topposition = Math.round((videoheight/2) + top);
-	if (!internetgbvars) {
-		var internetgbvars = {shockwave:0, rot:0, intensity:0, center_x:leftposition, center_y:topposition, radius:minheight};
-	}
+};
+
+// InternetGB
+visualizer_types.internetgb = function(visualizercanvasctx, analyser, frequencydata, frequencyspacing, maxheightadjustment, internetgbvars){
+	var left_position = Math.round((config.videowidth/2) + config.left);
+	var top_position = Math.round((config.videoheight/2) + config.top);
 	var react_x = 0;
 	var react_y = 0;
-	var rads = 2*Math.PI / howmany;
-	var minrotationspeed = minrotationspeed * (Math.PI / 180) * 0.01;
-	var maxrotationspeed = maxrotationspeed * (Math.PI / 180) * 0.01;
-	if (frequencydata && maxrotationspeed != 0) {
-		internetgbvars.rot = internetgbvars.rot + minrotationspeed + (maxrotationspeed * ((internetgbvars.intensity / howmany) / (256 * maxheightadjustment)));
-	}
-	internetgbvars.intensity = 0;
-	//Temporary way to copy the outline and fill style - Most likely will change the visualizers to be passed the outline and fill styles and they use them as needed rather than directly setting the stroke style and fill style in the main loop
+	var rads = 2*Math.PI / config.howmany;
+	var new_min_rotation_speed = config.minrotationspeed * (Math.PI / 180) * 0.01;
+	var new_max_rotation_speed = config.maxrotationspeed * (Math.PI / 180) * 0.01;
+	var node_frequency;
+	var height_change = 0;
+	var bar_width;
+	var bar_x_term;
+	var bar_y_term;
+	var delta_rad;
+	var i;
 	var outlinestyle = visualizercanvasctx.strokeStyle;
 	var fillstyle = visualizercanvasctx.fillStyle;
+	internetgbvars = internetgbvars ? internetgbvars : {shockwave:0, rot:0, intensity:0, center_x:left_position, center_y:top_position, radius:config.minheight};
+	var radius_old = internetgbvars.radius;
+	
+	if (frequencydata && config.maxrotationspeed != 0){
+		internetgbvars.rot = internetgbvars.rot + new_min_rotation_speed + (new_max_rotation_speed * ((internetgbvars.intensity / config.howmany) / (256 * maxheightadjustment)));
+	}
+	internetgbvars.intensity = 0;
 	visualizercanvasctx.beginPath();
-	visualizercanvasctx.lineCap= linecap;
-	for (var i = 0; i < howmany; i++) {
-		if (frequencydata) {
-			var nodefrequency = (frequencyspacing*i) + minfrequency;
-			var heightchange = Math.max((((frequencydata[nodefrequency]*maxheightadjustment) - cutoff)*multiplier), 0) / 2;
+	visualizercanvasctx.lineCap = config.linecap;
+	for (i = 0; i < config.howmany; i++){
+		if (frequencydata){
+			node_frequency = (frequencyspacing*i) + config.minfrequency;
+			height_change = Math.max((((frequencydata[node_frequency]*maxheightadjustment) - config.cutoff)*config.multiplier), 0) / 2;
 		}
-		else {
-			var heightchange = 0;
-		}
-		var bar_width = heightchange * 0.04;
+		bar_width = height_change * 0.04;
 						
-		var bar_x_term = internetgbvars.center_x + Math.cos(rads * i + internetgbvars.rot) * (internetgbvars.radius + heightchange - 3);
-		var bar_y_term = internetgbvars.center_y + Math.sin(rads * i + internetgbvars.rot) * (internetgbvars.radius + heightchange - 3);
+		bar_x_term = internetgbvars.center_x + Math.cos(rads * i + internetgbvars.rot) * (internetgbvars.radius + height_change - 3);
+		bar_y_term = internetgbvars.center_y + Math.sin(rads * i + internetgbvars.rot) * (internetgbvars.radius + height_change - 3);
 
 		visualizercanvasctx.moveTo(internetgbvars.center_x, internetgbvars.center_y);
 		visualizercanvasctx.lineTo(bar_x_term, bar_y_term);
 					
-		react_x += Math.cos(rads * i + internetgbvars.rot) * (internetgbvars.radius + heightchange);
-		react_y += Math.sin(rads * i + internetgbvars.rot) * (internetgbvars.radius + heightchange);
+		react_x += Math.cos(rads * i + internetgbvars.rot) * (internetgbvars.radius + height_change);
+		react_y += Math.sin(rads * i + internetgbvars.rot) * (internetgbvars.radius + height_change);
 		
-		internetgbvars.intensity += heightchange;
+		internetgbvars.intensity += height_change;
 		
 	}
-	//Fill and outline the bars
-	if (outlinetype != "none") {
-		visualizercanvasctx.globalAlpha = outlineopacity;
-		visualizercanvasctx.lineWidth = outlinewidth + width;
+	// Fill and outline the bars
+	if (config.outlinetype != "none"){
+		visualizercanvasctx.globalAlpha = config.outlineopacity;
+		visualizercanvasctx.lineWidth = config.outlinewidth + config.width;
 		visualizercanvasctx.strokeStyle = outlinestyle;
 		visualizercanvasctx.stroke();	
 	}
-	if (filltype != "none") {
-		visualizercanvasctx.globalAlpha = fillopacity;
-		visualizercanvasctx.lineWidth = width;
+	if (config.filltype != "none"){
+		visualizercanvasctx.globalAlpha = config.fillopacity;
+		visualizercanvasctx.lineWidth = config.width;
 		visualizercanvasctx.strokeStyle = fillstyle;
 		visualizercanvasctx.stroke();
 	}
 	
-	internetgbvars.center_x = videowidth / 2 - (react_x / howmany) * 4;
-	internetgbvars.center_y = videoheight / 2 - (react_y / howmany) * 4;		
-	var radius_old = internetgbvars.radius;
-	internetgbvars.radius =  minheight + (internetgbvars.intensity / howmany);
-	var deltarad = internetgbvars.radius / radius_old;
+	internetgbvars.center_x = config.videowidth / 2 - (react_x / config.howmany) * 4;
+	internetgbvars.center_y = config.videoheight / 2 - (react_y / config.howmany) * 4;		
+	internetgbvars.radius =  config.minheight + (internetgbvars.intensity / (config.howmany * 2));
+	delta_rad = internetgbvars.radius / radius_old;
+	
 	visualizercanvasctx.beginPath();
 	visualizercanvasctx.arc(internetgbvars.center_x, internetgbvars.center_y, internetgbvars.radius, 0, Math.PI * 2, false);
 	
-	//Fill and outline the circle
-	if (outlinetype != "none") {
-		visualizercanvasctx.globalAlpha = outlineopacity;
-		visualizercanvasctx.lineWidth = outlinewidth;
+	// Fill and outline the circle
+	if (config.outlinetype != "none"){
+		visualizercanvasctx.globalAlpha = config.outlineopacity;
+		visualizercanvasctx.lineWidth = config.outlinewidth;
 		visualizercanvasctx.strokeStyle = outlinestyle;
 		visualizercanvasctx.stroke();	
 	}
-	if (filltype != "none") {
-		visualizercanvasctx.globalAlpha = fillopacity;
+	if (config.filltype != "none"){
+		visualizercanvasctx.globalAlpha = config.fillopacity;
 		visualizercanvasctx.fill();
 	}
 	
-	//Shockwave
-	if (deltarad > 1.2 && internetgbvars.shockwave == 0) {
+	// Shockwave
+	if (delta_rad > 1.2 && internetgbvars.shockwave == 0){
 		internetgbvars.shockwave = 1;
 	}
 	
-	if (internetgbvars.shockwave != 0) {
-		internetgbvars.shockwave += (videowidth/640) * 10;	
+	if (internetgbvars.shockwave != 0){
+		internetgbvars.shockwave += (config.videowidth/640) * 10;	
 		visualizercanvasctx.beginPath();
 		visualizercanvasctx.arc(internetgbvars.center_x, internetgbvars.center_y, internetgbvars.shockwave + internetgbvars.radius, 0, Math.PI * 2, false);
-		if (outlinetype != "none") {
-			visualizercanvasctx.globalAlpha = outlineopacity;
-			visualizercanvasctx.lineWidth = outlinewidth + (videowidth/640) * 15;
+		if (config.outlinetype != "none"){
+			visualizercanvasctx.globalAlpha = config.outlineopacity;
+			visualizercanvasctx.lineWidth = config.outlinewidth + (config.videowidth/640) * 15;
 			visualizercanvasctx.strokeStyle = outlinestyle;
 			visualizercanvasctx.stroke();	
 		}
-		if (filltype != "none") {
-			visualizercanvasctx.globalAlpha = fillopacity;
-			visualizercanvasctx.lineWidth = (videowidth/640) * 15;
+		if (config.filltype != "none"){
+			visualizercanvasctx.globalAlpha = config.fillopacity;
+			visualizercanvasctx.lineWidth = (config.videowidth/640) * 15;
 			visualizercanvasctx.strokeStyle = fillstyle;
 			visualizercanvasctx.stroke();
 		}
-		if ((internetgbvars.shockwave > (videowidth + 50)) && (internetgbvars.shockwave > (videoheight + 50))) {
+		if ((internetgbvars.shockwave > (config.videowidth + 50)) && (internetgbvars.shockwave > (config.videoheight + 50))){
 			internetgbvars.shockwave = 0;
 		}
 	}
 	
-	if (frequencydata) {
+	if (frequencydata){
 		return internetgbvars;
 	}
-}
+};
