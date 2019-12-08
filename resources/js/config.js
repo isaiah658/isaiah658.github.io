@@ -1,0 +1,55 @@
+// This file contains the JavaScript for getting the sidebar values that can be set by the user
+
+var config = {};
+
+config.update_values = function(){
+	config.foregroundpositiontop = Number(document.getElementById("foregroundpositiontop").value);
+	config.foregroundpositionleft = Number(document.getElementById("foregroundpositionleft").value);
+	config.videowidth = Number(document.getElementById("videowidth").value);
+	config.videoheight = Number(document.getElementById("videoheight").value);
+	config.videomaxfps = document.getElementById("videomaxfps").value;
+	config.visualizerbgcolor = document.getElementById("backgroundcolor").value;
+	config.visualizershape = document.getElementById("visualizershape").value;
+	config.visualizershapesize = Number(document.getElementById("visualizershapesize").value);
+	config.visualizertype = document.getElementById("visualizertype").value;
+	config.barsalignment = document.getElementById("visualizerbarsalignment").value;
+	config.linecap = document.getElementById("visualizerlinecap").value;
+	config.compositemode = document.getElementById("visualizercompositemode").value;
+	config.howmany = Number(document.getElementById("visualizerhowmany").value);
+	config.maxheight = Number(document.getElementById("maxvisualizerheight").value);
+	config.minheight = Number(document.getElementById("minvisualizerheight").value);
+	config.width = Number(document.getElementById("visualizerwidth").value);
+	config.depth = Number(document.getElementById("visualizerdepth").value);
+	config.angle = Number(document.getElementById("visualizerangle").value);
+	config.minrotationspeed = Number(document.getElementById("visualizerminrotationspeed").value);
+	config.maxrotationspeed = Number(document.getElementById("visualizermaxrotationspeed").value);
+	config.spacing = Number(document.getElementById("visualizerspacing").value);
+	config.spacing2 = Number(document.getElementById("visualizerspacing2").value);
+	config.top = Number(document.getElementById("visualizertop").value);
+	config.left = Number(document.getElementById("visualizerleft").value);
+	config.rotation = Number(document.getElementById("visualizerrotation").value);
+	config.offset = Number(document.getElementById("visualizeroffset").value);
+	config.cutoff = Number(document.getElementById("visualizercutoff").value);
+	config.multiplier = Number(document.getElementById("visualizermultiplier").value);
+	config.filltype = document.getElementById("filltype").value;
+	config.fill1 = document.getElementById("visualizerfill1").value;
+	config.fill2 = document.getElementById("visualizerfill2").value;
+	config.fillopacity = document.getElementById("fillopacity").value;
+	config.outlinetype = document.getElementById("outlinetype").value;
+	config.outlinecolor1 = document.getElementById("outlinecolor1").value;
+	config.outlinecolor2 = document.getElementById("outlinecolor2").value;
+	config.outlinewidth = Number(document.getElementById("outlinewidth").value);
+	config.outlineopacity = Number(document.getElementById("outlineopacity").value);
+	config.minfrequency = Number(document.getElementById("minfrequency").value);
+	config.maxfrequency = Number(document.getElementById("maxfrequency").value);
+	config.bgimg = document.getElementById("bgimg");
+	config.fgimg = document.getElementById("fgimg");
+	config.fillimg = document.getElementById("fillimg");
+	config.outlineimg = document.getElementById("outlineimg");
+	config.blankimg = document.getElementById("blankimg");
+	config.cachedfgimgcanvas = document.getElementById("cachedfgimg");
+	config.cachedfgimgcanvasctx = config.cachedfgimgcanvas.getContext('2d');
+	config.cachedbgimgcanvas = document.getElementById("cachedbgimg");
+	config.cachedbgimgcanvasctx = config.cachedbgimgcanvas.getContext('2d', {alpha: false});
+	config.videofileformat = document.getElementById("videofileformat").value;
+};
